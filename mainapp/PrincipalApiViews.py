@@ -16,7 +16,7 @@ def apiOverView(request):
 #Only Principle Can Add New Teacher
 
 @api_view(['POST'])
-def add_students_save(request):
+def add_students(request):
     if request.method != 'POST':
         content= {
             'Method Not Allowed':'Your Request is Not Saved'
@@ -86,60 +86,35 @@ def StudentList(request):
     serializer =  StudentsSerializer(students, many=True)
     return Response(serializer.data)
 
-    # {
-    #     "id": 2,
-    #     "middleName": "My Mid",
-    #     "dob": null,
-    #     "gender": null,
-    #     "fatherName": null,
-    #     "motherName": null,
-    #     "current_address": null,
-    #     "parmanent_address": null,
-    #     "religion": null,
-    #     "phoneNumber": null,
-    #     "nationality": null,
-    #     "created_at": "2021-07-11T14:43:00.674484Z",
-    #     "updated_at": null,
-    #     "profile_pic": null,
-    #     "blood_group": null,
-    #     "classRoom": null,
-    #     "section": null,
-    #     "admin": 5
-    # }
-    #edited
-
 
 @api_view(['POST'])
 # @permission_classes([IsAdminUser])
-def addTeachers(request):
-    pass
+def add_teachers(request):
     if request.method != 'POST':
         content = {
             'Method Not Allowed': 'Invalid Request'
         }
         return Response(content,status=status.HTTP_401_UNAUTHORIZED)
     else:
-        name = request.data['name']
-        admin = request.data['admin']
-        created_at = request.data['created_at']
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        email = request.data['email']
+        username = request.data['username']
+        password = request.data['password']
         updated_at = request.data['updated_at']
-        # objects = request.data['objects']
-
         try:
             user = CustomUser.objects.create_user(
                 user_type=2,
-                username=username,
-                email=email,
-                name=name,
-                password=password,
+                username= username,
+                email= email,
+                first_name = first_name,
+                last_name = last_name,
+                password= password,
                 )
             
-            teachers.objects.create(
+            Teachers.objects.create(
             admin = user,
-            name = name,
-            created_at = created_at,
             updated_at = updated_at,
-            objects = objects,
             )
             data = {
                 "Saved Successfully": "Teacher added successfully"
@@ -147,3 +122,11 @@ def addTeachers(request):
             return Response(data, status=status.HTTP_201_CREATED)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['GET'])
+def TeacherList(request):
+    obj = Teachers.objects.all()
+    serializer = TeachersSerializer(obj, many=True)
+    return Response(serializer.data)

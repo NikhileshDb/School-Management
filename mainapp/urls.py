@@ -3,16 +3,12 @@ from .views import *
 from .PrincipalViews import *
 from .StudentViews import *
 from .TeacherViews import *
-from . PrincipalApiViews import *
+from .PrincipalApiViews import *
 urlpatterns =[
     path('', index, name="index" ),
-    
-
-    #Teachers urls
-     
-     path('student_add/', add_students_save, name="student_add" ),
-     path('student_list/', StudentList, name="student_list"),
-     path('teacher_add/', addTeachers, name="add-teacher" ),
-     #  path('teacher_list/', views.listTeachers, name="list-teacher" ),
+    path('add_student/', add_students, name="add_student" ),
+    path('student_list/', StudentList, name="student_list"),
+    path('add_teacher/', add_teachers, name="add_teacher" ),
+    path('teacher_list/', TeacherList, name="teacher_list" ),
 ]
 

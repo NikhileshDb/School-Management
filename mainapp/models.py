@@ -18,7 +18,6 @@ class Principal(models.Model):
  
 
 class Teachers(models.Model):
-    name = models.CharField(max_length=40, null=True, blank=True)
     admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateField(null=True, blank=True)
@@ -29,7 +28,7 @@ class Teachers(models.Model):
 
 
     def __str__(self):
-        return self.name
+        return self.admin.username
 
         
 
@@ -55,4 +54,9 @@ class Students(models.Model):
     classRoom = models.IntegerField(null=True, blank=True)
     section = models.CharField(max_length=2, null=True, blank=True)
     objects = models.Manager()
+
+    class Meta:
+        verbose_name_plural = "Students"
+    def __str__(self):
+        return self.admin.username
     
