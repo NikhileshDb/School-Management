@@ -1,4 +1,4 @@
-from . serializers import PrincipalSerializer
+from . serializers import PrincipalSerializer, StudentsSerializer
 from . models import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -29,6 +29,20 @@ def add_students_save(request):
         email = request.data['email']
         password = request.data['password']
         middleName = request.data['middleName']
+        dob = request.data['dob']
+        gender = request.data['gender']
+        fatherName = request.data['fatherName']
+        motherName = request.data['motherName']
+        current_address = request.data['current_address']
+        parmanent_address = request.data['parmanent_address']
+        religion = request.data['religion']
+        phoneNumber = request.data['phoneNumber']
+        nationality = request.data['nationality']
+        updated_at = request.data['updated_at']
+        profile_pic = request.data['profile_pic']
+        blood_group = request.data['blood_group']
+        classRoom = request.data['classRoom']
+        section = request.data['section']
         try:
             user = CustomUser.objects.create_user(
                 user_type=3,
@@ -41,6 +55,20 @@ def add_students_save(request):
             #Creating Students Object With User Details And Password From CustomUser Obj
             Students.objects.create(admin=user,
             middleName = middleName,
+            dob = dob,
+            gender = gender,
+            fatherName = fatherName,
+            motherName = motherName,
+            current_address = current_address,
+            parmanent_address = parmanent_address,
+            religion = religion,
+            phoneNumber = phoneNumber,
+            nationality = nationality,
+            updated_at = updated_at,
+            profile_pic = profile_pic,
+            blood_group = blood_group,
+            classRoom = classRoom,
+            section = section,
             )
             data = {
                 "Successfully Saved": "Student Object is Created"
@@ -54,6 +82,27 @@ def add_students_save(request):
 
 @api_view(['GET'])
 def StudentList(request):
-    students = Students.Objects.all()
+    students = Students.objects.all()
     serializer =  StudentsSerializer(students, many=True)
     return Response(serializer.data)
+
+    # {
+    #     "id": 2,
+    #     "middleName": "My Mid",
+    #     "dob": null,
+    #     "gender": null,
+    #     "fatherName": null,
+    #     "motherName": null,
+    #     "current_address": null,
+    #     "parmanent_address": null,
+    #     "religion": null,
+    #     "phoneNumber": null,
+    #     "nationality": null,
+    #     "created_at": "2021-07-11T14:43:00.674484Z",
+    #     "updated_at": null,
+    #     "profile_pic": null,
+    #     "blood_group": null,
+    #     "classRoom": null,
+    #     "section": null,
+    #     "admin": 5
+    # }
