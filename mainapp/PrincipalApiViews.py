@@ -6,12 +6,6 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from rest_framework import status
 
-def apiOverView(request):
-    api_urls = {
-
-        
-    }
-
 #Only Principle Can add New Student
 #Only Principle Can Add New Teacher
 
