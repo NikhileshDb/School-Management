@@ -4,7 +4,7 @@ from .models import *
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id','first_name', 'last_name', 'email', 'password', 'username']
+        fields = ['id','first_name', 'last_name', 'middleName', 'email','username', 'password', ]
 
 
 class PasswordSerializer(serializers.Serializer):
@@ -17,24 +17,23 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Students
         fields = [
-            'id',
             'customuser', 
+            'id',
+            'classRoom',
+            'rollNo',
             'section',
-            'middleName',
             'dob',
             'gender',
-            'fatherName',
-            'motherName',
             'current_address',
             'parmanent_address',
+            'fatherName',
+            'motherName',
             'religion',
             'phoneNumber',
             'nationality',
             'updated_at',
             'profile_pic',
             'blood_group',
-            'classRoom',
-
         ]
 
     def create(self, validated_data):

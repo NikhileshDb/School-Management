@@ -8,6 +8,7 @@ class CustomUser(AbstractUser):
         (2, "Teachers"), 
         (3, "Students")
     )
+    middleName = models.CharField(max_length=15, null=True, blank=True)
     user_type = models.CharField(default=1, choices=data, max_length=10)
 
 
@@ -38,7 +39,6 @@ class Teachers(models.Model):
 class Students(models.Model):
     id = models.AutoField(primary_key=True)
     customuser = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
-    middleName = models.CharField(max_length=40, null=True, blank=True)
     section = models.CharField(max_length=2, null=True, blank=True)
     dob = models.DateField(max_length=8, null=True, blank=True)
     gender = models.CharField(max_length=20, null=True, blank=True)
