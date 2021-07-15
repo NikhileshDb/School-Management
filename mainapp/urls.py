@@ -1,6 +1,6 @@
 from django.urls import path, include
 from .views import *
-from .PrincipalViews import *
+
 from .StudentViews import *
 from .TeacherViews import *
 from .ManagerApiViews import StudentViewSet, ChangePasswordInstanceView

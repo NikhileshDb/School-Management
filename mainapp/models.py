@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
 
 #Overriding Default USER
 class CustomUser(AbstractUser):
@@ -51,7 +52,7 @@ class Students(models.Model):
     nationality = models.CharField(max_length=40, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateField(null=True, blank=True)
-    profile_pic = models.ImageField(upload_to='media/', height_field=None, width_field=None, max_length=100,null=True, blank=True)
+    profile_pic = models.ImageField(_("Image"),upload_to='media/', default="media/default.png" , null=True, blank=True)
     blood_group = models.CharField(max_length=5, null=True, blank=True)
     classRoom = models.BigIntegerField(null=True, blank=True)
     rollNo = models.BigIntegerField(null=True, blank=True)
