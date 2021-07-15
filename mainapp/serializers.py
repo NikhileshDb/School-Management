@@ -1,10 +1,18 @@
 from rest_framework import serializers
 from .models import *
+from django.contrib.auth import get_user_model
+from django.contrib.auth.validators import UnicodeUsernameValidator
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomUser
+        model = get_user_model()
         fields = ['id','first_name', 'last_name', 'middleName', 'email','username', 'password', ]
+        extra_kwargs = {
+            'username' : {
+                'validators': [UnicodeUsernameValidator()],
+            }
+            }
+
 
 
 class PasswordSerializer(serializers.Serializer):
@@ -35,7 +43,7 @@ class StudentSerializer(serializers.ModelSerializer):
             'profile_pic',
             'blood_group',
         ]
-
+#Overding the create methodeserializer
     def create(self, validated_data):
         customuser_data = validated_data.pop('customuser')
         customuser = CustomUserSerializer.create(
@@ -61,8 +69,21 @@ class StudentSerializer(serializers.ModelSerializer):
             classRoom = validated_data('classRoom'),
             rollNo = validated_data('rollNo'),
         )
-
         return student
+#Update method does not support writable nested fields by default. So we are overriding update methode explicitly
+    def update(self, instance, validated_data):
+        #change 'customuser' here to match your one-to-one field name
+        if 'customuser' in validated_data:
+            nested_serializer = self.fields['customuser']
+            nested_instance = instance.customuser
+            nested_data = validated_data.pop('customuser')
+            # Runs the update on whatever serializer the nested data belongs to
+            nested_serializer.update(nested_instance, nested_data)
+        # Runs the original parent update(), since the nested fields were
+        # "popped" out of the data
+        return super(StudentSerializer, self).update(instance, validated_data)
+
+
 
 
 
