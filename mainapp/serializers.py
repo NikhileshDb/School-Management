@@ -22,18 +22,46 @@ class StudentSerializer(serializers.ModelSerializer):
             'section', 
             'dob',
             'gender',
+            'fatherName',
+            'motherName',
+            'current_address',
+            'parmanent_address',
+            'religion',
+            'phoneNumber',
+            'nationality',
+            'updated_at',
+            'profile_pic',
+            'blood_group',
+            'classRoom',
+
         ]
+
     def create(self, validated_data):
         customuser_data = validated_data.pop('customuser')
         customuser = CustomUserSerializer.create(
             CustomUserSerializer(), 
             validated_data=customuser_data)
+
         student, created = Students.objects.update_or_create(
             customuser = customuser,
+            middleName = validated_data.pop('middleName'),
             section = validated_data.pop('section'),
             dob = validated_data.pop('dob'),
-            gender = validated_data.pop('gender')
+            gender = validated_data.pop('gender'),
+            fatherName = validated_data.pop('fatherName'),
+            motherName = validated_data.pop('motherName'),
+            current_address = validated_data.pop('current_address'),
+            parmanent_address = validated_data.pop('permanent_address'),
+            religion = validated_data.pop('religion'),
+            phoneNumber = validated_data.pop('phoneNumber'),
+            nationality = validated_data.pop('nationality'),
+            updated_at = validated_data.pop('updated_at'),
+            profile_pic = validated_data('profile_pic'),
+            blood_group = validated_data('blood_group'),
+            classRoom = validated_data('classRoom'),
+            rollNo = validated_data('rollNo'),
         )
+
         return student
 
 

@@ -16,16 +16,24 @@ class StudentViewSet(ModelViewSet):
     serializer_class = StudentSerializer
     queryset = Students.objects.all()
 
+
+
+
+
 class ChangePasswordInstanceView(UpdateAPIView):
     '''Used for update-only endpoints for a single model instance. To Change Password'''
     serializer_class = PasswordSerializer
-    
+
+
+    #User should be logged in to change password
     permission_classes = [IsAuthenticated]
 
+    #Get the user object from logged in user
     def get_object(self, queryset=None):
         obj = self.request.user
         return obj
 
+    #Updating the password
     def update(self, request, *args, **kwargs):
         self.object = self.get_object()
         serializer = self.get_serializer(data=request.data)
@@ -47,6 +55,11 @@ class ChangePasswordInstanceView(UpdateAPIView):
                 return Response(context)
         else:
             return Response(serializer.error, status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
 
 #Only Principle Can add New Student
 #Only Principle Can Add New Teacher
