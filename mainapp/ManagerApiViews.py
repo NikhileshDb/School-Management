@@ -9,18 +9,19 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import UpdateAPIView
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 #Cleaner API For CRUD operation StudentModel
 class StudentViewSet(ModelViewSet):
     serializer_class = StudentSerializer
     queryset = Students.objects.all()
+    parser_classes = [MultiPartParser, FormParser]
 
 
 # class StudentImageViewSet(APIView):
 #     permission_classes = [IsAuthenticated]
-#     parser_classes = [MultiPartParser, FormParser]
+#     parser_classes = 
 
 #     def post()
 
