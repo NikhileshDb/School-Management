@@ -19,11 +19,10 @@ class StudentViewSet(ModelViewSet):
 
 
 
-
+#Can be used for all Users
 class ChangePasswordInstanceView(UpdateAPIView):
     '''Used for update-only endpoints for a single model instance. To Change Password'''
     serializer_class = PasswordSerializer
-
 
     #User should be logged in to change password
     permission_classes = [IsAuthenticated]
