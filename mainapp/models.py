@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 #Overriding Default USER
 class CustomUser(AbstractUser):
     data = (
-        (1,"Principal"), 
+        (1,"Manager"), 
         (2, "Teachers"), 
         (3, "Students")
     )
@@ -12,7 +12,7 @@ class CustomUser(AbstractUser):
 
 
 
-class Principal(models.Model):
+class Manager(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(null=True)
@@ -36,6 +36,7 @@ class Teachers(models.Model):
 
 
 class Students(models.Model):
+    id = models.AutoField(primary_key=True)
     customuser = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
     # middleName = models.CharField(max_length=40, null=True, blank=True)
     section = models.CharField(max_length=2, null=True, blank=True)
