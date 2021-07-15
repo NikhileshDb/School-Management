@@ -18,8 +18,8 @@ class StudentViewSet(ModelViewSet):
     queryset = Students.objects.all()
     parser_classes = [MultiPartParser, FormParser]
 
-    def post(self, request, formet = None):
-        serializer = StudentSerializer(request.data)
+    def post(self, request, format = None):
+        serializer = StudentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_CREATED)
