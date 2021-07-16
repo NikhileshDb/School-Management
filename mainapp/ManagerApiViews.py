@@ -1,3 +1,4 @@
+import re
 from . serializers import ManagerSerializer, StudentSerializer, TeachersSerializer, PasswordSerializer, ProfileImageSerializer
 from . models import *
 from rest_framework.decorators import api_view
@@ -9,26 +10,26 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import UpdateAPIView
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
+from rest_framework.parsers import FormParser, MultiPartParser, JSONParser, FileUploadParser 
 
 
 class ProfileImageView(APIView):
-    parser_classes = [ FormParser, MultiPartParser]
+    parser_classes = [ FormParser, MultiPartParser, JSONParser]
 
     def post(self, request, format=None):
+        print(request.data)
         serializer = ProfileImageSerializer(data=request.data)
         if serializer.is_valid():
-            print(serializer.data)
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_CREATED)
+            return Response(serializer.data, status=200)
         else:
-            return Response (serializer.errors, status=status.HTTP_200_CREATED)
+            return Response (serializer.errors, status=400)
 
 
 
 #Cleaner API For CRUD operation StudentModel
 class StudentViewSet(ModelViewSet):
-    parser_classes = [JSONParser, FormParser, MultiPartParser]
+    parser_classes = [JSONParser, FormParser, MultiPartParser ]
     serializer_class = StudentSerializer
     queryset = Students.objects.all()
     
