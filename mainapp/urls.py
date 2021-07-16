@@ -3,7 +3,7 @@ from .views import *
 
 from .StudentViews import *
 from .TeacherViews import *
-from .ManagerApiViews import StudentViewSet, ChangePasswordInstanceView
+from .ManagerApiViews import StudentViewSet, ChangePasswordInstanceView,  ProfileImageView
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -15,6 +15,7 @@ urlpatterns =[
     path('', include(router.urls)),
     path('api/student/password', ChangePasswordInstanceView.as_view()),
     path('api/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/image/' ,  ProfileImageView.as_view()),
 ]
 
 

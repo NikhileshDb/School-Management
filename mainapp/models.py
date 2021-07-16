@@ -63,3 +63,6 @@ class Students(models.Model):
     def __str__(self):
         return self.customuser.username
     
+class ProfileImage(models.Model):
+    image = models.ImageField(_("Image"),upload_to="student_profile/", default="media/default.png" , blank=True, null=True )
+    desc = models.CharField(max_length=100, blank=True, null=True)

@@ -3,6 +3,12 @@ from .models import *
 from django.contrib.auth import get_user_model
 from django.contrib.auth.validators import UnicodeUsernameValidator
 
+class ProfileImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProfileImage
+        fields = '__all__'
+
+
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
