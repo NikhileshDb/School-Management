@@ -23,7 +23,10 @@ class ProfileImageView(APIView):
             serializer.save()
             return Response(serializer.data, status=200)
         else:
-            return Response (serializer.errors, status=400)
+            context = {
+                "message": "Serializer data is not valid"
+            }
+            return Response (context, status=400)
 
 
 
