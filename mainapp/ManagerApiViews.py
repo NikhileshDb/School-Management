@@ -34,7 +34,7 @@ class StudentViewSet(ModelViewSet):
     parser_classes = [JSONParser, FormParser, MultiPartParser ]
     serializer_class = StudentSerializer
     queryset = Students.objects.all()
-    
+    #Route to change the profile pic
     @action(detail=True, methods=['put'])
     def profile(self,request, pk=None):
         customuser = self.get_object()
@@ -42,13 +42,9 @@ class StudentViewSet(ModelViewSet):
         serializer = CustomUserSerializer(profile, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=200)
+            return Response(serializer.data,status=status.HTTP_200_OK)
         else:
-            return Response(serializer.errors, status=400)
-    
-    # def change_password(self, request, pk=None):
-
-
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -74,7 +70,7 @@ class ChangePasswordInstanceView(UpdateAPIView):
                 context = {
                     "old_password": ["Wrong Password."],
                 }
-                return Response(context, status.HTTP_400_BAD_REQUEST)
+                return Response(context,status=status.HTTP_406_NOT_ACCEPTABLE)
             else:
                 self.object.set_password(serializer.data.get('new_password'))
                 self.object.save()
@@ -86,7 +82,7 @@ class ChangePasswordInstanceView(UpdateAPIView):
                 }
                 return Response(context)
         else:
-            return Response(serializer.error, status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
 
 
 
