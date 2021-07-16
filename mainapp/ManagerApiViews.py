@@ -1,7 +1,9 @@
 import re
-from . serializers import ManagerSerializer, StudentSerializer, TeachersSerializer, PasswordSerializer, ProfileImageSerializer
+
+from rest_framework.fields import ReadOnlyField
+from . serializers import ManagerSerializer, StudentSerializer, TeachersSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer
 from . models import *
-from rest_framework.decorators import api_view
+from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -36,6 +38,16 @@ class StudentViewSet(ModelViewSet):
     serializer_class = StudentSerializer
     queryset = Students.objects.all()
     
+    @action(detail=True, methods=['put'])
+    def profile(self,request, pk=None):
+        customuser = self.get_object()
+        profile = customuser.customuser
+        serializer = CustomUserSerializer(profile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        else:
+            return Response(serializer.errors, status=400)
 
 
 

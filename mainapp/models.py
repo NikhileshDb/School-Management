@@ -10,6 +10,7 @@ class CustomUser(AbstractUser):
         (3, "Students")
     )
     middleName = models.CharField(max_length=15, null=True, blank=True)
+    profile_pic = models.ImageField(_("Image"),upload_to='profile_pic/', default="media/default.png" , null=True, blank=True)
     user_type = models.CharField(default=1, choices=data, max_length=10)
 
 
@@ -52,7 +53,6 @@ class Students(models.Model):
     nationality = models.CharField(max_length=40, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateField(null=True, blank=True)
-    profile_pic = models.ImageField(_("Image"),upload_to='profile_pic/', default="media/default.png" , null=True, blank=True)
     blood_group = models.CharField(max_length=5, null=True, blank=True)
     classRoom = models.BigIntegerField(null=True, blank=True)
     rollNo = models.BigIntegerField(null=True, blank=True)

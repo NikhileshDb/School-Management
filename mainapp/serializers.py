@@ -12,7 +12,7 @@ class ProfileImageSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ['id','first_name', 'last_name', 'middleName', 'email','username', 'password', ]
+        fields = ['id','first_name', 'last_name', 'middleName','profile_pic', 'email','username', 'password', ]
         extra_kwargs = {
             'username' : {
                 'validators': [UnicodeUsernameValidator()],
@@ -46,7 +46,6 @@ class StudentSerializer(serializers.ModelSerializer):
             'phoneNumber',
             'nationality',
             'updated_at',
-            'profile_pic',
             'blood_group',
         ]
 #Overding the create methodeserializer
@@ -69,7 +68,6 @@ class StudentSerializer(serializers.ModelSerializer):
             phoneNumber = validated_data.get('phoneNumber'),
             nationality = validated_data.get('nationality'),
             updated_at = validated_data.get('updated_at'),
-            profile_pic = validated_data.get('profile_pic'),
             blood_group = validated_data.get('blood_group'),
             classRoom = validated_data.get('classRoom'),
             rollNo = validated_data.get('rollNo'),
