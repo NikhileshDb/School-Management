@@ -23,12 +23,12 @@ class ProfileImageView(APIView):
         serializer = ProfileImageSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_404_NOT_FOUND)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             context = {
                 "message": "Serializer data is not valid"
             }
-            return Response (context, status=400)
+            return Response (serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
 
