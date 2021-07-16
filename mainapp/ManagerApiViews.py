@@ -25,9 +25,6 @@ class ProfileImageView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            context = {
-                "message": "Serializer data is not valid"
-            }
             return Response (serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
@@ -49,7 +46,7 @@ class StudentViewSet(ModelViewSet):
         else:
             return Response(serializer.errors, status=400)
     
-    def change_password(self, request, pk=None):
+    # def change_password(self, request, pk=None):
 
 
 
