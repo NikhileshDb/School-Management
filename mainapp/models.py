@@ -65,3 +65,4 @@ class Students(models.Model):
     
 class ProfileImage(models.Model):
     image = models.ImageField(_("Image"),upload_to="student_profile/", default="media/default.png" , blank=True, null=True )
+    desc =  models.CharField(max_length=20, blank=True, null=True)
