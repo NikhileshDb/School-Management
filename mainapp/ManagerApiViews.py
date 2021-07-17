@@ -1,4 +1,3 @@
-import re
 
 from rest_framework.fields import ReadOnlyField
 from . serializers import ManagerSerializer, StudentSerializer, TeachersSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer
@@ -31,7 +30,7 @@ class ProfileImageView(APIView):
 
 #Cleaner API For CRUD operation StudentModel
 class StudentViewSet(ModelViewSet):
-    parser_classes = [JSONParser, FormParser, MultiPartParser ]
+    # parser_classes = [JSONParser, FormParser, MultiPartParser ]
     serializer_class = StudentSerializer
     queryset = Students.objects.all()
     #Route to change the profile pic
@@ -87,71 +86,3 @@ class ChangePasswordInstanceView(UpdateAPIView):
 
 
 
-
-
-#Only Principle Can add New Student
-#Only Principle Can Add New Teacher
-
-# @api_view(['POST'])
-# def add_students(request):
-#     if request.method == 'POST':
-#         serializer = StudentSerializer(data=request.data)
-#         if serializer.is_valid(raise_exception=ValueError):
-#             serializer.create(validated_data=request.data)
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         else:
-#             return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-
-# @api_view(['GET'])
-# def StudentList(request):
-#     students = Students.objects.all()
-#     serializer =  StudentSerializer(students, many=True)
-#     return Response(serializer.data)
-
-
-
-
-
-# @api_view(['POST'])
-# # @permission_classes([IsAdminUser])
-# def add_teachers(request):
-#     if request.method != 'POST':
-#         content = {
-#             'Method Not Allowed': 'Invalid Request'
-#         }
-#         return Response(content,status=status.HTTP_401_UNAUTHORIZED)
-#     else:
-#         first_name = request.data['first_name']
-#         last_name = request.data['last_name']
-#         email = request.data['email']
-#         username = request.data['username']
-#         password = request.data['password']
-#         updated_at = request.data['updated_at']
-#         try:
-#             user = CustomUser.objects.create_user(
-#                 user_type=2,
-#                 username= username,
-#                 email= email,
-#                 first_name = first_name,
-#                 last_name = last_name,
-#                 password= password,
-#                 )
-            
-#             Teachers.objects.create(
-#             admin = user,
-#             updated_at = updated_at,
-#             )
-#             data = {
-#                 "Saved Successfully": "Teacher added successfully"
-#             }
-#             return Response(data, status=status.HTTP_201_CREATED)
-#         except:
-#             return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-
-# @api_view(['GET'])
-# def TeacherList(request):
-#     obj = Teachers.objects.all()
-#     serializer = TeachersSerializer(obj, many=True)
-#     return Response(serializer.data)

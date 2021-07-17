@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import *
 from django.contrib.auth import get_user_model
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.contrib.auth.hashers import make_password
 
 class ProfileImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,6 +11,22 @@ class ProfileImageSerializer(serializers.ModelSerializer):
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        password = validated_data.pop('password', None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if attr == 'password':
+                instance.set_password(value)
+            else:
+                setattr(instance, attr, value)
+        instance.save()
+        return instance
     class Meta:
         model = get_user_model()
         fields = ['id','first_name', 'last_name', 'middleName','profile_pic', 'email','username', 'password', ]
@@ -17,9 +34,12 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'username' : {
                 'validators': [UnicodeUsernameValidator()],
             },
-            'password': {'write_only': True}
+            # "password": {"write_only": True}
             }
 
+        
+
+  
 
 
 class PasswordSerializer(serializers.Serializer):
@@ -49,9 +69,10 @@ class StudentSerializer(serializers.ModelSerializer):
             'updated_at',
             'blood_group',
         ]
-#Overding the create methodeserializer
+#Overding the create methode serializer
     def create(self, validated_data):
         customuser_data = validated_data.pop('customuser')
+        print(customuser_data)
         customuser = CustomUserSerializer.create(
             CustomUserSerializer(), 
             validated_data=customuser_data)

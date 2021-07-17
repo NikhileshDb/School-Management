@@ -1,6 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import UserManager
+
+
 
 #Overriding Default USER
 class CustomUser(AbstractUser):
@@ -12,6 +17,9 @@ class CustomUser(AbstractUser):
     middleName = models.CharField(max_length=15, null=True, blank=True)
     profile_pic = models.ImageField(_("Image"),upload_to='profile_pic/', default="media/default.png" , null=True, blank=True)
     user_type = models.CharField(default=1, choices=data, max_length=10)
+ 
+
+
 
 
 
