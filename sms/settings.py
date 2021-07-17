@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     #our app
     'mainapp.apps.MainappConfig',
     'rest_framework_simplejwt.token_blacklist',
+    'rest_framework_simplejwt',
+
 ]
 
 REST_FRAMEWORK = {
