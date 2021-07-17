@@ -34,14 +34,14 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'username' : {
                 'validators': [UnicodeUsernameValidator()],
             },
-            # "password": {"write_only": True}
+            "password": {"write_only": True}
             }
 
         
 
   
 
-
+#Logged in user password reset
 class PasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
