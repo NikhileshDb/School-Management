@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import UpdateAPIView
-from rest_framework import status
+from rest_framework import status, filters, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FormParser, MultiPartParser, JSONParser, FileUploadParser 
 
@@ -28,11 +28,14 @@ class ProfileImageView(APIView):
 
 
 
+
 #Cleaner API For CRUD operation StudentModel
 class StudentViewSet(ModelViewSet):
-    # parser_classes = [JSONParser, FormParser, MultiPartParser ]
+    parser_classes = [JSONParser, FormParser, MultiPartParser ]
     serializer_class = StudentSerializer
     queryset = Students.objects.all()
+    # search_fields = ['customuser']
+    # filter_backends = (filters.SearchFilter,)
     #Route to change the profile pic
     @action(detail=True, methods=['put'])
     def profile(self,request, pk=None):
@@ -82,6 +85,16 @@ class ChangePasswordInstanceView(UpdateAPIView):
                 return Response(context)
         else:
             return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+#Search for user according to username, name, email
+class CustomUserSearch(viewsets.ReadOnlyModelViewSet):
+    serializer_class = CustomUserSerializer
+    queryset = CustomUser.objects.all()
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ['username','email', 'first_name', 'last_name', 'middleName']
 
 
 

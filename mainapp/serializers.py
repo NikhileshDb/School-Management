@@ -29,7 +29,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return instance
     class Meta:
         model = get_user_model()
-        fields = ['id','first_name', 'last_name', 'middleName','profile_pic', 'email','username', 'password', ]
+        fields = ['id','user_type','first_name', 'last_name', 'middleName','profile_pic', 'email','username', 'password', ]
         extra_kwargs = {
             'username' : {
                 'validators': [UnicodeUsernameValidator()],
@@ -48,6 +48,7 @@ class PasswordSerializer(serializers.Serializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
+    
     customuser = CustomUserSerializer(required=True)
     class Meta:
         model = Students
