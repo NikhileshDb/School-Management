@@ -11,6 +11,7 @@ class ProfileImageSerializer(serializers.ModelSerializer):
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    #Overding the because of password hashing problem in Custom User
     def create(self, validated_data):
         password = validated_data.pop('password', None)
         instance = self.Meta.model(**validated_data)
@@ -37,8 +38,20 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "password": {"write_only": True}
             }
 
-        
+class classRoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = classRoom
+        fields = ['standard', 'section']
 
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subject
+        fields = ['subject_name', 'classRoom']
+#To display the classRoom fields,
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['classRoom'] = classRoomSerializer(instance.classRoom).data
+        return response
   
 
 #Logged in user password reset
@@ -48,7 +61,6 @@ class PasswordSerializer(serializers.Serializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
-    
     customuser = CustomUserSerializer(required=True)
     class Meta:
         model = Students
@@ -57,7 +69,6 @@ class StudentSerializer(serializers.ModelSerializer):
             'id',
             'classRoom',
             'rollNo',
-            'section',
             'dob',
             'gender',
             'current_address',
@@ -73,14 +84,13 @@ class StudentSerializer(serializers.ModelSerializer):
 #Overding the create methode serializer
     def create(self, validated_data):
         customuser_data = validated_data.pop('customuser')
-        print(customuser_data)
         customuser = CustomUserSerializer.create(
             CustomUserSerializer(), 
             validated_data=customuser_data)
 
+
         student, created = Students.objects.update_or_create(
             customuser = customuser,
-            section = validated_data.get('section'),
             dob = validated_data.get('dob'),
             gender = validated_data.get('gender'),
             fatherName = validated_data.get('fatherName'),
@@ -105,9 +115,12 @@ class StudentSerializer(serializers.ModelSerializer):
             nested_data = validated_data.pop('customuser')
             # Runs the update on whatever serializer the nested data belongs to
             nested_serializer.update(nested_instance, nested_data)
-        # Runs the original parent update(), since the nested fields were
-        # "popped" out of the data
         return super(StudentSerializer, self).update(instance, validated_data)
+    #To Display the classRoom fields
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['classRoom'] = classRoomSerializer(instance.classRoom).data
+        return response
 
 
 

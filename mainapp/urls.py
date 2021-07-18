@@ -3,12 +3,14 @@ from .views import *
 
 from .StudentViews import *
 from .TeacherViews import *
-from .ManagerApiViews import StudentViewSet, ChangePasswordInstanceView,  ProfileImageView, CustomUserSearch
+from .ManagerApiViews import StudentViewSet, ChangePasswordInstanceView,  ProfileImageView, CustomUserSearch, classRoomViewSet, SubjectViewSet
 from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register('api/student', StudentViewSet)
 router.register('api/user',CustomUserSearch)
+router.register('api/classroom',classRoomViewSet )
+router.register('api/subject',SubjectViewSet )
 
 urlpatterns =[
     path('', index, name="index" ),

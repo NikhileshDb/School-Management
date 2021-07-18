@@ -1,6 +1,6 @@
 
 from rest_framework.fields import ReadOnlyField
-from . serializers import ManagerSerializer, StudentSerializer, TeachersSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer
+from . serializers import ManagerSerializer, StudentSerializer, TeachersSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer
 from . models import *
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -97,5 +97,11 @@ class CustomUserSearch(viewsets.ReadOnlyModelViewSet):
     search_fields = ['username','email', 'first_name', 'last_name', 'middleName']
 
 
+class classRoomViewSet(viewsets.ModelViewSet):
+    serializer_class = classRoomSerializer
+    queryset = classRoom.objects.all()
 
+class SubjectViewSet(viewsets.ModelViewSet):
+    serializer_class = SubjectSerializer
+    queryset = Subject.objects.all()
 
