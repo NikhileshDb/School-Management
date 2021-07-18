@@ -52,8 +52,8 @@ class Students(models.Model):
     religion = models.CharField(max_length=20, null=True, blank=True)
     phoneNumber = models.CharField(max_length=13, null=True, blank=True)
     nationality = models.CharField(max_length=40, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    updated_at = models.DateField(null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateField(auto_now=True, null=True, blank=True)
     blood_group = models.CharField(max_length=5, null=True, blank=True)
     classRoom = models.ForeignKey(classRoom, on_delete=models.CASCADE, default=1)
     rollNo = models.BigIntegerField(null=True, blank=True)
@@ -83,3 +83,11 @@ class ProfileImage(models.Model):
     image = models.ImageField(_("Image"),upload_to="student_profile/", default="media/default.png" , blank=True, null=True )
     desc =  models.CharField(max_length=20, blank=True, null=True)
 
+class StudentResult(models.Model):
+    id = models.AutoField(primary_key=True)
+    student = models.ForeignKey(Students, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    full_marks = models.FloatField(default=0)
+    obtained_marks = models.FloatField(default=0)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)

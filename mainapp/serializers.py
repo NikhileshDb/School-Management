@@ -38,21 +38,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "password": {"write_only": True}
             }
 
-class classRoomSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = classRoom
-        fields = ['standard', 'section']
 
-class SubjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Subject
-        fields = ['subject_name', 'classRoom']
-#To display the classRoom fields,
-    def to_representation(self, instance):
-        response = super().to_representation(instance)
-        response['classRoom'] = classRoomSerializer(instance.classRoom).data
-        return response
-  
 
 #Logged in user password reset
 class PasswordSerializer(serializers.Serializer):
@@ -136,3 +122,30 @@ class TeachersSerializer(serializers.ModelSerializer):
         model = Teachers
         fields = '__all__'
 
+
+class classRoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = classRoom
+        fields = ['standard', 'section']
+
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subject
+        fields = ['subject_name', 'classRoom']
+#To display the classRoom fields,
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['classRoom'] = classRoomSerializer(instance.classRoom).data
+        return response
+  
+
+class StudentResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentResult
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['subject'] = SubjectSerializer(instance.subject).data
+        response['student'] = StudentSerializer(instance.student).data
+        return response
