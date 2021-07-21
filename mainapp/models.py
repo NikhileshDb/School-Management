@@ -10,9 +10,9 @@ from django.contrib.auth.models import UserManager
 #Overriding Default USER
 class CustomUser(AbstractUser):
     data = (
-        (1,"Manager"), 
-        (2, "Teachers"), 
-        (3, "Students")
+        ("Manager","Manager"), 
+        ("Teachers", "Teachers"), 
+        ("Students", "Students")
     )
     middleName = models.CharField(max_length=15, null=True, blank=True)
     profile_pic = models.ImageField(_("Image"),upload_to='profile_pic/', default="media/default.png" , null=True, blank=True)
@@ -24,21 +24,28 @@ class Manager(models.Model):
     updated_at = models.DateField(null=True)
     objects = models.Manager()
  
-class classRoom(models.Model):
-    id = models.AutoField(primary_key=True)
-    standard = models.BigIntegerField(null=True, blank=True)
-    section = models.CharField(max_length=1, null=True, blank=True)
-    def __str__(self):
-        return str(self.standard) + ' ' + self.section
+
 
 class Subject(models.Model):
     id = models.AutoField(primary_key=True)
     subject_name = models.CharField(max_length=100, null=True, blank=True)
-    classRoom = models.ForeignKey(classRoom, on_delete=models.CASCADE, default=1)
     def __str__(self):
-        return self.subject_name + ' ' + str(self.classRoom)
+        return self.subject_name
 
-
+class classRoom(models.Model):
+    section_choice = (
+     ("A","A"),
+     ("B","B"),
+     ("C","C"),
+     ("D","D"),
+    )
+    id = models.AutoField(primary_key=True)
+    standard = models.BigIntegerField(null=True, blank=True)
+    section = models.CharField(choices=section_choice, max_length=1, default='A')
+    class Meta:
+        unique_together =('standard', 'section')
+    def __str__(self):
+        return str(self.standard) + ' ' + self.section
 
 class Students(models.Model):
     id = models.AutoField(primary_key=True)
@@ -85,6 +92,7 @@ class ProfileImage(models.Model):
 
 class StudentResult(models.Model):
     id = models.AutoField(primary_key=True)
+    classRoom = models.ForeignKey(classRoom, on_delete=models.CASCADE, default = 1)
     student = models.ForeignKey(Students, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     full_marks = models.FloatField(default=0)

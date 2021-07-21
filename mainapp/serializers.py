@@ -1,9 +1,10 @@
+import re
 from rest_framework import serializers
 from .models import *
 from django.contrib.auth import get_user_model
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth.hashers import make_password
-
+from rest_framework.response import Response
 class ProfileImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProfileImage
@@ -126,26 +127,35 @@ class TeachersSerializer(serializers.ModelSerializer):
 class classRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = classRoom
-        fields = ['standard', 'section']
+        fields = '__all__'
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ['subject_name', 'classRoom']
-#To display the classRoom fields,
-    def to_representation(self, instance):
-        response = super().to_representation(instance)
-        response['classRoom'] = classRoomSerializer(instance.classRoom).data
-        return response
-  
+        fields = '__all__'
+ 
+
 
 class StudentResultSerializer(serializers.ModelSerializer):
-    class Meta:
+    def create(self, validated_data):
+        this_student = validated_data.pop('student')
+        this_classroom = validated_data.pop('classRoom')
+        obj_student = Students.objects.get(customuser__username=this_student)
+        obj_classroom = obj_student.classRoom
+        if this_classroom != obj_classroom:
+            raise ValueError("Value of classroom doesn't matched with students")
+        else:
+            objects = StudentResult.objects.create(student=this_student,classRoom=this_classroom,**validated_data)
+            objects.save()
+            return objects
+
+    class Meta:       
         model = StudentResult
-        fields = '__all__'
+        fields = ['id', 'student', 'classRoom','subject', 'full_marks', 'obtained_marks']
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['subject'] = SubjectSerializer(instance.subject).data
         response['student'] = StudentSerializer(instance.student).data
+        response['classRoom'] =classRoomSerializer(instance.classRoom).data
         return response

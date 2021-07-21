@@ -90,7 +90,7 @@ class ChangePasswordInstanceView(UpdateAPIView):
 
 
 #Search for user according to username, name, email
-class CustomUserSearch(viewsets.ReadOnlyModelViewSet):
+class CustomUserSearch(viewsets.ModelViewSet):
     serializer_class = CustomUserSerializer
     queryset = CustomUser.objects.all()
     filter_backends = (filters.SearchFilter,)
@@ -101,7 +101,14 @@ class classRoomViewSet(viewsets.ModelViewSet):
     serializer_class = classRoomSerializer
     queryset = classRoom.objects.all()
 
+    
+
 class SubjectViewSet(viewsets.ModelViewSet):
     serializer_class = SubjectSerializer
     queryset = Subject.objects.all()
 
+
+# class student_class(viewsets.APIView):
+#     classRoom = SubjectSerializer()
+#     def get(self, request, format=None):
+#         classes = Students.objects.filter(classRoom=classRoom)
