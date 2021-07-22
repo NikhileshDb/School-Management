@@ -149,3 +149,10 @@ class StudentResultSerializer(serializers.ModelSerializer):
         response['subject'] = SubjectSerializer(instance.subject).data
         response['student'] = StudentSerializer(instance.student).data
         return response
+
+
+#TimeTable Serializer added by M.J
+class TimeTableSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TimeTable
+        fields = '__all__'

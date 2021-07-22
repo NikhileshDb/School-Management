@@ -91,3 +91,15 @@ class StudentResult(models.Model):
     obtained_marks = models.FloatField(default=0)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+
+
+#Time table section added my M.j
+class TimeTable(models.Model):
+    class_room = models.ForeignKey(classRoom, on_delete = models.CASCADE)
+    day = models.CharField(max_length=10)
+    time = models.TimeField(auto_now=False, auto_now_add=False)
+    subject = models.CharField(max_length=20)
+    period = models.IntegerField()
+
+    def __str__(self):
+        return self.period + self.class_room + self.day + self.time + self.subject
