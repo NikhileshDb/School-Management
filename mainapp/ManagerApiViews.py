@@ -1,6 +1,6 @@
 
 from rest_framework.fields import ReadOnlyField
-from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer
+from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer
 from . models import *
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -115,3 +115,12 @@ class DormitoryViewSet(viewsets.ModelViewSet):
 class TransportViewSet(viewsets.ModelViewSet):
     serializer_class = TransPortSerializer
     queryset = transport.objects.all()
+
+class EnrollmentViewSet(viewsets.ModelViewSet):
+    serializer_class = enrollSerializer
+    queryset = enroll.objects.all()
+
+
+
+
+

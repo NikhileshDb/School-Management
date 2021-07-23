@@ -7,8 +7,9 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
 from rest_framework.validators import UniqueTogetherValidator
-
-
+import random
+import string 
+from django.utils import timezone
 ####   PROFILE IMAGE SERIALIZER   #####
 class ProfileImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,6 +46,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
             }
 
 ###############   PARENT SERIALIZER ####################
+# class forSectionSerializer(serializers.Serializer):
+#     classroom = serializers.CharField(max_length=50)
+    
+
 
 class parentSerializer(serializers.ModelSerializer):
     customuser = CustomUserSerializer(required=True)
@@ -112,7 +117,7 @@ class TeacherSerializer(serializers.ModelSerializer):
             phone = validated_data.get('phone'),
         )
         return Teacher
-   
+
 
 class classRoomSerializer(serializers.ModelSerializer):
     class Meta:
@@ -169,7 +174,6 @@ class StudentResultSerializer(serializers.ModelSerializer):
         response = super().to_representation(instance)
         response['subject'] = SubjectSerializer(instance.subject).data
         response['student'] = StudentSerializer(instance.student).data
-
         response['classRoom'] =classRoomSerializer(instance.classRoom).data
         return response
 
@@ -194,31 +198,36 @@ class TransPortSerializer(serializers.ModelSerializer):
         model = transport
         fields = '__all__'
 
+#####ENROLL SERIALIZER###########
 
+class enrollSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= enroll
+        fields = '__all__'
+        depth = 1
 
 
 
 ################ STUDENT SERIALIZER ##############
+
+
+
 class StudentSerializer(serializers.ModelSerializer):
     customuser = CustomUserSerializer(required=True)
-    classroom = serializers.SlugRelatedField(
-        queryset= classRoom.objects.all(),
-        slug_field= 'class_id',
-
-    )
-    sections = serializers.SerializerMethodField()
+   
     class Meta:
         model = student
-        fields = [
-            'customuser', 'student_id', 'admission_no', 'birthday', 'sex', 'religion', 'blood_group', 'address', 'phone', 'parent_id', 'dormitory_id', 'transport_id',
-            'classroom', 'sections',
-        ]
-    def get_sections(self, obj):
-        sections = section.objects.filter(class_id=obj.classroom)
-        return sections
-
+        fields = (
+            'customuser', 'student_id', 'admission_no', 'birthday', 'sex', 'religion', 'blood_group', 'address', 'phone','roll', 'class_id','section_id','parent_id', 'dormitory_id', 'transport_id',)
 #Overding the create methode serializer
     def create(self, validated_data):
+        enroll.objects.update_or_create(
+            enroll_code = random.randint(10000,100000),
+            student_id = validated_data.get('student_id'),
+            class_id = validated_data.get('class_id'),
+            section_id = validated_data.get('section_id'),
+            roll = validated_data.get('roll'),
+        )
         customuser_data = validated_data.pop('customuser')
         customuser = CustomUserSerializer.create(
             CustomUserSerializer(), 
@@ -238,6 +247,9 @@ class StudentSerializer(serializers.ModelSerializer):
             parent_id = validated_data.get('parent_id'),
             dormitory_id = validated_data.get('dormitory_id'),
             transport_id = validated_data.get('transport_id'),
+            class_id = validated_data.get('class_id'),
+            section_id = validated_data.get('section_id'),
+            roll = validated_data.get('roll')
         )
         return Student
 #Update method does not support writable nested fields by default. So we are overriding update methode explicitly
@@ -251,11 +263,10 @@ class StudentSerializer(serializers.ModelSerializer):
             nested_serializer.update(nested_instance, nested_data)
         return super(StudentSerializer, self).update(instance, validated_data)
     #To Display the classRoom fields
-    # def to_representation(self, instance):
-    #     response = super().to_representation(instance)
-    #     response['classRoom'] = classRoomSerializer(instance.classRoom).data
-    #     return response
-
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['class_id'] = classRoomSerializer(instance.class_id).data
+        response['section_id'] = SectionSerializer(instance.section_id).data
         return response
 
 

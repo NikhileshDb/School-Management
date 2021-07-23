@@ -81,6 +81,7 @@ class section(models.Model):
     nick_name = models.CharField(max_length=50, null=True, blank=True)
     class_id = models.ForeignKey(classRoom, on_delete=models.CASCADE, default=None, null=True, blank=True)
     teacher_id = models.ForeignKey(teacher, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    objects = models.Manager()
     def __str__(self):
         return self.name
 
@@ -125,8 +126,11 @@ class student(models.Model):
     blood_group = models.CharField(max_length=20, null=True, blank=True)
     address = models.CharField(max_length=200, null=True, blank=True)
     phone = models.BigIntegerField(null=True, blank=True)
+    roll = models.BigIntegerField(null=True, blank=True)
     created_at = models.DateField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateField(auto_now=True, null=True, blank=True)
+    class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE, default=None, null=True, blank=True)#FK
+    section_id = models.ForeignKey(section, on_delete=models.CASCADE, default=None, null=True, blank=True) #FK
     parent_id = models.ForeignKey(parent, on_delete=models.CASCADE, default=None, null=True, blank=True)      #FK
     dormitory_id = models.ForeignKey(dormitory, on_delete=models.CASCADE, default=None, null=True, blank=True)#FK
     transport_id = models.ForeignKey(transport, on_delete=models.CASCADE, default=None,null=True, blank=True) #FK
@@ -135,6 +139,16 @@ class student(models.Model):
     def __str__(self):
         return self.customuser.username
 
+######ENROLL###########
+class enroll(models.Model):
+    enroll_id = models.AutoField(primary_key=True)
+    enroll_code = models.CharField(max_length=100, null=True, blank=True)
+    student_id = models.ForeignKey(student, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE, default=None, null=True, blank=True)
+    section_id = models.ForeignKey(section, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    roll = models.BigIntegerField(null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    year = models.DateField(auto_now=True)
 
 
 
