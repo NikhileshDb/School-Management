@@ -255,8 +255,8 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 #TimeTable Serializer added by M.J
-class TimeTableSerializer(serializers.ModelSerializer):
+class RoutineSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TimeTable
+        model = Routine
         fields = '__all__'
 
