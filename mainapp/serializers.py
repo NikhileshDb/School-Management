@@ -201,11 +201,16 @@ class TransPortSerializer(serializers.ModelSerializer):
 ################ STUDENT SERIALIZER ##############
 class StudentSerializer(serializers.ModelSerializer):
     customuser = CustomUserSerializer(required=True)
-   
+    classroom = serializers.SlugRelatedField(
+        queryset= classRoom.objects.all(),
+        slug_field= 'name',
+
+    )
     class Meta:
         model = student
         fields = [
             'customuser', 'student_id', 'admission_no', 'birthday', 'sex', 'religion', 'blood_group', 'address', 'phone', 'parent_id', 'dormitory_id', 'transport_id',
+            'classroom',
         ]
 #Overding the create methode serializer
     def create(self, validated_data):
