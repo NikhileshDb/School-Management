@@ -94,6 +94,7 @@ class ManagerSerializer(serializers.ModelSerializer):
 
 """TEACHER SERIALIZER"""
 class TeacherSerializer(serializers.ModelSerializer):
+    customuser = CustomUserSerializer(required=True)
     class Meta:
         model = teacher
         fields = '__all__'
@@ -197,21 +198,25 @@ class TransPortSerializer(serializers.ModelSerializer):
 
 
 
-
 ################ STUDENT SERIALIZER ##############
 class StudentSerializer(serializers.ModelSerializer):
     customuser = CustomUserSerializer(required=True)
     classroom = serializers.SlugRelatedField(
         queryset= classRoom.objects.all(),
-        slug_field= 'name',
+        slug_field= 'class_id',
 
     )
+    sections = serializers.SerializerMethodField()
     class Meta:
         model = student
         fields = [
             'customuser', 'student_id', 'admission_no', 'birthday', 'sex', 'religion', 'blood_group', 'address', 'phone', 'parent_id', 'dormitory_id', 'transport_id',
-            'classroom',
+            'classroom', 'sections',
         ]
+    def get_sections(self, obj):
+        sections = section.objects.filter(class_id=obj.classroom)
+        return sections
+
 #Overding the create methode serializer
     def create(self, validated_data):
         customuser_data = validated_data.pop('customuser')
