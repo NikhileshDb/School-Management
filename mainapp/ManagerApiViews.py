@@ -1,6 +1,6 @@
 
 from rest_framework.fields import ReadOnlyField
-from . serializers import ManagerSerializer, StudentSerializer, TeachersSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer
+from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer
 from . models import *
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -14,6 +14,22 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FormParser, MultiPartParser, JSONParser, FileUploadParser 
 
 
+
+class parentViewSet(ModelViewSet):
+    serializer_class = parentSerializer
+    queryset = parent.objects.all()
+
+
+#Cleaner API For CRUD operation StudentModel
+class StudentViewSet(ModelViewSet):
+    parser_classes = [JSONParser, FormParser, MultiPartParser ]
+    serializer_class = StudentSerializer
+    queryset = student.objects.all()
+    # search_fields = ['customuser']
+    # filter_backends = (filters.SearchFilter,)
+ 
+
+#############   PROFILE IMAGE UPDATE ##############
 class ProfileImageView(APIView):
     parser_classes = [ FormParser, MultiPartParser, JSONParser]
 
@@ -26,27 +42,6 @@ class ProfileImageView(APIView):
         else:
             return Response (serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-
-
-
-#Cleaner API For CRUD operation StudentModel
-class StudentViewSet(ModelViewSet):
-    parser_classes = [JSONParser, FormParser, MultiPartParser ]
-    serializer_class = StudentSerializer
-    queryset = Students.objects.all()
-    # search_fields = ['customuser']
-    # filter_backends = (filters.SearchFilter,)
-    #Route to change the profile pic
-    @action(detail=True, methods=['put'])
-    def profile(self,request, pk=None):
-        customuser = self.get_object()
-        profile = customuser.customuser
-        serializer = CustomUserSerializer(profile, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -101,14 +96,22 @@ class classRoomViewSet(viewsets.ModelViewSet):
     serializer_class = classRoomSerializer
     queryset = classRoom.objects.all()
 
-    
+class sectionViewSet(viewsets.ModelViewSet):
+    serializer_class = SectionSerializer
+    queryset = section.objects.all()
+
+class teacherViewSet(viewsets.ModelViewSet):
+    serializer_class = TeacherSerializer
+    queryset         = teacher.objects.all()
 
 class SubjectViewSet(viewsets.ModelViewSet):
     serializer_class = SubjectSerializer
     queryset = Subject.objects.all()
 
+class DormitoryViewSet(viewsets.ModelViewSet):
+    serializer_class = DormitorySerializer
+    queryset = dormitory.objects.all()
 
-# class student_class(viewsets.APIView):
-#     classRoom = SubjectSerializer()
-#     def get(self, request, format=None):
-#         classes = Students.objects.filter(classRoom=classRoom)
+class TransportViewSet(viewsets.ModelViewSet):
+    serializer_class = TransPortSerializer
+    queryset = transport.objects.all()

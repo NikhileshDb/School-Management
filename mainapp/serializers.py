@@ -1,3 +1,4 @@
+
 import re
 from rest_framework import serializers
 from .models import *
@@ -5,12 +6,16 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
+from rest_framework.validators import UniqueTogetherValidator
+
+
+####   PROFILE IMAGE SERIALIZER   #####
 class ProfileImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProfileImage
         fields = '__all__'
 
-
+#####   CUSTOM USER SERIALIZER     #####
 class CustomUserSerializer(serializers.ModelSerializer):
     #Overding the because of password hashing problem in Custom User
     def create(self, validated_data):
@@ -39,34 +44,167 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "password": {"write_only": True}
             }
 
+###############   PARENT SERIALIZER ####################
+
+class parentSerializer(serializers.ModelSerializer):
+    customuser = CustomUserSerializer(required=True)
+    class Meta:
+        model = parent
+        fields = ['customuser', 'parent_id', 'phone', 'address','profession', ]
+##NESTED DATA SERIALIZER NEED OVERIDE CREATE AND UPDATE METHODE ######
+##Overide create method to let customuser be added directly
+    def create(self, validated_data):
+        customuser_data = validated_data.pop('customuser')
+        customuser =  CustomUserSerializer.create(
+            CustomUserSerializer() , 
+            validated_data = customuser_data
+        )
+        Parent, created  =  parent.objects.update_or_create(
+            customuser = customuser,
+            parent_id = validated_data.get('parent_id'),
+            phone = validated_data.get('phone'),
+            address = validated_data.get('address'),
+            profession = validated_data.get('profession'),
+        )
+        return Parent
+###   Override the update Methode #####
+    def update(self, instance, validated_data):
+        if 'customuser' in validated_data:
+            nested_serializer = self.fields['customuser']
+            nested_instance = instance.customuser
+            nested_data = validated_data.pop('customuser')
+            nested_serializer.update(nested_instance, nested_data)
+        return super(parentSerializer, self).update(instance, validated_data)
 
 
-#Logged in user password reset
+
+
+#############     Logged in user password reset    ######################
 class PasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
 
 
+
+class ManagerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Manager
+        fields = '__all__'
+
+
+"""TEACHER SERIALIZER"""
+class TeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = teacher
+        fields = '__all__'
+    '''Overide The create methode for customuser to add on the parent form'''
+    def create(self,validated_data):
+        customuser_data = validated_data.pop('customuser')
+        customuser = CustomUserSerializer.create(CustomUserSerializer, validated_data=customuser_data)
+        Teacher, created = teacher.objects.update_or_create(
+            customuser = customuser,
+            birthday = validated_data.get('birthday'),
+            sex = validated_data.get('sex'),
+            religion = validated_data.get('religion'),
+            blood_group = validated_data.get('blood_group'),
+            address = validated_data.get('address'),
+            phone = validated_data.get('phone'),
+        )
+        return Teacher
+   
+
+class classRoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = classRoom
+        fields = '__all__'
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['teacher_id'] = TeacherSerializer(instance.teacher_id).data
+        return response
+    
+
+class SectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = section
+        fields = '__all__'
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['teacher_id'] = TeacherSerializer(instance.teacher_id).data
+        response['class_id'] = classRoomSerializer(instance.class_id).data
+        return response
+
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subject
+        fields = '__all__'
+        depth=1
+ 
+
+
+class StudentResultSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        this_student = validated_data.pop('student')
+        this_classroom = validated_data.pop('classRoom')
+        obj_student = student.objects.get(customuser__username=this_student)
+        obj_classroom = obj_student.classRoom
+        if this_classroom != obj_classroom:
+            raise ValueError("Value of classroom doesn't matched with students")
+        else:
+            objects = StudentResult.objects.create(student=this_student,classRoom=this_classroom,**validated_data)
+            objects.save()
+            return objects
+
+    class Meta:       
+        model = StudentResult
+        fields = ['id', 'classRoom', 'student','subject', 'full_marks', 'obtained_marks']
+        validators = [
+            UniqueTogetherValidator(
+                queryset = StudentResult.objects.all(),
+                fields = ['student', 'subject']
+            )
+        ]
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['subject'] = SubjectSerializer(instance.subject).data
+        response['student'] = StudentSerializer(instance.student).data
+        response['classRoom'] =classRoomSerializer(instance.classRoom).data
+        return response
+
+
+
+'''DORMITORY SERIALIZER'''
+
+class DormitorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = dormitory
+        fields = '__all__'
+
+'''Testing Serilizer functions'''
+class TestModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestModel
+        fields = '__all__'
+
+'''TRANSPORT SERIALIZER'''
+class TransPortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = transport
+        fields = '__all__'
+
+
+
+
+
+
+################ STUDENT SERIALIZER ##############
 class StudentSerializer(serializers.ModelSerializer):
     customuser = CustomUserSerializer(required=True)
+   
     class Meta:
-        model = Students
+        model = student
         fields = [
-            'customuser', 
-            'id',
-            'classRoom',
-            'rollNo',
-            'dob',
-            'gender',
-            'current_address',
-            'parmanent_address',
-            'fatherName',
-            'motherName',
-            'religion',
-            'phoneNumber',
-            'nationality',
-            'updated_at',
-            'blood_group',
+            'customuser', 'student_id', 'admission_no', 'birthday', 'sex', 'religion', 'blood_group', 'address', 'phone', 'parent_id', 'dormitory_id', 'transport_id',
         ]
 #Overding the create methode serializer
     def create(self, validated_data):
@@ -74,25 +212,23 @@ class StudentSerializer(serializers.ModelSerializer):
         customuser = CustomUserSerializer.create(
             CustomUserSerializer(), 
             validated_data=customuser_data)
-
-
-        student, created = Students.objects.update_or_create(
+        Student, created = student.objects.update_or_create(
             customuser = customuser,
-            dob = validated_data.get('dob'),
-            gender = validated_data.get('gender'),
-            fatherName = validated_data.get('fatherName'),
-            motherName = validated_data.get('motherName'),
-            current_address = validated_data.get('current_address'),
-            parmanent_address = validated_data.get('permanent_address'),
+            student_id = validated_data.get('student_id'),
+            admission_no = validated_data.get('admission_no'),
+            birthday = validated_data.get('birthday'),
+            sex = validated_data.get('sex'),
             religion = validated_data.get('religion'),
-            phoneNumber = validated_data.get('phoneNumber'),
-            nationality = validated_data.get('nationality'),
-            updated_at = validated_data.get('updated_at'),
             blood_group = validated_data.get('blood_group'),
-            classRoom = validated_data.get('classRoom'),
-            rollNo = validated_data.get('rollNo'),
+            address = validated_data.get('address'),
+            phone = validated_data.get('phone'),
+            created_at = validated_data.get('created_at'),
+            updated_at = validated_data.get('updated_at'),
+            parent_id = validated_data.get('parent_id'),
+            dormitory_id = validated_data.get('dormitory_id'),
+            transport_id = validated_data.get('transport_id'),
         )
-        return student
+        return Student
 #Update method does not support writable nested fields by default. So we are overriding update methode explicitly
     def update(self, instance, validated_data):
         #change 'customuser' here to match your one-to-one field name
@@ -104,58 +240,7 @@ class StudentSerializer(serializers.ModelSerializer):
             nested_serializer.update(nested_instance, nested_data)
         return super(StudentSerializer, self).update(instance, validated_data)
     #To Display the classRoom fields
-    def to_representation(self, instance):
-        response = super().to_representation(instance)
-        response['classRoom'] = classRoomSerializer(instance.classRoom).data
-        return response
-
-
-
-
-
-class ManagerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Manager
-        fields = '__all__'
-
-class TeachersSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Teachers
-        fields = '__all__'
-
-
-class classRoomSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = classRoom
-        fields = '__all__'
-
-class SubjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Subject
-        fields = '__all__'
- 
-
-
-class StudentResultSerializer(serializers.ModelSerializer):
-    def create(self, validated_data):
-        this_student = validated_data.pop('student')
-        this_classroom = validated_data.pop('classRoom')
-        obj_student = Students.objects.get(customuser__username=this_student)
-        obj_classroom = obj_student.classRoom
-        if this_classroom != obj_classroom:
-            raise ValueError("Value of classroom doesn't matched with students")
-        else:
-            objects = StudentResult.objects.create(student=this_student,classRoom=this_classroom,**validated_data)
-            objects.save()
-            return objects
-
-    class Meta:       
-        model = StudentResult
-        fields = ['id', 'student', 'classRoom','subject', 'full_marks', 'obtained_marks']
-
-    def to_representation(self, instance):
-        response = super().to_representation(instance)
-        response['subject'] = SubjectSerializer(instance.subject).data
-        response['student'] = StudentSerializer(instance.student).data
-        response['classRoom'] =classRoomSerializer(instance.classRoom).data
-        return response
+    # def to_representation(self, instance):
+    #     response = super().to_representation(instance)
+    #     response['classRoom'] = classRoomSerializer(instance.classRoom).data
+    #     return response

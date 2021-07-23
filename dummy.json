@@ -1,0 +1,30 @@
+{
+    "customuser": {
+    "id": 2,
+    "user_type": 3,
+    "first_name": "Nikhilesh",
+    "last_name": "Debbarma",
+    "middleName": "",
+    "profile_pic": null,
+    "email": "nikhilesh.debbarma062@gmail.com",
+    "username": "nikhilesh"
+    },
+    "id": 1,
+    "classRoom": {
+    "id": 4,
+    "standard": 1,
+    "section": "A"
+    },
+    "rollNo": 1,
+    "dob": null,
+    "gender": "",
+    "current_address": "Pratap Roy Sarani",
+    "parmanent_address": null,
+    "fatherName": "",
+    "motherName": "",
+    "religion": "",
+    "phoneNumber": "+918787762697",
+    "nationality": "",
+    "updated_at": "2021-07-20",
+    "blood_group": ""
+    }
