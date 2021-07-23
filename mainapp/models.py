@@ -155,11 +155,11 @@ class StudentResult(models.Model):
     updated_at = models.DateField(auto_now=True)
 
 
-<<<<<<< HEAD
+
 
 class TestModel(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-=======
+
 #Time table section added my M.j
 class TimeTable(models.Model):
     class_room = models.ForeignKey(classRoom, on_delete = models.CASCADE)
@@ -170,4 +170,4 @@ class TimeTable(models.Model):
 
     def __str__(self):
         return self.period + self.class_room + self.day + self.time + self.subject
->>>>>>> f8cdc956775977ed3daef09aa322a60203795c38
+

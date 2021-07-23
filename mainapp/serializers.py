@@ -168,7 +168,7 @@ class StudentResultSerializer(serializers.ModelSerializer):
         response = super().to_representation(instance)
         response['subject'] = SubjectSerializer(instance.subject).data
         response['student'] = StudentSerializer(instance.student).data
-<<<<<<< HEAD
+
         response['classRoom'] =classRoomSerializer(instance.classRoom).data
         return response
 
@@ -245,7 +245,7 @@ class StudentSerializer(serializers.ModelSerializer):
     #     response = super().to_representation(instance)
     #     response['classRoom'] = classRoomSerializer(instance.classRoom).data
     #     return response
-=======
+
         return response
 
 
@@ -254,4 +254,4 @@ class TimeTableSerializer(serializers.ModelSerializer):
     class Meta:
         model = TimeTable
         fields = '__all__'
->>>>>>> f8cdc956775977ed3daef09aa322a60203795c38
+
