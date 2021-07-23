@@ -1,1 +1,5 @@
 db.sqlite3
+<<<<<<< HEAD
+=======
+local_settings.py
+>>>>>>> e06549760c05e568dec80f54b4ef0eb406b1fa6d

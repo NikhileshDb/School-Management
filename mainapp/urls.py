@@ -6,7 +6,7 @@ from .TeacherViews import *
 from .ManagerApiViews import StudentViewSet, ChangePasswordInstanceView,  ProfileImageView, CustomUserSearch, classRoomViewSet, SubjectViewSet, parentViewSet,  DormitoryViewSet,TransportViewSet, sectionViewSet, teacherViewSet, EnrollmentViewSet
 from .TeacherApiViews import StudentResultViewset, TestView
 from rest_framework import routers
-from .TimeTableApiViews import TimeTableViewSet
+from .RoutineApiViews import RoutineViewSet
 
 router = routers.DefaultRouter()
 router.register('api/parent', parentViewSet)
@@ -20,9 +20,13 @@ router.register('api/dormitory', DormitoryViewSet)
 router.register('api/transport',TransportViewSet )
 router.register('api/section', sectionViewSet)
 router.register('api/teacher',teacherViewSet )
+<<<<<<< HEAD
 router.register('api/enroll', EnrollmentViewSet)
 
 router.register('api/timetable', TimeTableViewSet)
+=======
+router.register('api/routine', RoutineViewSet)
+>>>>>>> e06549760c05e568dec80f54b4ef0eb406b1fa6d
 
 urlpatterns =[
     path('', index, name="index" ),

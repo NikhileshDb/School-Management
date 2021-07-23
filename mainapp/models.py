@@ -174,14 +174,13 @@ class StudentResult(models.Model):
 class TestModel(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
 
-#Time table section added my M.j
-class TimeTable(models.Model):
+
+class Routine(models.Model):
+    id = models.AutoField(primary_key=True)
     class_room = models.ForeignKey(classRoom, on_delete = models.CASCADE)
     day = models.CharField(max_length=10)
-    time = models.TimeField(auto_now=False, auto_now_add=False)
-    subject = models.CharField(max_length=20)
-    period = models.IntegerField()
-
-    def __str__(self):
-        return self.period + self.class_room + self.day + self.time + self.subject
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    start_time = models.TimeField(auto_now=False, auto_now_add=False)
+    end_time = models.TimeField(auto_now=False, auto_now_add=False)
+    period = models.CharField(max_length=20)
 
