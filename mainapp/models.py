@@ -45,11 +45,7 @@ class teacher(models.Model):
     def __str__(self):
         return self.customuser.username
 
-class Subject(models.Model):
-    id = models.AutoField(primary_key=True)
-    subject_name = models.CharField(max_length=100, null=True, blank=True)
-    def __str__(self):
-        return self.subject_name
+
 
 class classRoom(models.Model):
     class_id = models.AutoField(primary_key=True)
@@ -150,8 +146,13 @@ class enroll(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     year = models.DateField(auto_now=True)
 
-
-
+class Subject(models.Model):
+    id = models.AutoField(primary_key=True)
+    subject_name = models.CharField(max_length=100, null=True, blank=True)
+    class_id = models.ForeignKey(classRoom, on_delete=models.CASCADE, blank=True, null=True)
+    teacher_id = models.ForeignKey(teacher, on_delete=models.CASCADE, blank=True, null=True)
+    def __str__(self):
+        return self.subject_name
 
 #Testing Image Upload
 class ProfileImage(models.Model):
@@ -184,3 +185,14 @@ class Routine(models.Model):
     end_time = models.TimeField(auto_now=False, auto_now_add=False)
     period = models.CharField(max_length=20)
 
+
+class Notice(models.Model):
+    data = (
+        (1, 'Yes'),
+        (0, 'No')
+    )
+    notice_id = models.AutoField(primary_key=True)
+    notice_title = models.CharField(max_length=100, null=True, blank=True)
+    notice = models.TextField(null=True, blank=True)
+    date = models.DateTimeField()
+    status = models.CharField(choices=data,max_length=10, blank=True, null=True)

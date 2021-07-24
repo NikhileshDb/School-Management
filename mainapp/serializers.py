@@ -143,7 +143,12 @@ class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
         fields = '__all__'
-        depth=1
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['class_id'] = classRoomSerializer(instance.class_id).data
+        response['teacher_id'] = TeacherSerializer(instance.teacher_id).data
+        return response
  
 
 
@@ -275,4 +280,15 @@ class RoutineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Routine
         fields = '__all__'
+    
+    def to_representation(self, instance):
+        response = super(RoutineSerializer, self).to_representation(instance)
+        response['subject'] = SubjectSerializer(instance.subject).data
+        response['class_room'] = classRoomSerializer(instance.class_room).data
+        return response
 
+####NOTICE SERIALIZER ##########
+class NoticeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notice
+        fields = '__all__'

@@ -1,6 +1,6 @@
 
 from rest_framework.fields import ReadOnlyField
-from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer
+from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer, NoticeSerializer
 from . models import *
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -120,7 +120,9 @@ class EnrollmentViewSet(viewsets.ModelViewSet):
     serializer_class = enrollSerializer
     queryset = enroll.objects.all()
 
-
+class NoticeViewSet(viewsets.ModelViewSet):
+    serializer_class = NoticeSerializer
+    queryset = Notice.objects.all()
 
 
 
