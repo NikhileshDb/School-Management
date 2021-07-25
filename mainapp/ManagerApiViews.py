@@ -29,11 +29,6 @@ class StudentViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         instance = serializer.save()
-        print(instance.student_code)
-        print(instance)
-        print(instance.class_id)
-        print(instance.roll)
-        print(instance.session)
         enroll.objects.create(
             enroll_code = instance.student_code,
             student = instance,
