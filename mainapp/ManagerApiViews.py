@@ -1,6 +1,6 @@
 
 from rest_framework.fields import ReadOnlyField
-from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer, NoticeSerializer
+from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer, NoticeSerializer, SessionYearSerializer
 from . models import *
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -12,6 +12,7 @@ from rest_framework.generics import UpdateAPIView
 from rest_framework import status, filters, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FormParser, MultiPartParser, JSONParser, FileUploadParser 
+from rest_framework import generics
 
 
 
@@ -25,9 +26,25 @@ class StudentViewSet(ModelViewSet):
     parser_classes = [JSONParser, FormParser, MultiPartParser ]
     serializer_class = StudentSerializer
     queryset = student.objects.all()
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        print(instance.student_code)
+        print(instance)
+        print(instance.class_id)
+        print(instance.roll)
+        print(instance.session)
+        enroll.objects.create(
+            enroll_code = instance.student_code,
+            student = instance,
+            class_id = instance.class_id,
+            section = instance.section,
+            roll = instance.roll,
+            session = instance.session
+        )
+    
     # search_fields = ['customuser']
     # filter_backends = (filters.SearchFilter,)
- 
 
 #############   PROFILE IMAGE UPDATE ##############
 class ProfileImageView(APIView):
@@ -124,5 +141,7 @@ class NoticeViewSet(viewsets.ModelViewSet):
     serializer_class = NoticeSerializer
     queryset = Notice.objects.all()
 
-
+class SessionYearViewset(viewsets.ModelViewSet):
+    serializer_class = SessionYearSerializer
+    queryset = SessionYear.objects.all()
 

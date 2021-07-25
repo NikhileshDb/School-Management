@@ -8,6 +8,7 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
 from rest_framework.validators import UniqueTogetherValidator
 import random
+import uuid
 import string 
 from django.utils import timezone
 ####   PROFILE IMAGE SERIALIZER   #####
@@ -106,7 +107,7 @@ class TeacherSerializer(serializers.ModelSerializer):
     '''Overide The create methode for customuser to add on the parent form'''
     def create(self,validated_data):
         customuser_data = validated_data.pop('customuser')
-        customuser = CustomUserSerializer.create(CustomUserSerializer, validated_data=customuser_data)
+        customuser = CustomUserSerializer.create(CustomUserSerializer(), validated_data=customuser_data)
         Teacher, created = teacher.objects.update_or_create(
             customuser = customuser,
             birthday = validated_data.get('birthday'),
@@ -117,15 +118,24 @@ class TeacherSerializer(serializers.ModelSerializer):
             phone = validated_data.get('phone'),
         )
         return Teacher
+    '''Update Does not support writable nested fields by default '''
+    def update(self, instance, validated_data):
+        if 'customuser' in validated_data:
+            nested_serializer = self.fields['customuser']
+            nested_instance = instance.customuser
+            nested_date = validated_data.pop('customuser')
+            nested_serializer.update(nested_instance, nested_date)
+        return super(TeacherSerializer, self).update(instance, validated_data)
+
 
 
 class classRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = classRoom
-        fields = '__all__'
+        fields = ('name', 'name_numeric', 'teacher')
     def to_representation(self, instance):
         response = super().to_representation(instance)
-        response['teacher_id'] = TeacherSerializer(instance.teacher_id).data
+        response['teacher'] = TeacherSerializer(instance.teacher).data
         return response
     
 
@@ -135,7 +145,7 @@ class SectionSerializer(serializers.ModelSerializer):
         fields = '__all__'
     def to_representation(self, instance):
         response = super().to_representation(instance)
-        response['teacher_id'] = TeacherSerializer(instance.teacher_id).data
+        response['teacher'] = TeacherSerializer(instance.teacher).data
         response['class_id'] = classRoomSerializer(instance.class_id).data
         return response
 
@@ -209,7 +219,14 @@ class enrollSerializer(serializers.ModelSerializer):
     class Meta:
         model= enroll
         fields = '__all__'
-        depth = 1
+    
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['session'] = SessionYearSerializer(instance.session).data
+        response['student'] = StudentSerializer(instance.student).data
+        response['class_id'] = classRoomSerializer(instance.class_id).data
+        response['section'] = SectionSerializer(instance.section).data
+        return response
 
 
 
@@ -223,37 +240,31 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = student
         fields = (
-            'customuser', 'student_id', 'admission_no', 'birthday', 'sex', 'religion', 'blood_group', 'address', 'phone','roll', 'class_id','section_id','parent_id', 'dormitory_id', 'transport_id',)
+           'student_id','customuser','birthday', 'sex', 'religion', 'blood_group', 'address', 'phone','session' ,'class_id','section','roll','parent', 'dormitory', 'transport',)
 #Overding the create methode serializer
     def create(self, validated_data):
-        enroll.objects.update_or_create(
-            enroll_code = random.randint(10000,100000),
-            student_id = validated_data.get('student_id'),
-            class_id = validated_data.get('class_id'),
-            section_id = validated_data.get('section_id'),
-            roll = validated_data.get('roll'),
-        )
+        admission_no = random.randint(1000,1000000)
         customuser_data = validated_data.pop('customuser')
         customuser = CustomUserSerializer.create(
             CustomUserSerializer(), 
             validated_data=customuser_data)
         Student, created = student.objects.update_or_create(
             customuser = customuser,
-            student_id = validated_data.get('student_id'),
-            admission_no = validated_data.get('admission_no'),
+            student_code = admission_no,
             birthday = validated_data.get('birthday'),
             sex = validated_data.get('sex'),
             religion = validated_data.get('religion'),
             blood_group = validated_data.get('blood_group'),
             address = validated_data.get('address'),
             phone = validated_data.get('phone'),
+            session = validated_data.get('session'),
             created_at = validated_data.get('created_at'),
             updated_at = validated_data.get('updated_at'),
-            parent_id = validated_data.get('parent_id'),
-            dormitory_id = validated_data.get('dormitory_id'),
-            transport_id = validated_data.get('transport_id'),
+            parent = validated_data.get('parent'),
+            dormitory = validated_data.get('dormitory'),
+            transport = validated_data.get('transport'),
             class_id = validated_data.get('class_id'),
-            section_id = validated_data.get('section_id'),
+            section = validated_data.get('section'),
             roll = validated_data.get('roll')
         )
         return Student
@@ -271,7 +282,8 @@ class StudentSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['class_id'] = classRoomSerializer(instance.class_id).data
-        response['section_id'] = SectionSerializer(instance.section_id).data
+        response['section'] = SectionSerializer(instance.section).data
+        response['parent'] = parentSerializer(instance.parent).data
         return response
 
 
@@ -291,4 +303,10 @@ class RoutineSerializer(serializers.ModelSerializer):
 class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notice
+        fields = '__all__'
+
+######SESSION SERIALIZER ##########
+class SessionYearSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SessionYear
         fields = '__all__'

@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import UserManager
-
+import uuid
 
 
 #Overriding Default USER
@@ -18,6 +18,13 @@ class CustomUser(AbstractUser):
     middleName = models.CharField(max_length=15, null=True, blank=True)
     profile_pic = models.ImageField(_("Image"),upload_to='profile_pic/', default="media/default.png" , null=True, blank=True)
     user_type = models.CharField(default=1, choices=data, max_length=20)
+
+class SessionYear(models.Model):
+    session_id = models.AutoField(primary_key=True)
+    session_start_year = models.DateField()
+    objects = models.Manager()
+    def __str__(self):
+        return str(self.session_start_year) #parse_date(self.session_start_year) #str(self.session_start_year) + ' to ' + str(self.session_end_year)
 
 class Manager(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
@@ -51,7 +58,7 @@ class classRoom(models.Model):
     class_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, null=True, blank=True)
     name_numeric = models.BigIntegerField(null=True, blank=True)
-    teacher_id = models.ForeignKey(teacher, on_delete=models.CASCADE, default=None)  #FK
+    teacher = models.ForeignKey(teacher, on_delete=models.CASCADE, default=None)  #FK
     def __str__(self):
         return self.name
     # section_choice = (
@@ -76,7 +83,7 @@ class section(models.Model):
     name = models.CharField(max_length=5, null=True, blank=True)
     nick_name = models.CharField(max_length=50, null=True, blank=True)
     class_id = models.ForeignKey(classRoom, on_delete=models.CASCADE, default=None, null=True, blank=True)
-    teacher_id = models.ForeignKey(teacher, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    teacher = models.ForeignKey(teacher, on_delete=models.CASCADE, default=None, null=True, blank=True)
     objects = models.Manager()
     def __str__(self):
         return self.name
@@ -115,7 +122,7 @@ class dormitory(models.Model):
 class student(models.Model):
     customuser = models.OneToOneField(CustomUser, on_delete = models.CASCADE)       #FK
     student_id = models.AutoField(primary_key=True)
-    admission_no = models.CharField(max_length=100, null=True, blank=True)
+    student_code = models.CharField(max_length=100, null=True, blank=True)
     birthday = models.DateField(max_length=8, null=True, blank=True)
     sex = models.CharField(max_length=20, null=True, blank=True)
     religion = models.CharField(max_length=20, null=True, blank=True)
@@ -126,25 +133,31 @@ class student(models.Model):
     created_at = models.DateField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateField(auto_now=True, null=True, blank=True)
     class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE, default=None, null=True, blank=True)#FK
-    section_id = models.ForeignKey(section, on_delete=models.CASCADE, default=None, null=True, blank=True) #FK
-    parent_id = models.ForeignKey(parent, on_delete=models.CASCADE, default=None, null=True, blank=True)      #FK
-    dormitory_id = models.ForeignKey(dormitory, on_delete=models.CASCADE, default=None, null=True, blank=True)#FK
-    transport_id = models.ForeignKey(transport, on_delete=models.CASCADE, default=None,null=True, blank=True) #FK
+    section = models.ForeignKey(section, on_delete=models.CASCADE, default=None, null=True, blank=True) #FK
+    parent = models.ForeignKey(parent, on_delete=models.CASCADE, default=None, null=True, blank=True)      #FK
+    dormitory = models.ForeignKey(dormitory, on_delete=models.CASCADE, default=None, null=True, blank=True)#FK
+    transport = models.ForeignKey(transport, on_delete=models.SET_NULL, default=None,null=True, blank=True) #FK
+    session = models.ForeignKey(SessionYear, on_delete=models.CASCADE, default=None)  #FK
     class Meta:
         verbose_name_plural = "Students"
     def __str__(self):
-        return self.customuser.username
+        return self.customuser.first_name
+
+
+######SETTINGS#######
 
 ######ENROLL###########
 class enroll(models.Model):
     enroll_id = models.AutoField(primary_key=True)
-    enroll_code = models.CharField(max_length=100, null=True, blank=True)
-    student_id = models.ForeignKey(student, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    enroll_code = models.CharField(max_length=100, default=None )
+    student = models.ForeignKey(student, on_delete=models.CASCADE, default=None, null=True, blank=True)
     class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE, default=None, null=True, blank=True)
-    section_id = models.ForeignKey(section, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    section = models.ForeignKey(section, on_delete=models.CASCADE, default=None, null=True, blank=True)
     roll = models.BigIntegerField(null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
-    year = models.DateField(auto_now=True)
+    session = models.ForeignKey(SessionYear, on_delete=models.CASCADE, null=True, blank=True, default=None)
+    def __str__(self):
+        return str(self.enroll_code)
 
 class Subject(models.Model):
     id = models.AutoField(primary_key=True)
@@ -196,3 +209,7 @@ class Notice(models.Model):
     notice = models.TextField(null=True, blank=True)
     date = models.DateTimeField()
     status = models.CharField(choices=data,max_length=10, blank=True, null=True)
+
+class attendence(models.Model):
+    attendence_id = models.AutoField(primary_key=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
