@@ -147,7 +147,7 @@ class TeacherSerializer(serializers.ModelSerializer):
 class classRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = classRoom
-        fields = ('name', 'name_numeric', 'teacher')
+        fields = ('class_id','name', 'name_numeric', 'teacher')
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['teacher'] = TeacherSerializer(instance.teacher).data
