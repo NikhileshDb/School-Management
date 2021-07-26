@@ -333,7 +333,36 @@ class SessionYearSerializer(serializers.ModelSerializer):
         model = SessionYear
         fields = '__all__'
 
+### GRADE###
+class gradeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = grade
+        fields = '__all__'
+##### EXAM SERIALIZER #########
 class ExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
         fields = '__all__'
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['session_year'] = SessionYearSerializer(instance.session_year).data
+        return response
+
+        
+####MARK SERIALIZER #########
+
+class markSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = mark
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['session_year'] = SessionYearSerializer(instance.session_year).data
+        response['student_id'] = StudentSerializer(instance.student_id).data
+        response['subject'] = SubjectSerializer(instance.subject).data
+        response['class_id'] = classRoomSerializer(instance.class_id).data
+        response['section'] = SectionSerializer(instance.section).data
+        response['exam'] = ExamSerializer(instance.exam).data
+        return response
+

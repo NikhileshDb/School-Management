@@ -1,7 +1,7 @@
 
 from django.db.models import query
 from rest_framework.fields import ReadOnlyField
-from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer, NoticeSerializer, SessionYearSerializer,ExamSerializer, SettingsSerializer
+from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer, NoticeSerializer, SessionYearSerializer,ExamSerializer, SettingsSerializer, markSerializer, gradeSerializer
 from . models import *
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -151,3 +151,10 @@ class SessionYearViewset(viewsets.ModelViewSet):
     serializer_class = SessionYearSerializer
     queryset = SessionYear.objects.all()
 
+class GradeViewSet(viewsets.ModelViewSet):
+    serializer_class = gradeSerializer
+    queryset = grade.objects.all()
+
+class MarkViewSet(viewsets.ModelViewSet):
+    serializer_class = markSerializer
+    queryset = mark.objects.all()
