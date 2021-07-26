@@ -26,7 +26,7 @@ class StudentViewSet(ModelViewSet):
     parser_classes = [JSONParser, FormParser, MultiPartParser ]
     serializer_class = StudentSerializer
     queryset = student.objects.all()
- #After student object is created, create a enroll object reference with the student instance
+
     def perform_create(self, serializer):
         instance = serializer.save()
         enroll.objects.create(
