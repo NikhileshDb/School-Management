@@ -12,7 +12,7 @@ class ParentAdmin(admin.ModelAdmin):
 
 @admin.register(student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('student_id', 'customuser','student_code' ,'birthday', 'phone')
+    list_display = ('student_id', 'customuser','birthday', 'phone')
 
 @admin.register(dormitory)
 class DormitoryAdmin(admin.ModelAdmin):
@@ -42,3 +42,4 @@ admin.site.register(StudentResult)
 admin.site.register(TestModel)
 admin.site.register(SessionYear)
 admin.site.register(enroll)
+# admin.site.register(Settings)

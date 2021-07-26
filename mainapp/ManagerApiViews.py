@@ -1,6 +1,8 @@
 
+from django.db.models import query
 from rest_framework.fields import ReadOnlyField
-from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer, NoticeSerializer, SessionYearSerializer
+from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer, NoticeSerializer, SessionYearSerializer, SettingsSerializer
+
 from . models import *
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -16,6 +18,12 @@ from rest_framework import generics
 
 
 
+##Settings ViewSet###
+class SettingsViewSet(viewsets.ModelViewSet):
+    serializer_class = SettingsSerializer
+    queryset = Settings.objects.all()
+
+### Parent ViewSet###
 class parentViewSet(ModelViewSet):
     serializer_class = parentSerializer
     queryset = parent.objects.all()
@@ -27,16 +35,16 @@ class StudentViewSet(ModelViewSet):
     serializer_class = StudentSerializer
     queryset = student.objects.all()
  #After student object is created, create a enroll object reference with the student instance
-    def perform_create(self, serializer):
-        instance = serializer.save()
-        enroll.objects.create(
-            enroll_code = instance.student_code,
-            student = instance,
-            class_id = instance.class_id,
-            section = instance.section,
-            roll = instance.roll,
-            session = instance.session
-        )
+    # def perform_create(self, serializer):
+    #     instance = serializer.save()
+    #     enroll.objects.create(
+    #         enroll_code = instance.student_code,
+    #         student = instance,
+    #         class_id = instance.class_id,
+    #         section = instance.section,
+    #         roll = instance.roll,
+    #         running_year = instance.running_year,
+    #     )
     
     # search_fields = ['customuser']
     # filter_backends = (filters.SearchFilter,)
