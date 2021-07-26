@@ -262,6 +262,12 @@ class Notice(models.Model):
     date = models.DateTimeField()
     status = models.CharField(choices=data,max_length=10, blank=True, null=True)
 
-class attendence(models.Model):
+class Attendance(models.Model):
     attendence_id = models.AutoField(primary_key=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+    year = models.CharField(max_length=20)
+    class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE, null=True, blank=True)
+    section_id = models.ForeignKey(section, on_delete = models.CASCADE, null=True, blank=True)
+    student_id = models.ForeignKey(student, on_delete = models.CASCADE, null=True, blank=True)
+    routine_id = models.ForeignKey(Routine, on_delete = models.CASCADE, null=True, blank=True)
+    status = models.CharField(max_length=10, null=True, blank=True)

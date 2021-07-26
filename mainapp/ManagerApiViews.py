@@ -1,7 +1,7 @@
 
 from django.db.models import query
 from rest_framework.fields import ReadOnlyField
-from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer, NoticeSerializer, SessionYearSerializer,ExamSerializer, SettingsSerializer, markSerializer, gradeSerializer
+from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer, NoticeSerializer, SessionYearSerializer,ExamSerializer, SettingsSerializer, markSerializer, gradeSerializer, AttendanceSerializer
 from . models import *
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -121,7 +121,7 @@ class sectionViewSet(viewsets.ModelViewSet):
 
 class teacherViewSet(viewsets.ModelViewSet):
     serializer_class = TeacherSerializer
-    queryset         = teacher.objects.all()
+    queryset = teacher.objects.all()
 
 class SubjectViewSet(viewsets.ModelViewSet):
     serializer_class = SubjectSerializer
@@ -158,3 +158,7 @@ class GradeViewSet(viewsets.ModelViewSet):
 class MarkViewSet(viewsets.ModelViewSet):
     serializer_class = markSerializer
     queryset = mark.objects.all()
+
+class AttendanceViewSet(viewsets.ModelViewSet):
+    serializer_class = AttendanceSerializer
+    queryset = Attendance.objects.all()

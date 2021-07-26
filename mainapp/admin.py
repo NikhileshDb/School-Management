@@ -34,6 +34,10 @@ class ClassRoomAdmin(admin.ModelAdmin):
 class SubjectAdmin(admin.ModelAdmin):
     display_fields = '__all__'
 
+@admin.register(Attendance)
+class AttendanceAdmin(admin.ModelAdmin):
+    display_fields = '__all__'
+
 admin.register(Manager)
 class ManagerAdmin(admin.ModelAdmin):
     display_fields = '__all__'
