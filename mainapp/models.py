@@ -172,16 +172,25 @@ class ProfileImage(models.Model):
     image = models.ImageField(_("Image"),upload_to="student_profile/", default="media/default.png" , blank=True, null=True )
     desc =  models.CharField(max_length=20, blank=True, null=True)
 
+
+class Exam(models.Model):
+    id = models.AutoField(primary_key=True)
+    examName = models.CharField(max_length=20)
+    examDateYear = models.DateField()
+    sessionYear = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
+    exam_start = models.TimeField(auto_now=False, auto_now_add=False)
+    exam_end = models.TimeField(auto_now=False, auto_now_add=False)
+
 class StudentResult(models.Model):
     id = models.AutoField(primary_key=True)
     classRoom = models.ForeignKey(classRoom, on_delete=models.CASCADE, default = None)
     student = models.ForeignKey(student, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     full_marks = models.FloatField(default=None)
     obtained_marks = models.FloatField(default=None)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
-
 
 
 

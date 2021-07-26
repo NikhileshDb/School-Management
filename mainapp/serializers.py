@@ -161,6 +161,7 @@ class SubjectSerializer(serializers.ModelSerializer):
 class StudentResultSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         this_student = validated_data.pop('student')
+        this_exam = validated_data.pop('exam')
         this_classroom = validated_data.pop('classRoom')
         obj_student = student.objects.get(customuser__username=this_student)
         obj_classroom = obj_student.classRoom
@@ -171,9 +172,9 @@ class StudentResultSerializer(serializers.ModelSerializer):
             objects.save()
             return objects
 
-    class Meta:       
+    class Meta:
         model = StudentResult
-        fields = ['id', 'classRoom', 'student','subject', 'full_marks', 'obtained_marks']
+        fields = ['id', 'classRoom', 'student','subject', 'exam', 'full_marks', 'obtained_marks']
         validators = [
             UniqueTogetherValidator(
                 queryset = StudentResult.objects.all(),
@@ -305,4 +306,9 @@ class NoticeSerializer(serializers.ModelSerializer):
 class SessionYearSerializer(serializers.ModelSerializer):
     class Meta:
         model = SessionYear
+        fields = '__all__'
+
+class ExamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exam
         fields = '__all__'

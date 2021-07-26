@@ -3,7 +3,7 @@ from .views import *
 
 from .StudentViews import *
 from .TeacherViews import *
-from .ManagerApiViews import StudentViewSet, ChangePasswordInstanceView,  ProfileImageView, CustomUserSearch, classRoomViewSet, SubjectViewSet, parentViewSet,  DormitoryViewSet,TransportViewSet, sectionViewSet, teacherViewSet, EnrollmentViewSet, NoticeViewSet, SessionYearViewset
+from .ManagerApiViews import StudentViewSet, ChangePasswordInstanceView,  ProfileImageView, CustomUserSearch, classRoomViewSet, SubjectViewSet, parentViewSet,  DormitoryViewSet,TransportViewSet, sectionViewSet, teacherViewSet, EnrollmentViewSet, NoticeViewSet, SessionYearViewset, ExamViewSet
 from .TeacherApiViews import StudentResultViewset, TestView
 from rest_framework import routers
 from .RoutineApiViews import RoutineViewSet
@@ -14,6 +14,7 @@ router.register('api/student', StudentViewSet)
 router.register('api/user',CustomUserSearch)
 router.register('api/class',classRoomViewSet )
 router.register('api/subject',SubjectViewSet )
+router.register('api/exam', ExamViewSet)
 router.register('api/result', StudentResultViewset)
 router.register('api/testing', TestView)
 router.register('api/dormitory', DormitoryViewSet)
@@ -23,7 +24,6 @@ router.register('api/teacher',teacherViewSet )
 router.register('api/notice',NoticeViewSet )
 router.register('api/enroll', EnrollmentViewSet)
 router.register('api/sessionyear',SessionYearViewset )
-# router.register('api/timetable', TimeTableViewSet)
 
 router.register('api/routine', RoutineViewSet)
 
