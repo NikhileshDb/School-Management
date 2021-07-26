@@ -327,8 +327,6 @@ class NoticeSerializer(serializers.ModelSerializer):
         model = Notice
         fields = '__all__'
 
-<<<<<<< HEAD
-=======
 ######SESSION SERIALIZER ##########
 class SessionYearSerializer(serializers.ModelSerializer):
     class Meta:
@@ -339,4 +337,3 @@ class ExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
         fields = '__all__'
->>>>>>> 3765518de16d5ab2a3e14e3225630595539b4662
