@@ -201,6 +201,8 @@ class Exam(models.Model):
     examDate = models.DateField()
     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
     comment = models.TextField(null=True, blank=True)
+    def __str__(self):
+        return self.examName
 
 class grade(models.Model):
     grade_id = models.AutoField(primary_key=True)
