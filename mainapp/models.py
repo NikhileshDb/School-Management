@@ -6,9 +6,6 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import UserManager
 import uuid
-from django.db.models.signals import post_save
-from django.dispatch import receiver 
-from django.vonf import settings 
 
 
 
@@ -268,23 +265,50 @@ class Notice(models.Model):
     date = models.DateTimeField()
     status = models.CharField(choices=data,max_length=10, blank=True, null=True)
 
+
 class Attendance(models.Model):
+    data = (
+        (1, 'Present'),
+        (0, 'Absent')
+    )
     attendence_id = models.AutoField(primary_key=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     year = models.CharField(max_length=20)
     class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE, null=True, blank=True)
     section_id = models.ForeignKey(section, on_delete = models.CASCADE, null=True, blank=True)
-    student_id = models.ForeignKey(student, on_delete = models.CASCADE, null=True, blank=True)
-    routine_id = models.ForeignKey(Routine, on_delete = models.CASCADE, null=True, blank=True)
-    status = models.CharField(max_length=10, null=True, blank=True)
+    status = status = models.CharField(choices=data,max_length=10, blank=True, null=True)
+
+    class Meta:
+        abstract = True
 
 
-class AttendeanceBackUp(models.Model):
-    attendance_id = models.ForeignKey(Attendance, on_delete=models.CASCADE, null=True, blank=True)
-    status = models.CharField(max_length=30)
-    student_id = models.ForeignKey(student, on_delete = models.CASCADE)
-    date = models.DateTimeField(auto_now_add=False, auto_now=False)
-    year = models.CharField(max_length=30)
-    class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE)
-    section_id = models.ForeignKey(section, on_delete=models.CASCADE)
-    session = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
+
+class StudentAttendance(Attendance):
+    student_id = models.OneToOneField(student, on_delete = models.CASCADE)
+    student_name = models.CharField(max_length=30, null=True, blank=True)
+    rollNo = models.IntegerField(null=False, blank=False)
+
+    class Meta:
+        abstract = False
+
+class TeacherAttendance(Attendance):
+    teacher_id = models.OneToOneField(teacher, on_delete = models.CASCADE)
+    teacher_name = models.CharField(max_length=30, null=True, blank=True)
+
+    class Meta:
+        abstract = False
+    
+
+
+
+# class AttendeanceBackUp(models.Model):
+#     attendance_id = models.ForeignKey(Attendance, on_delete=models.CASCADE, null=True, blank=True)
+#     status = models.CharField(max_length=30)
+#     # student_id = models.ForeignKey(student, on_delete = models.CASCADE)
+#     date = models.DateTimeField(auto_now_add=False, auto_now=False)
+#     year = models.CharField(max_length=30)
+#     class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE)
+#     section_id = models.ForeignKey(section, on_delete=models.CASCADE)
+#     session = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
+
+

@@ -1,7 +1,7 @@
 
 from django.db.models import query
 from rest_framework.fields import ReadOnlyField
-from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer, NoticeSerializer, SessionYearSerializer,ExamSerializer, SettingsSerializer, markSerializer, gradeSerializer, AttendanceSerializer
+from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer, NoticeSerializer, SessionYearSerializer,ExamSerializer, SettingsSerializer, markSerializer, gradeSerializer, AttendanceSerializer, StudentAttendanceSerializer, TeacherAttendanceSerializer 
 from . models import *
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -159,11 +159,12 @@ class MarkViewSet(viewsets.ModelViewSet):
     serializer_class = markSerializer
     queryset = mark.objects.all()
 
-class AttendanceViewSet(viewsets.ModelViewSet):
-    serializer_class = AttendanceSerializer
-    queryset = Attendance.objects.all()
+
+class StudentAttendanceViewSet(viewsets.ModelViewSet):
+    serializer_class = StudentAttendanceSerializer
+    queryset = StudentAttendance.objects.all()
 
 
-class AttendanceBackUpViewSet(viewsets.ModelViewSet):
-    serializer_class = AttendanceSerializer
-    queryset = Attendance.objects.all()
+class TeacherAttendanceViewSet(viewsets.ModelViewSet):
+    serializer_class = TeacherAttendanceSerializer
+    queryset = TeacherAttendance.objects.all()

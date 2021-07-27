@@ -372,7 +372,13 @@ class AttendanceSerializer(serializers.ModelSerializer):
         model = Attendance
         fields = '__all__'
 
-class AttendeanceBackUpSerializer(serializers.ModelSerializer):
+class StudentAttendanceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AttendeanceBackUp
+        model = StudentAttendance
         fields = '__all__'
+
+class TeacherAttendanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeacherAttendance
+        fields = '__all__'
+
