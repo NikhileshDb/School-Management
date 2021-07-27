@@ -3,7 +3,7 @@ from .views import *
 
 from .StudentViews import *
 from .TeacherViews import *
-from .ManagerApiViews import StudentViewSet, ChangePasswordInstanceView,  ProfileImageView, CustomUserSearch, classRoomViewSet, SubjectViewSet, parentViewSet,  DormitoryViewSet,TransportViewSet, sectionViewSet, teacherViewSet, EnrollmentViewSet, NoticeViewSet, SessionYearViewset , SettingsViewSet, ExamViewSet, GradeViewSet,MarkViewSet, AttendanceViewSet
+from .ManagerApiViews import StudentViewSet, ChangePasswordInstanceView,  ProfileImageView, CustomUserSearch, classRoomViewSet, SubjectViewSet, parentViewSet,  DormitoryViewSet,TransportViewSet, sectionViewSet, teacherViewSet, EnrollmentViewSet, NoticeViewSet, SessionYearViewset , SettingsViewSet, ExamViewSet, GradeViewSet,MarkViewSet, AttendanceViewSet, AttendanceBackUpViewSet
 from .TeacherApiViews import StudentResultViewset, TestView
 from rest_framework import routers
 from .RoutineApiViews import RoutineViewSet
@@ -31,6 +31,7 @@ router.register('api/routine', RoutineViewSet)
 router.register('api/grade', GradeViewSet)
 router.register('api/mark', MarkViewSet)
 router.register('api/attendance', AttendanceViewSet)
+router.register('api/attendance-backup', AttendanceBackUpViewSet)
 
 urlpatterns =[
     path('', index, name="index" ),

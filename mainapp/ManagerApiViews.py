@@ -162,3 +162,8 @@ class MarkViewSet(viewsets.ModelViewSet):
 class AttendanceViewSet(viewsets.ModelViewSet):
     serializer_class = AttendanceSerializer
     queryset = Attendance.objects.all()
+
+
+class AttendanceBackUpViewSet(viewsets.ModelViewSet):
+    serializer_class = AttendanceSerializer
+    queryset = Attendance.objects.all()

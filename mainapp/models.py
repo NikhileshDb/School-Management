@@ -6,6 +6,10 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import UserManager
 import uuid
+from django.db.models.signals import post_save
+from django.dispatch import receiver 
+from django.vonf import settings 
+
 
 
 
@@ -273,3 +277,14 @@ class Attendance(models.Model):
     student_id = models.ForeignKey(student, on_delete = models.CASCADE, null=True, blank=True)
     routine_id = models.ForeignKey(Routine, on_delete = models.CASCADE, null=True, blank=True)
     status = models.CharField(max_length=10, null=True, blank=True)
+
+
+class AttendeanceBackUp(models.Model):
+    attendance_id = models.ForeignKey(Attendance, on_delete=models.CASCADE, null=True, blank=True)
+    status = models.CharField(max_length=30)
+    student_id = models.ForeignKey(student, on_delete = models.CASCADE)
+    date = models.DateTimeField(auto_now_add=False, auto_now=False)
+    year = models.CharField(max_length=30)
+    class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE)
+    section_id = models.ForeignKey(section, on_delete=models.CASCADE)
+    session = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
