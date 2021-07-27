@@ -9,7 +9,6 @@ import uuid
 
 
 
-
 class SessionYear(models.Model):
     session_id = models.AutoField(primary_key=True)
     running_year = models.DateField(unique=True, default=1)
@@ -265,12 +264,7 @@ class Notice(models.Model):
     date = models.DateTimeField()
     status = models.CharField(choices=data,max_length=10, blank=True, null=True)
 
-
-class Attendance(models.Model):
-    data = (
-        (1, 'Present'),
-        (0, 'Absent')
-    )
+class attendence(models.Model):
     attendence_id = models.AutoField(primary_key=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     year = models.CharField(max_length=20)

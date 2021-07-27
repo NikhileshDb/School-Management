@@ -34,16 +34,6 @@ class ClassRoomAdmin(admin.ModelAdmin):
 class SubjectAdmin(admin.ModelAdmin):
     display_fields = '__all__'
 
-
-@admin.register(StudentAttendance)
-class StudentAttendanceAdmin(admin.ModelAdmin):
-    display_fields = ('student_name', 'rollNo', 'status', 'timestamp')
-
-@admin.register(TeacherAttendance)
-class TeacherAttendanceAdmin(admin.ModelAdmin):
-    list_display = ('teacher_name', 'status', 'timestamp')
-
-
 admin.register(Manager)
 class ManagerAdmin(admin.ModelAdmin):
     display_fields = '__all__'
