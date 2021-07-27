@@ -264,7 +264,11 @@ class Notice(models.Model):
     date = models.DateTimeField()
     status = models.CharField(choices=data,max_length=10, blank=True, null=True)
 
-class attendence(models.Model):
+class Attendance(models.Model):
+    data = (
+        (1, 'Present'),
+        (0, 'Absent')
+    )
     attendence_id = models.AutoField(primary_key=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     year = models.CharField(max_length=20)
