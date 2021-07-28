@@ -145,6 +145,17 @@ class TeacherSerializer(serializers.ModelSerializer):
 
 
 class classRoomSerializer(serializers.ModelSerializer):
+    # def create(self, validated_data):
+    #     class_data = validated_data.get('class_id')
+    #     name_data = validated_data.get('name')
+    #     name_numeric_data = validated_data.get('name_numeric')
+    #     teacher_data = validated_data.get('teacher')
+    #     print(class_data)
+    #     print(name_data)
+    #     print(name_numeric_data)
+    #     print(teacher_data)
+    #     obj = classRoom.objects.create(**validated_data)
+    #     return obj
     class Meta:
         model = classRoom
         fields = ('class_id','name', 'name_numeric', 'teacher')
