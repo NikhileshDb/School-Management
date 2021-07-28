@@ -174,8 +174,7 @@ class student(models.Model):
     class Meta:
         verbose_name_plural = "Students"
     def __str__(self):
-        return self.customuser.first_name
-
+        return self.customuser.username
 
 
 
@@ -203,6 +202,15 @@ class Exam(models.Model):
     comment = models.TextField(null=True, blank=True)
     def __str__(self):
         return self.examName
+
+class StudentAppearedExam(models.Model):
+    student_appeared_id = models.AutoField(primary_key=True)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    student = models.ForeignKey(student, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    class_id = models.ForeignKey(classRoom, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    
+
 
 class grade(models.Model):
     grade_id = models.AutoField(primary_key=True)

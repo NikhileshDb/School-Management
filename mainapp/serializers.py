@@ -1,3 +1,4 @@
+from copy import Error
 from rest_framework import serializers
 from .models import *
 from django.contrib.auth import get_user_model
@@ -166,19 +167,34 @@ class classRoomSerializer(serializers.ModelSerializer):
     
 
 class SectionSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = section
-        fields = '__all__'
+        fields = ('section_id','name','nick_name', 'class_id','teacher')
+
+    validators = [
+        UniqueTogetherValidator(
+            queryset= section.objects.all(),
+            fields = ['name','class_id']
+        )
+    ]
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['teacher'] = TeacherSerializer(instance.teacher).data
         response['class_id'] = classRoomSerializer(instance.class_id).data
         return response
+    
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
         fields = '__all__'
+    validators = [
+        UniqueTogetherValidator(
+            queryset= Subject.objects.all(),
+            fields = ['class_id', 'subject_name']
+        )
+    ]
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
@@ -362,23 +378,83 @@ class ExamSerializer(serializers.ModelSerializer):
         response['session_year'] = SessionYearSerializer(instance.session_year).data
         return response
 
-        
-####MARK SERIALIZER #########
+##### STUDENT APPEARED #####################
+class StudentAppearedExamSerialize(serializers.ModelSerializer):
+    def create(self, validated_data):
+        this_student = validated_data.get('student')
+        obj_student = student.objects.get(customuser__username=this_student)
+        this_class = validated_data.get('class_id')
+        obj_class = obj_student.enroll.class_id
+        if this_class != obj_class:
+            raise ValueError("Student doesn't belong to the class")
+        else:
+            appeared = StudentAppearedExam.objects.create(**validated_data)
+            return appeared
 
-class markSerializer(serializers.ModelSerializer):
     class Meta:
-        model = mark
+        model = StudentAppearedExam
         fields = '__all__'
+    validators = [
+        UniqueTogetherValidator(
+            queryset= StudentAppearedExam.objects.all(),
+            fields = ['student', 'subject','class_id', 'exam']
+        )
+    ]
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
-        response['session_year'] = SessionYearSerializer(instance.session_year).data
-        response['student'] = StudentSerializer(instance.student).data
-        response['subject'] = SubjectSerializer(instance.subject).data
-        response['class_id'] = classRoomSerializer(instance.class_id).data
-        response['section'] = SectionSerializer(instance.section).data
         response['exam'] = ExamSerializer(instance.exam).data
+        response['subject']  = SubjectSerializer(instance.subject).data
         return response
+
+
+
+####MARK SERIALIZER #########
+
+class markSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        this_student = validated_data.get('student')
+        this_class = validated_data.get('class_id')
+        this_section = validated_data.get('section')
+        this_subject = validated_data.get('subject')
+        obj_student = student.objects.get(customuser__username=this_student)
+        obj_class = obj_student.enroll.class_id
+        obj_section = obj_student.enroll.section
+        try:
+            appeared_students = StudentAppearedExam.objects.filter(student=obj_student)
+        except StudentAppearedExam.DoesNotExist:
+            raise ValueError("Student does not exists in the exam")
+        else:
+            appeared_student = appeared_students.get(subject__subject_name= this_subject)
+        if this_student != appeared_student.student:
+            raise ValueError("Student not appeared in this exam")
+        elif obj_class != this_class and obj_section != this_section:
+           raise ValueError("The class and section not matched with the student.")
+        else:
+            Mark = mark.objects.create(**validated_data)
+            return Mark
+    class Meta:
+        model = mark
+        fields = '__all__'
+    validators = [
+        UniqueTogetherValidator(
+            queryset=mark.objects.all(),
+            fields=['student','subject',]
+        )
+    ]
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+    #     response['session_year'] = SessionYearSerializer(instance.session_year).data
+    #     response['student'] = StudentSerializer(instance.student).data
+        response['subject'] = SubjectSerializer(instance.subject).data
+    #     response['class_id'] = classRoomSerializer(instance.class_id).data
+    #     response['section'] = SectionSerializer(instance.section).data
+    #     response['exam'] = ExamSerializer(instance.exam).data
+        return response
+
+
+
 
 class AttendanceSerializer(serializers.ModelSerializer):
     class Meta:
