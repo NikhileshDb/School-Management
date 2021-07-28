@@ -65,8 +65,8 @@ class teacher(models.Model):
 
     class Meta:
         verbose_name_plural = "Teachers"
-    # def __str__(self):
-    #     return self.customuser.username
+    def __str__(self):
+        return self.customuser.username
 
 
 
