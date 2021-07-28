@@ -324,13 +324,15 @@ class StudentSerializer(serializers.ModelSerializer):
 #TimeTable Serializer added by M.J
 class RoutineSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Routine
+        model = ClassRoutine
         fields = '__all__'
     
     def to_representation(self, instance):
         response = super(RoutineSerializer, self).to_representation(instance)
         response['subject'] = SubjectSerializer(instance.subject).data
-        response['class_room'] = classRoomSerializer(instance.class_room).data
+        response['class_id'] = classRoomSerializer(instance.class_id).data
+        response['section'] = SectionSerializer(instance.section).data
+        response['session_year'] = SessionYearSerializer(instance.session_year).data
         return response
 
 ####NOTICE SERIALIZER ##########

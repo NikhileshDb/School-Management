@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import UserManager
 import uuid
-
+from django.utils.translation import ugettext as tr
 
 
 class SessionYear(models.Model):
@@ -243,15 +243,32 @@ class TestModel(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
 
 
-class Routine(models.Model):
-    id = models.AutoField(primary_key=True)
-    class_room = models.ForeignKey(classRoom, on_delete = models.CASCADE)
-    day = models.CharField(max_length=10)
+
+DAY_OF_THE_WEEK = {
+    '1': tr(u'Monday'),
+    '2': tr(u'Tuesday'),
+    '3': tr(u'Wednesday'),
+    '4': tr(u'Thursday'),
+    '5': tr(u'Friday'),
+    '6': tr(u'Saturday'),
+    '7': tr(u'Sunday'),
+}
+class DayWeekField(models.CharField):
+    def __init__(self, *args, **kwargs):
+        kwargs['choices'] =tuple(sorted(DAY_OF_THE_WEEK.items()))
+        kwargs['max_length'] = 1
+        super(DayWeekField, self).__init__(*args, **kwargs)
+
+
+class ClassRoutine(models.Model):
+    class_routine_id = models.AutoField(primary_key=True)
+    class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE)
+    section = models.ForeignKey(section, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    day = DayWeekField()
     start_time = models.TimeField(auto_now=False, auto_now_add=False)
     end_time = models.TimeField(auto_now=False, auto_now_add=False)
-    period = models.CharField(max_length=20)
-
+    session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
 
 class Notice(models.Model):
     data = (
@@ -271,9 +288,9 @@ class Attendance(models.Model):
     )
     attendence_id = models.AutoField(primary_key=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    year = models.CharField(max_length=20)
+    session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE, default=None, null=True, blank=True)
     class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE, null=True, blank=True)
-    section_id = models.ForeignKey(section, on_delete = models.CASCADE, null=True, blank=True)
+    section = models.ForeignKey(section, on_delete = models.CASCADE, null=True, blank=True)
     status = status = models.CharField(choices=data,max_length=10, blank=True, null=True)
 
     class Meta:
@@ -282,16 +299,15 @@ class Attendance(models.Model):
 
 
 class StudentAttendance(Attendance):
-    student_id = models.OneToOneField(student, on_delete = models.CASCADE)
-    student_name = models.CharField(max_length=30, null=True, blank=True)
-    rollNo = models.IntegerField(null=False, blank=False)
+    student_id = models.ForeignKey(student, on_delete = models.CASCADE)
+    class_routine = models.ForeignKey(ClassRoutine, on_delete = models.CASCADE, default=None, null=True, blank=True)
+
 
     class Meta:
         abstract = False
 
 class TeacherAttendance(Attendance):
-    teacher_id = models.OneToOneField(teacher, on_delete = models.CASCADE)
-    teacher_name = models.CharField(max_length=30, null=True, blank=True)
+    teacher_id = models.ForeignKey(teacher, on_delete = models.CASCADE)
 
     class Meta:
         abstract = False
