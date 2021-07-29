@@ -485,6 +485,13 @@ class StudentAttendanceSerializer(serializers.ModelSerializer):
         model = StudentAttendance
         fields = '__all__'
 
+    validators = [
+        UniqueTogetherValidator(
+            queryset = StudentAttendance.objects.all(),
+            fields = ['attendence_id', 'student_id', 'class_id', 'status']
+        )
+    ]
+
 class TeacherAttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeacherAttendance

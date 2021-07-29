@@ -37,10 +37,16 @@ class SubjectAdmin(admin.ModelAdmin):
 admin.register(Manager)
 class ManagerAdmin(admin.ModelAdmin):
     display_fields = '__all__'
+
+@admin.register(StudentAttendance)
+class StudentAttendanceAdmin(admin.ModelAdmin):
+    display_fields = '__all__'
+
 admin.site.register(ProfileImage)
 admin.site.register(StudentResult)
 admin.site.register(TestModel)
 admin.site.register(SessionYear)
 admin.site.register(enroll)
 admin.site.register(mark)
+admin.site.register(Exam)
 admin.site.register(StudentAppearedExam)
