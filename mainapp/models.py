@@ -185,6 +185,7 @@ class Subject(models.Model):
     class_id = models.ForeignKey(classRoom, on_delete=models.CASCADE, blank=True, null=True)
     teacher = models.ForeignKey(teacher, on_delete=models.CASCADE, blank=True, null=True)
     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE, blank=True, default=None)
+    objects = models.Manager()
     def __str__(self):
         return self.subject_name
 

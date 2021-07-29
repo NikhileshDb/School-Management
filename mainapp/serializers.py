@@ -384,11 +384,28 @@ class StudentAppearedExamSerialize(serializers.ModelSerializer):
         this_student = validated_data.get('student')
         obj_student = student.objects.get(customuser__username=this_student)
         this_class = validated_data.get('class_id')
-        obj_class = obj_student.enroll.class_id
-        if this_class != obj_class:
+        this_subject = validated_data.get('subject')
+        obj_student_class = obj_student.enroll.class_id
+        obj_subjects = Subject.objects.filter(class_id__name=this_class)
+        
+
+        try:
+            obj_subject = obj_subjects.get(subject_name=this_subject)
+            
+        except:
+            raise ValueError("Subject don't exists")
+
+        if this_class != obj_student_class:
             raise ValueError("Student doesn't belong to the class")
+        elif obj_subject.class_id != this_subject.class_id:
+            raise ValueError("Subjects not mactched")
+        elif obj_student_class != obj_subject.class_id:
+             raise ValueError("Subject class and this class don't match")
         else:
             appeared = StudentAppearedExam.objects.create(**validated_data)
+            print(obj_student_class)
+            print(obj_subject)
+            print(obj_subject.class_id)
             return appeared
 
     class Meta:
@@ -405,6 +422,8 @@ class StudentAppearedExamSerialize(serializers.ModelSerializer):
         response = super().to_representation(instance)
         response['exam'] = ExamSerializer(instance.exam).data
         response['subject']  = SubjectSerializer(instance.subject).data
+        response['student'] = StudentSerializer(instance.student).data
+        response['class_id'] = classRoomSerializer(instance.class_id).data
         return response
 
 
