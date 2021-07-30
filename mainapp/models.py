@@ -131,8 +131,8 @@ class enroll(models.Model):
     roll = models.BigIntegerField(null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     running_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE, null=True, blank=True)# default=get_running_year)
-    def __str__(self):
-        return str(self.enroll_code)
+    # def __str__(self):
+    #     return str(self.enroll_code)
 
 #Set Default Value for for running year in student
 # def get_running_year():
@@ -160,8 +160,8 @@ class student(models.Model):
     # running_year = models.ForeignKey(Settings, on_delete=models.CASCADE) #default=get_running_year)  #FK
     class Meta:
         verbose_name_plural = "Students"
-    def __str__(self):
-        return self.customuser.username
+    # def __str__(self):
+    #     return self.customuser.username
 
 
 
