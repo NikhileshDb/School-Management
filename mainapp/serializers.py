@@ -485,6 +485,15 @@ class StudentAttendanceSerializer(serializers.ModelSerializer):
         model = StudentAttendance
         fields = '__all__'
 
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['session_year'] = SessionYearSerializer(instance.session_year).data
+        response['section'] = SectionSerializer(instance.section).data
+        response['class_routine'] = RoutineSerializer(instance.class_routine).data
+        response['class_id'] = classRoomSerializer(instance.class_id).data
+        response['student'] = StudentSerializer(instance.student).data
+        return response
+
 class TeacherAttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeacherAttendance

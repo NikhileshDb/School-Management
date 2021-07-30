@@ -159,10 +159,11 @@ class MarkViewSet(viewsets.ModelViewSet):
     serializer_class = markSerializer
     queryset = mark.objects.all()
 
-class StudentAttendance(viewsets.ModelViewSet):
-    serializer_class = StudentAttendanceSerializer
-    queryset = StudentAttendance.objects.all()
 
 class StudentAppearedViewSet(viewsets.ModelViewSet):
     serializer_class = StudentAppearedExamSerialize
     queryset = StudentAppearedExam.objects.all()
+
+class StudentAttendanceViewSet(viewsets.ModelViewSet):
+    serializer_class = StudentAttendanceSerializer
+    queryset = StudentAttendance.objects.all()

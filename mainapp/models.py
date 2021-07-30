@@ -42,6 +42,7 @@ class CustomUser(AbstractUser):
     profile_pic = models.ImageField(_("Image"),upload_to='profile_pic/', default="media/default.png" , null=True, blank=True)
     user_type = models.CharField(default=1, choices=data, max_length=20)
 
+########Manager
 class Manager(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -49,7 +50,7 @@ class Manager(models.Model):
     objects = models.Manager()
  
 
-        
+        ######## TEACHER######
 class teacher(models.Model):
     customuser = models.OneToOneField(CustomUser, on_delete = models.CASCADE) 
     teacher_id = models.AutoField(primary_key=True)
@@ -77,20 +78,6 @@ class classRoom(models.Model):
     teacher = models.ForeignKey(teacher, on_delete=models.CASCADE, default=None)  #FK
     def __str__(self):
         return self.name
-    # section_choice = (
-    #  ("A","A"),
-    #  ("B","B"),
-    #  ("C","C"),
-    #  ("D","D"),
-    # )
-    # id = models.AutoField(primary_key=True)
-    # standard = models.BigIntegerField(null=True, blank=True)
-    # section = models.CharField(choices=section_choice, max_length=1, default='A')
-  
-    # class Meta:
-    #     unique_together =('standard', 'section' )
-    # def __str__(self):
-    #     return str(self.standard) + ' ' + self.section
 
 
 """SECTION"""
@@ -308,9 +295,8 @@ class Attendance(models.Model):
 
 
 class StudentAttendance(Attendance):
-    student_id = models.ForeignKey(student, on_delete = models.CASCADE)
+    student = models.ForeignKey(student, on_delete = models.CASCADE)
     class_routine = models.ForeignKey(ClassRoutine, on_delete = models.CASCADE, default=None, null=True, blank=True)
-
 
     class Meta:
         abstract = False
@@ -321,6 +307,48 @@ class TeacherAttendance(Attendance):
     class Meta:
         abstract = False
     
+
+class expense_category(models.Model):
+    expense_category_id = models.AutoField(primary_key=True)
+    category_name = models.CharField(max_length=200)
+    def __str__(self):
+        return self.category_name
+
+# class invoice(models.Model):
+#     status_data = (('paid', 'paid'), ('unpaid', 'unpaid'))
+#     invoice_id = models.AutoField(primary_key=True)
+#     student = models.ForeignKey(student, on_delete=models.CASCADE)
+#     title = models.CharField(max_length=200),
+#     description = models.TextField()
+#     amount = models.BigIntegerField()
+#     amount_paid = models.BigIntegerField()
+#     due = models.BigIntegerField()
+#     created_at  = models.DateTimeField(auto_now_add=True)
+#     payment = models.ForeignKey(payment, on_delete=models.CASCADE)
+#     status = models.CharField(max_length=100, choices = status_data)
+#     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
+
+
+# ####Payemnt###
+# class payment(models.Model):
+#     method_data = (
+#         (1, "Cash"),
+#         (2, "Cheque"),
+#         (3, "Online"),
+#     )
+#     payment_id = models.AutoField(primary_key=True)
+#     expense_category = models.ForeignKey(expense_category, on_delete=models.CASCADE)
+#     title = models.CharField(max_length=200)
+#     payment_type = models.CharField(max_length = 100)
+#     invoice = models.ForeignKey(invoice, on_delete=models.CASCADE)
+#     student = models.ForeignKey(student, on_delete=models.CASCADE)
+#     method = models.CharField(max_length=100, choices=method_data)
+#     description = models.TextField()
+#     amount = models.BigIntegerField()
+#     timestamp = models.DateTimeField(auto_now_add=True)
+#     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
+
+
 
 
 
