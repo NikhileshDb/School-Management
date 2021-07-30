@@ -53,6 +53,8 @@ class Manager(models.Model):
 class teacher(models.Model):
     customuser = models.OneToOneField(CustomUser, on_delete = models.CASCADE) 
     teacher_id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=40, null=True, blank=True)
+    last_name = models.CharField(max_length=40, null=True, blank=True)
     birthday = models.DateField(null=True, blank=True)
     sex = models.CharField(max_length=10, blank=True, null=True)
     religion = models.CharField(max_length=30, null=True, blank=True)
@@ -291,16 +293,13 @@ class Notice(models.Model):
     status = models.CharField(choices=data,max_length=10, blank=True, null=True)
 
 class Attendance(models.Model):
-    data = (
-        (1, 'Present'),
-        (0, 'Absent')
-    )
+   
     attendence_id = models.AutoField(primary_key=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE, default=None, null=True, blank=True)
     class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE, null=True, blank=True)
     section = models.ForeignKey(section, on_delete = models.CASCADE, null=True, blank=True)
-    status = status = models.CharField(choices=data,max_length=10, blank=True, null=True)
+    status = models.CharField(max_length=10, blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -311,7 +310,6 @@ class StudentAttendance(Attendance):
     student_id = models.ForeignKey(student, on_delete = models.CASCADE)
     class_routine = models.ForeignKey(ClassRoutine, on_delete = models.CASCADE, default=None, null=True, blank=True)
 
-
     class Meta:
         abstract = False
 
@@ -320,18 +318,5 @@ class TeacherAttendance(Attendance):
 
     class Meta:
         abstract = False
-    
-
-
-
-# class AttendeanceBackUp(models.Model):
-#     attendance_id = models.ForeignKey(Attendance, on_delete=models.CASCADE, null=True, blank=True)
-#     status = models.CharField(max_length=30)
-#     # student_id = models.ForeignKey(student, on_delete = models.CASCADE)
-#     date = models.DateTimeField(auto_now_add=False, auto_now=False)
-#     year = models.CharField(max_length=30)
-#     class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE)
-#     section_id = models.ForeignKey(section, on_delete=models.CASCADE)
-#     session = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
 
 

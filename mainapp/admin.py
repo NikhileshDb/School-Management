@@ -24,7 +24,7 @@ class TransportAdmin(admin.ModelAdmin):
 
 @admin.register(teacher)
 class TeacherAdmin(admin.ModelAdmin):
-    display_fields = ('teacher_id', 'customuser.first_name', 'phone','address' )
+    list_display = ('teacher_id','first_name', 'sex')
 
 @admin.register(classRoom)
 class ClassRoomAdmin(admin.ModelAdmin):
@@ -32,7 +32,8 @@ class ClassRoomAdmin(admin.ModelAdmin):
 
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
-    display_fields = '__all__'
+    list_display = ('subject_name','class_id', 'teacher')
+
 
 admin.register(Manager)
 class ManagerAdmin(admin.ModelAdmin):
@@ -46,6 +47,7 @@ admin.site.register(ProfileImage)
 admin.site.register(StudentResult)
 admin.site.register(TestModel)
 admin.site.register(SessionYear)
+admin.site.register(ClassRoutine)
 admin.site.register(enroll)
 admin.site.register(mark)
 admin.site.register(Exam)
