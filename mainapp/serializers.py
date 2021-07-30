@@ -276,8 +276,8 @@ class enrollSerializer(serializers.ModelSerializer):
 
 ################ STUDENT SERIALIZER ##############
 class StudentSerializer(serializers.ModelSerializer):
-    customuser = CustomUserSerializer(required=True)
-    enroll = enrollSerializer(required=True)
+    customuser = CustomUserSerializer()
+    enroll = enrollSerializer()
     class Meta:
         model = student
         fields = (
