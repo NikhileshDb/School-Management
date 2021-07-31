@@ -499,3 +499,9 @@ class TeacherAttendanceSerializer(serializers.ModelSerializer):
         model = TeacherAttendance
         fields = '__all__'
 
+
+class InvoiceSerializer(serializers.Serializer):
+    class Meta:
+        model = invoice
+        fields = '__all__'
+

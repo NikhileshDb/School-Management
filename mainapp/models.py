@@ -315,21 +315,28 @@ class expense_category(models.Model):
         return self.category_name
 
 class invoice(models.Model):
-    status_data = (('paid', 'paid'), ('unpaid', 'unpaid'))
+    status_data = (
+        ('paid', 'paid'), 
+        ('unpaid', 'unpaid')
+    )
+    payment_method_data = (
+         (1, "Cash"),
+        (2, "Cheque"),
+        (3, "Online"),
+    )
     invoice_id = models.AutoField(primary_key=True)
     student = models.ForeignKey(student, on_delete=models.CASCADE)
     title = models.CharField(max_length=200),
     description = models.TextField()
+    creation_timestamp  = models.DateTimeField()
     amount = models.BigIntegerField()
     amount_paid = models.BigIntegerField()
-    due = models.BigIntegerField()
-    creation_timestamp  = models.DateTimeField(auto_now_add=True)
-    payment_timestamp = models.DateTimeField()
-    payment_method = models.CharField(max_length=100)
-    payment_details = models.TextField()
-    status = models.CharField(max_length=100, choices = status_data)
+    due = models.BigIntegerField() #In the view create totalamount - amountpaid
+    payment_method = models.CharField(max_length=100, choices=payment_method_data)
     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
-
+    status = models.CharField(max_length=100, choices = status_data)
+    
+#Create Payment as with invoice data
 
 ####Payemnt###
 class payment(models.Model):
@@ -339,13 +346,13 @@ class payment(models.Model):
         (3, "Online"),
     )
     payment_id = models.AutoField(primary_key=True)
-    expense_category = models.ForeignKey(expense_category, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    payment_type = models.CharField(max_length = 100)
-    invoice = models.ForeignKey(invoice, on_delete=models.CASCADE)
-    student = models.ForeignKey(student, on_delete=models.CASCADE)
-    method = models.CharField(max_length=100, choices=method_data)
+    expense_category = models.ForeignKey( expense_category , on_delete=models.CASCADE, null=True, blank=True)
+    title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField()
+    payment_type = models.CharField(max_length = 100, default="Income")
+    invoice = models.ForeignKey(invoice, on_delete=models.CASCADE, null=True, blank=True)
+    student = models.ForeignKey(student, on_delete=models.CASCADE, null=True, blank=True)
+    method = models.CharField(max_length=100, choices=method_data)
     amount = models.BigIntegerField()
     timestamp = models.DateTimeField(auto_now_add=True)
     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
