@@ -485,6 +485,7 @@ class StudentAttendanceSerializer(serializers.ModelSerializer):
         model = StudentAttendance
         fields = '__all__'
 
+<<<<<<< HEAD
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['session_year'] = SessionYearSerializer(instance.session_year).data
@@ -493,6 +494,14 @@ class StudentAttendanceSerializer(serializers.ModelSerializer):
         response['class_id'] = classRoomSerializer(instance.class_id).data
         response['student'] = StudentSerializer(instance.student).data
         return response
+=======
+    validators = [
+        UniqueTogetherValidator(
+            queryset = StudentAttendance.objects.all(),
+            fields = ['attendence_id', 'student_id', 'class_id', 'status']
+        )
+    ]
+>>>>>>> d68e9571a2fd9789f3c3a91055cd9eefcdeb95ba
 
 class TeacherAttendanceSerializer(serializers.ModelSerializer):
     class Meta:
