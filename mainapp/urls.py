@@ -33,7 +33,13 @@ router.register('api/mark', MarkViewSet)
 router.register('api/studentattendance', StudentAttendanceViewSet)
 router.register('api/studentappeared', StudentAppearedViewSet)
 urlpatterns =[
-    path('', index, name="index" ),
+    path('success/', success , name="success"),
+    path('', index, name="index"),
+    path('add_invoice/', add_invoice, name="add_invoice"),
+    path('takepayment/', save_update_payments, name="takepayment"),
+    path('invoice/', invoicehistory, name="paymenthistory"),
+    path('payment/<str:pk>', paymenthistory, name="payments"),
+    #####
     path('', include(router.urls)),
     path('api/student/password', ChangePasswordInstanceView.as_view()),
     path('api/', include('rest_framework.urls', namespace='rest_framework')),

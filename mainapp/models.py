@@ -263,7 +263,7 @@ class ClassRoutine(models.Model):
     class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE)
     section = models.ForeignKey(section, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    day = DayWeekField()
+    day = DayWeekField(null=True, blank=True)
     start_time = models.TimeField(auto_now=False, auto_now_add=False)
     end_time = models.TimeField(auto_now=False, auto_now_add=False)
     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
@@ -319,19 +319,19 @@ class invoice(models.Model):
         ('unpaid', 'unpaid')
     )
     payment_method_data = (
-         (1, "Cash"),
-        (2, "Cheque"),
-        (3, "Online"),
+        ('cash', 'cash'),
+        ('cheque', 'cheque'),
+        ('online', 'online')
     )
     invoice_id = models.AutoField(primary_key=True)
     student = models.ForeignKey(student, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200),
-    description = models.TextField()
+    title = models.CharField(max_length=200, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     creation_timestamp  = models.DateTimeField()
-    amount = models.BigIntegerField()
-    amount_paid = models.BigIntegerField()
-    due = models.BigIntegerField() #In the view create totalamount - amountpaid
-    payment_method = models.CharField(max_length=100, choices=payment_method_data)
+    amount = models.BigIntegerField(null=True, blank=True)
+    amount_paid = models.BigIntegerField(null=True, blank=True)
+    due = models.BigIntegerField(null=True, blank=True) #In the view create totalamount - amountpaid
+    payment_method = models.CharField(max_length=100, choices=payment_method_data, null=True)
     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
     status = models.CharField(max_length=100, choices = status_data)
     
@@ -340,21 +340,21 @@ class invoice(models.Model):
 ####Payemnt###
 class payment(models.Model):
     method_data = (
-        (1, "Cash"),
-        (2, "Cheque"),
-        (3, "Online"),
+     ('cash', 'cash'),
+    ('cheque', 'cheque'),
+    ('online', 'online')
     )
     payment_id = models.AutoField(primary_key=True)
     expense_category = models.ForeignKey( expense_category , on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField()
-    payment_type = models.CharField(max_length = 100, default="Income")
+    payment_type = models.CharField(max_length = 100, default="Income",null=True)
     invoice = models.ForeignKey(invoice, on_delete=models.CASCADE, null=True, blank=True)
     student = models.ForeignKey(student, on_delete=models.CASCADE, null=True, blank=True)
-    method = models.CharField(max_length=100, choices=method_data)
-    amount = models.BigIntegerField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-    session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
+    method = models.CharField(max_length=100, choices=method_data, null=True)
+    amount = models.BigIntegerField(null=True)
+    timestamp = models.DateTimeField(auto_now_add=True, null=True)
+    session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE, null=True)
 
 
 
