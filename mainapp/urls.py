@@ -3,7 +3,7 @@ from .views import *
 
 from .StudentViews import *
 from .TeacherViews import *
-from .ManagerApiViews import StudentViewSet, ChangePasswordInstanceView,  ProfileImageView, CustomUserSearch, classRoomViewSet, SubjectViewSet, parentViewSet,  DormitoryViewSet,TransportViewSet, sectionViewSet, teacherViewSet, EnrollmentViewSet, NoticeViewSet, SessionYearViewset , SettingsViewSet, ExamViewSet, GradeViewSet,MarkViewSet, StudentAttendance,StudentAppearedViewSet, StudentAttendanceViewSet
+from .ManagerApiViews import *
 from .TeacherApiViews import StudentResultViewset, TestView
 from rest_framework import routers
 from .RoutineApiViews import RoutineViewSet
@@ -32,6 +32,7 @@ router.register('api/grade', GradeViewSet)
 router.register('api/mark', MarkViewSet)
 router.register('api/studentattendance', StudentAttendanceViewSet)
 router.register('api/studentappeared', StudentAppearedViewSet)
+router.register('api/invoice', InvoiceViewSet)
 urlpatterns =[
     path('success/', success , name="success"),
     path('', index, name="index"),
@@ -39,11 +40,12 @@ urlpatterns =[
     path('takepayment/', save_update_payments, name="takepayment"),
     path('invoice/', invoicehistory, name="paymenthistory"),
     path('payment/<str:pk>', paymenthistory, name="payments"),
-    #####
+    ##### EXTRA API ####
     path('', include(router.urls)),
     path('api/student/password', ChangePasswordInstanceView.as_view()),
     path('api/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/image/' ,  ProfileImageView.as_view()),
+    path('api/add-invoice/', add_invoice)
  
 ]
 

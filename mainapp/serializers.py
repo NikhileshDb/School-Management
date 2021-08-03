@@ -506,8 +506,24 @@ class TeacherAttendanceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class InvoiceSerializer(serializers.Serializer):
+class InvoiceSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        #We can create our custom creation methode here but we'll use functional view for this
+        return invoice.objects.create(**validated_data)
+
     class Meta:
         model = invoice
-        fields = '__all__'
+        fields = [
+            'invoice_id', 'student', 'title', 'description', 'creation_timestamp','amount', 'amount_paid', 'payment_method', 'session_year', 'status'
+        ]
+    
+    # def to_representation(self, instance):
+    #     response = super().to_representation(instance)
+    #     response['student'] = StudentSerializer(instance.student).data
+    #     response['session_year'] = SessionYearSerializer(instance.session_year).data
+    #     return response
 
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = payment
+        fields = '__all__'

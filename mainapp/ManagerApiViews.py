@@ -1,7 +1,7 @@
 
 from django.db.models import query
 from rest_framework.fields import ReadOnlyField
-from . serializers import ManagerSerializer, StudentSerializer, TeacherSerializer, PasswordSerializer, ProfileImageSerializer,CustomUserSerializer,classRoomSerializer, SubjectSerializer, enrollSerializer, parentSerializer, DormitorySerializer,TransPortSerializer, SectionSerializer, NoticeSerializer, SessionYearSerializer,ExamSerializer, SettingsSerializer, markSerializer, gradeSerializer, StudentAttendanceSerializer, StudentAppearedExamSerialize
+from . serializers import *
 from . models import *
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -167,3 +167,56 @@ class StudentAppearedViewSet(viewsets.ModelViewSet):
 class StudentAttendanceViewSet(viewsets.ModelViewSet):
     serializer_class = StudentAttendanceSerializer
     queryset = StudentAttendance.objects.all()
+
+
+class InvoiceViewSet(viewsets.ModelViewSet):
+    serializer_class = InvoiceSerializer
+    queryset = invoice.objects.all()
+
+class PaymentViewSet(viewsets.ModelViewSet):
+    serializer_class = PaymentSerializer
+    queryset = payment.objects.all()
+
+@api_view(['POST'])
+def add_invoice(request):
+    if request.method == 'POST':
+        serializer = InvoiceSerializer(data = request.data)
+        if serializer.is_valid():
+            breakpoint()
+            stu_data = request.data.get('student')
+            title = request.data.get('title')
+            description = request.data.get('description')
+            creation_timestamp = request.data.get('creation_timestamp')
+            amount = request.data.get('amount')
+            amount_paid = request.data.get('amount_paid')
+            payment_method = request.data.get('payment_method')
+            session_year = request.data.get('session_year')
+            status = request.data.get('status')
+            try:
+                stu = student.objects.get(customuser__student = stu_data)
+                session = SessionYear.objects.get(session_id = session_year)
+                #Let's Create the invoice instance first then we will create payment instance with the same data
+                Invoice = invoice.objects.create(
+                    student = stu,
+                    title = title,
+                    description = description,
+                    creation_timestamp = creation_timestamp,
+                    amount = amount, 
+                    amount_paid = amount_paid,
+                    due = int(amount) - int(amount_paid),
+                    payment_method = payment_method,
+                    status = status,
+                    session_year = session,
+                )
+                Invoice.save()
+                #get the invoice instant
+                invoice_instant = invoice.objects.get(invoice_id = Invoice.invoice_id)
+                #create the payment instant with reference with the invoice_instant
+                payment_model = payment.objects.update_or_create(
+                    title = Invoice.title, description = Invoice.description, payment_type = "income", invoice = invoice_instant, student = Invoice.student, method = Invoice.payment_method, amount = Invoice.amount_paid, timestamp =Invoice.creation_timestamp, session_year = Invoice.session_year
+                )
+                return Response(status=status.is_success())
+            except:
+                return Response(status=status.HTTP_502_BAD_GATEWAY)
+        else:
+            return Response({"error":"Serializer Data is not valid"})
