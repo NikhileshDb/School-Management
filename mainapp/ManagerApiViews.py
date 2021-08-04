@@ -173,9 +173,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     serializer_class = InvoiceSerializer
     queryset = invoice.objects.all()
 
-class PaymentViewSet(viewsets.ModelViewSet):
-    serializer_class = PaymentSerializer
-    queryset = payment.objects.all()
+
 
 @api_view(['POST'])
 def add_invoice(request):
@@ -242,3 +240,20 @@ def update_invoice_create_payment(request):
             return Response("Success")
         except:
             raise Exception
+class PaymentViewSet(viewsets.ModelViewSet):
+    serializer_class = PaymentSerializer
+    queryset = payment.objects.all()
+
+
+@api_view(['PUT'])
+def update_payment(request, pk):
+    if request.method == 'PUT':
+        serializer = paymentSerializer(payment,data=request.data)
+        try:
+            payment_detail = payment.object.update_or_create(amount=amount, invoice = inv_obj, method=method, session_year = inv_obj.session_year)
+            payment_detail.save()
+            return Response(status=status.is_success())
+        except:
+            raise Exception('Unsuccessful Attempt')
+
+   

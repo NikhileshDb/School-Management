@@ -33,6 +33,7 @@ router.register('api/mark', MarkViewSet)
 router.register('api/studentattendance', StudentAttendanceViewSet)
 router.register('api/studentappeared', StudentAppearedViewSet)
 router.register('api/invoice', InvoiceViewSet)
+router.register('api/payment', PaymentViewSet)
 urlpatterns =[
     path('success/', success , name="success"),
     path('', index, name="index"),
