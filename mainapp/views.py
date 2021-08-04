@@ -79,7 +79,7 @@ def invoicehistory(request):
     return render(request, 'payment_history.html', context)
 
 def paymenthistory(request, pk):
-    invoice_obj = invoice.objects.get(pk=pk)
+    invoice_obj = invoice.objects.get(invoice_id=pk)
     obj = payment.objects.filter(invoice = pk)
 
     context = {

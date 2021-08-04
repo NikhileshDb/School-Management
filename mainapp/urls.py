@@ -45,7 +45,9 @@ urlpatterns =[
     path('api/student/password', ChangePasswordInstanceView.as_view()),
     path('api/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/image/' ,  ProfileImageView.as_view()),
-    path('api/add-invoice/', add_invoice)
+    path('api/add-invoice/', add_invoice),
+    path('api/payment-update',  update_invoice_create_payment),
+
  
 ]
 

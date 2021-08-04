@@ -220,3 +220,25 @@ def add_invoice(request):
                 return Response(status=status.HTTP_502_BAD_GATEWAY)
         else:
             return Response({"error":"Serializer Data is not valid"})
+
+
+
+@api_view(['POST'])
+def update_invoice_create_payment(request):
+    if request.method == 'POST':
+        amount = request.data.get('amount')
+        inv_id = request.data.get('inv_id')
+     
+        inv_obj = invoice.objects.get(invoice_id = inv_id)
+        method = inv_obj.payment_method
+        try:
+            payment_data = payment.objects.create(amount=amount,invoice = inv_obj, method = method, session_year=inv_obj.session_year)
+            payment_data.save()
+            amount_p = int(inv_obj.amount_paid) + int(amount)
+            due_d = int(inv_obj.amount) - int(amount_p)
+            inv_obj.amount_paid = amount_p
+            inv_obj.due = due_d
+            inv_obj.save() 
+            return Response("Success")
+        except:
+            raise Exception
