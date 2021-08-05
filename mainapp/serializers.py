@@ -382,10 +382,8 @@ class ExamSerializer(serializers.ModelSerializer):
 class StudentAppearedExamSerialize(serializers.ModelSerializer):
     def create(self, validated_data):
         this_student = validated_data.get('student')
-        obj_student = student.objects.get(customuser__username=this_student)
         this_class = validated_data.get('class_id')
         this_subject = validated_data.get('subject')
-        obj_student_class = obj_student.enroll.class_id
         obj_subjects = Subject.objects.filter(class_id__name=this_class)
         
 
@@ -395,17 +393,14 @@ class StudentAppearedExamSerialize(serializers.ModelSerializer):
         except:
             raise ValueError("Subject don't exists")
 
-        if this_class != obj_student_class:
+        if this_class != this_student.enroll.class_id:
             raise ValueError("Student doesn't belong to the class")
-        elif obj_subject.class_id != this_subject.class_id:
-            raise ValueError("Subjects not mactched")
-        elif obj_student_class != obj_subject.class_id:
+        elif obj_subject != this_subject:
+            raise ValueError("Subjects not matched")
+        elif this_student.enroll.class_id != obj_subject.class_id:
              raise ValueError("Subject class and this class don't match")
         else:
             appeared = StudentAppearedExam.objects.create(**validated_data)
-            print(obj_student_class)
-            print(obj_subject)
-            print(obj_subject.class_id)
             return appeared
 
     class Meta:
