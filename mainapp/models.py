@@ -333,7 +333,7 @@ class invoice(models.Model):
     category = models.ForeignKey(invoice_category, on_delete = models.DO_NOTHING, null=True)
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    creation_timestamp  = models.DateTimeField()
+    creation_timestamp  = models.DateField()
     amount = models.BigIntegerField(null=True, blank=True)
     amount_paid = models.BigIntegerField(null=True, blank=True)
     due = models.BigIntegerField(null=True, blank=True) #In the view create totalamount - amountpaid
