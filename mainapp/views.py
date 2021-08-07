@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 # from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import payment, student, SessionYear, invoice
+from .models import payment, student, SessionYear, invoice, invoice_category
 import pdb;
 from django.http import HttpResponse
 # Create your views here.
@@ -18,9 +18,11 @@ from django.http import HttpResponse
 def index(request):
     students = student.objects.all()
     session_year = SessionYear.objects.all()
+    category = invoice_category.objects.all()
     context = {
         'students': students,
         'session_year': session_year,
+        'category' : category,
         }
     return render(request, 'add_invoice.html', context)
 
@@ -29,11 +31,10 @@ def success(request):
     return render(request, 'success.html')
 
 
-def add_invoice(request):
+def save_invoice(request):
     if request.method != 'POST':
         return HttpResponse("Not POST Method")
     else:
-        print(request.POST)
         stu_data = request.POST.get('student')
         title = request.POST.get('title')
         description = request.POST.get('description')
@@ -42,6 +43,7 @@ def add_invoice(request):
         amount_paid = request.POST.get('amount_paid')
         # due = request.POST.get('due')
         payment_method = request.POST.get('payment_method')
+        category = request.POST.get('category')
         session_year = request.POST.get('session_year')
         status = request.POST.get('status')
         
@@ -49,6 +51,7 @@ def add_invoice(request):
             #nested_data 
             stu = student.objects.get(customuser__username=stu_data)
             session = SessionYear.objects.get(running_year=session_year)
+            category = invoice_category.objects.get(category_name = category)
             #creating instance
             Invoice = invoice.objects.create(
                 student = stu,
@@ -60,11 +63,12 @@ def add_invoice(request):
                 due = int(amount) - int(amount_paid), 
                 payment_method = payment_method,
                 status = status,
-                session_year = session
+                session_year = session,
+                category = category
             )
             invoice_instant = invoice.objects.get(invoice_id=Invoice.invoice_id)
 
-            payment_model = payment.objects.create(title = Invoice.title, description = Invoice.description, payment_type= "income", invoice= invoice_instant, student=Invoice.student, method = Invoice.payment_method, amount=Invoice.amount_paid,timestamp=Invoice.creation_timestamp , session_year = Invoice.session_year )
+            payment_model = payment.objects.create(title = Invoice.title, description = Invoice.description, payment_type= "income", invoice= invoice_instant, student=Invoice.student, method = Invoice.payment_method, amount=Invoice.amount_paid,timestamp=Invoice.creation_timestamp , session_year = Invoice.session_year, due_from_inv=invoice_instant.due)
             payment_model.save()
             return redirect('success')
         except:
@@ -93,16 +97,15 @@ def save_update_payments(request):
         amount = request.POST.get('amount')
         inv_id = request.POST.get('inv_id')
         inv_obj = invoice.objects.get(invoice_id=inv_id)
-        print(inv_obj)
-        method = inv_obj.payment_method
+        method = request.POST.get('payment_method')
         try:
-            payment_data = payment.objects.create(amount=amount, invoice = inv_obj, method=method, session_year = inv_obj.session_year)
-            payment_data.save()
             amount_p = int(inv_obj.amount_paid) + int(amount)
             due_d = int(inv_obj.amount) - int(amount_p)
             inv_obj.amount_paid = amount_p
             inv_obj.due = due_d
+            payment_data = payment.objects.create(amount=amount, invoice = inv_obj, method=method, session_year = inv_obj.session_year, due_from_inv = due_d)
             inv_obj.save()
+            payment_data.save()
             return redirect('success')
         except:
             raise Exception('Not Saved')

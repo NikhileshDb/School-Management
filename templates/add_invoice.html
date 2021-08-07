@@ -14,7 +14,7 @@
     <title>Add Invoice</title>
 </head>
 <body n-margin>
-    <form action="{% url 'add_invoice' %}" method="post">
+    <form action="{% url 'save_invoice' %}" method="post">
         {% csrf_token %}
         <div class="form-group">
           <label for="exampleFormControlSelect1">Student</label>
@@ -52,6 +52,14 @@
                 <option value="online">Online</option>
             </select>
         </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Category</label>
+          <select class="form-control" type="date" name="category" id="">
+            {% for cat in category%}
+            <option> {{cat}} </option>
+            {% endfor %}
+          </select>
+      </div>
         <div class="form-group">
             <label for="exampleFormControlSelect1">Session Year</label>
             <select class="form-control" type="date" name="session_year" id="">

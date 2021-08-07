@@ -25,7 +25,8 @@
                 <th>Title</th>
                 <th>Total</th>
                 <th>Paid</th>
-                <th>Status</th>
+                <th>Amount Due</th>
+                <th>Method</th>
               </tr>
             </thead>
             <tfoot>
@@ -35,7 +36,8 @@
                 <th>Title</th>
                 <th>Total</th>
                 <th>Paid</th>
-                <th>Status</th>
+                <th>Amount Due</th>
+                <th>Method</th>
               </tr>
             </tfoot>
             <tbody>
@@ -46,7 +48,8 @@
                 <td>{{payment.title}}</td>
                 <td>{{invoice_obj.amount}}</td>
                 <td>{{payment.amount}}</td>
-                <td>{{invoice_obj.status}}</td>
+                <td>{{payment.due_from_inv}}</td>
+                <td>{{payment.method}}</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -70,6 +73,15 @@
           <label for="formGroupExampleInput2">Amount To Pay</label>
           <input type="text" name="amount" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
         </div>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Payment Method</label>
+          <select class="form-control" name="payment_method" id="">
+              <option value="cash">Cash</option>
+              <option value="cheque">Cheque</option>
+              <option value="online">Online</option>
+          </select>
+      </div>
+        
         <button class="btn btn-primary">Submit</button>
       </form>
       

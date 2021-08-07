@@ -37,10 +37,11 @@ router.register('api/payment', PaymentViewSet)
 urlpatterns =[
     path('success/', success , name="success"),
     path('', index, name="index"),
-    path('add_invoice/', add_invoice, name="add_invoice"),
+    path('add_invoice/', save_invoice, name="save_invoice"),
     path('takepayment/', save_update_payments, name="takepayment"),
     path('invoice/', invoicehistory, name="paymenthistory"),
     path('payment/<str:pk>', paymenthistory, name="payments"),
+
     ##### EXTRA API ####
     path('', include(router.urls)),
     path('api/student/password', ChangePasswordInstanceView.as_view()),

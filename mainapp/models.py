@@ -313,6 +313,11 @@ class expense_category(models.Model):
     def __str__(self):
         return self.category_name
 
+class invoice_category(models.Model):
+    invoice_cat_id = models.AutoField(primary_key=True)
+    category_name = models.CharField(max_length=200, null=True)
+    def __str__(self):
+        return self.category_name
 class invoice(models.Model):
     status_data = (
         ('paid', 'paid'), 
@@ -325,6 +330,7 @@ class invoice(models.Model):
     )
     invoice_id = models.AutoField(primary_key=True)
     student = models.ForeignKey(student, on_delete=models.CASCADE)
+    category = models.ForeignKey(invoice_category, on_delete = models.DO_NOTHING, null=True)
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     creation_timestamp  = models.DateTimeField()
@@ -355,6 +361,7 @@ class payment(models.Model):
     amount = models.BigIntegerField(null=True)
     timestamp = models.DateTimeField(auto_now_add=True, null=True)
     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE, null=True)
+    due_from_inv = models.BigIntegerField(null=True, blank=True)
 
 
 

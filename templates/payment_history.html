@@ -23,9 +23,10 @@
                 <th>ID</th>
                 <th>Student</th>
                 <th>Title</th>
+                <th>Category</th>
                 <th>Total</th>
                 <th>Paid</th>
-                <th>Status</th>
+                <th>Due</th>
                 <th>Take Payment</th>
               </tr>
             </thead>
@@ -34,9 +35,10 @@
                 <th>ID</th>
                 <th>Student</th>
                 <th>Title</th>
+                <th>Category</th>
                 <th>Total</th>
                 <th>Paid</th>
-                <th>Status</th>
+                <th>Due</th>
                 <th>Take Payment</th>
               </tr>
             </tfoot>
@@ -46,9 +48,10 @@
                 <td>{{invoice.invoice_id}}</td>
                 <td>{{invoice.student.customuser.username}}</td>
                 <td>{{invoice.title}}</td>
+                <td>{{invoice.category}}</td>
                 <td>{{invoice.amount}}</td>
                 <td>{{invoice.amount_paid}}</td>
-                <td>{{invoice.status}}</td>
+                <td>{{invoice.due}}</td>
                 <td><a href="{% url 'payments' invoice.invoice_id %}"><button class="btn btn-primary">Pay Now</button></href></td>
               </tr>
               {% endfor %}
