@@ -508,7 +508,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = invoice
-        fields = ['title', 'description','creation_timestamp', 'amount','amount_paid', 'payment_method', 'status' , 'student' , 'category', 'session_year']
+        fields = ['invoice_id','title', 'description','creation_timestamp', 'amount','amount_paid', 'payment_method', 'status' , 'student' , 'category', 'session_year']
     
     # def to_representation(self, instance):
     #     response = super().to_representation(instance)
