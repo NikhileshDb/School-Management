@@ -520,3 +520,27 @@ class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = payment
         fields = '__all__'
+
+
+class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = '__all__'
+
+
+class LibrarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Library
+        fields = '__all__'
+
+
+    def create(self, validated_data):
+        issue_student = validated_data.get('issue_student')
+        book_issued = validated_data.get('book_issued')
+        issued_date = validated_data.get('issued_date')
+        return_date = validated_data.get('return_date')
+        try:
+            return Library.objects.create(**validated_data)
+        except Library.DoesNotExist:
+            raise ValueError("library not created")
+

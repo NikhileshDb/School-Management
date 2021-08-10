@@ -366,15 +366,16 @@ class payment(models.Model):
 
 
 
+class Book(models.Model):
+    title = models.CharField(max_length=30)
+    author = models.CharField(max_length=40)
+    ISBN = models.CharField(max_length=40)
+    publication = models.CharField(max_length=40) 
 
-# class AttendeanceBackUp(models.Model):
-#     attendance_id = models.ForeignKey(Attendance, on_delete=models.CASCADE, null=True, blank=True)
-#     status = models.CharField(max_length=30)
-#     # student_id = models.ForeignKey(student, on_delete = models.CASCADE)
-#     date = models.DateTimeField(auto_now_add=False, auto_now=False)
-#     year = models.CharField(max_length=30)
-#     class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE)
-#     section_id = models.ForeignKey(section, on_delete=models.CASCADE)
-#     session = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
-
+class Library(models.Model):
+    issue_student = models.ForeignKey(student, on_delete=models.CASCADE)
+    book_issued = models.ForeignKey(Book, on_delete=models.CASCADE)
+    issue_date = models.DateTimeField(auto_now_add=True)
+    return_date = models.DateTimeField(auto_now=False, auto_now_add=False)
+    issued = models.BooleanField(default=False)
 

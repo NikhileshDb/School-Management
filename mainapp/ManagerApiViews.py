@@ -261,4 +261,15 @@ def update_payment(request, pk):
         except:
             raise Exception('Unsuccessful Attempt')
 
+
+
+class BookViewSet(viewsets.ModelViewSet):
+    serializer_class = BookSerializer 
+    queryset = Book.objects.all()
+
+
+class LibraryViewSet(viewsets.ModelViewSet):
+    serializer_class = LibrarySerializer
+    queryset = Library.objects.all()
+
    
