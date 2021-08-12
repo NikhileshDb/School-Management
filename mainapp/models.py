@@ -1,3 +1,4 @@
+"""All the required imports for models"""
 from random import choices
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -9,15 +10,17 @@ import uuid
 from django.utils.translation import ugettext as tr
 
 
+
+"""Session Year Model"""
 class SessionYear(models.Model):
     session_id = models.AutoField(primary_key=True)
     running_year = models.DateField(unique=True, default=1)
     objects = models.Manager()
     def __str__(self):
-        return str(self.running_year) #parse_date(self.session_start_year) #str(self.session_start_year) + ' to ' + str(self.session_end_year)
+        return str(self.running_year)
 
 
-######SETTINGS#######
+"""Settings Model capable of changing skin color"""
 class Settings(models.Model):
     color = (
         ('light', 'light'),
@@ -25,12 +28,13 @@ class Settings(models.Model):
     )
     running_year = models.ForeignKey(SessionYear, on_delete=models.RESTRICT, default=1)
     skin_color = models.CharField(choices=color,max_length=20, default="light")
-#     running_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE, default=None)
+
     def __str__(self):
         return str(self.running_year)
 
 
 #Overriding Default USER
+"""Custom user that overrides Default User"""
 class CustomUser(AbstractUser):
     data = (
         (1,"Manager"), 
@@ -42,7 +46,8 @@ class CustomUser(AbstractUser):
     profile_pic = models.ImageField(_("Image"),upload_to='profile_pic/', default="media/default.png" , null=True, blank=True)
     user_type = models.CharField(default=1, choices=data, max_length=20)
 
-########Manager
+
+"""Manager Model"""
 class Manager(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -50,7 +55,7 @@ class Manager(models.Model):
     objects = models.Manager()
  
 
-        ######## TEACHER######
+"""Teacher Model"""
 class teacher(models.Model):
     customuser = models.OneToOneField(CustomUser, on_delete = models.CASCADE) 
     teacher_id = models.AutoField(primary_key=True)
@@ -68,11 +73,10 @@ class teacher(models.Model):
 
     class Meta:
         verbose_name_plural = "Teachers"
-    # def __str__(self):
-    #     return self.customuser.username
 
 
 
+"""Class Room Model"""
 class classRoom(models.Model):
     class_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, null=True, blank=True)
@@ -82,7 +86,7 @@ class classRoom(models.Model):
         return self.name
 
 
-"""SECTION"""
+""""Section Model"""
 class section(models.Model):
     section_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=5, null=True, blank=True)
@@ -93,7 +97,9 @@ class section(models.Model):
     def __str__(self):
         return self.name
 
-#### PARENT MODEL ###########
+
+
+"""Parents Model"""
 class parent(models.Model):
     customuser = models.OneToOneField(CustomUser, on_delete = models.CASCADE, null=True)  #FK
     parent_id = models.AutoField(primary_key=True)
@@ -106,6 +112,7 @@ class parent(models.Model):
         return self.customuser.username
     
 
+"""Transport Model"""
 class transport(models.Model):
     transport_id = models.AutoField(primary_key=True)
     route_name = models.CharField(max_length=500, null=True, blank=True)
@@ -115,6 +122,8 @@ class transport(models.Model):
     def __str__(self):
         return self.route_name
 
+
+"""Dormitory Model"""
 class dormitory(models.Model):
     dormitory_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200,null=True, blank=True)
@@ -123,7 +132,8 @@ class dormitory(models.Model):
     def __str__(self):
         return self.name
 
-######ENROLL###########
+
+"""Enroll Model"""
 class enroll(models.Model):
     enroll_id = models.AutoField(primary_key=True)
     enroll_code = models.UUIDField(editable=False, default=uuid.uuid4)
@@ -139,6 +149,10 @@ class enroll(models.Model):
 #Set Default Value for for running year in student
 # def get_running_year():
 #     return Settings.objects.get(id=1)
+
+
+
+
 ###### STUDENT MODEL #############
 class student(models.Model):
     customuser = models.OneToOneField(CustomUser, on_delete = models.CASCADE)       #FK
@@ -167,7 +181,7 @@ class student(models.Model):
 
 
 
-
+"""Subject Model"""
 class Subject(models.Model):
     subject_id = models.AutoField(primary_key=True)
     subject_name = models.CharField(max_length=100, null=True, blank=True)
@@ -178,12 +192,14 @@ class Subject(models.Model):
     def __str__(self):
         return self.subject_name
 
-#Testing Image Upload
+
+"""Profile Image Model"""
 class ProfileImage(models.Model):
     image = models.ImageField(_("Image"),upload_to="student_profile/", default="media/default.png" , blank=True, null=True )
     desc =  models.CharField(max_length=20, blank=True, null=True)
 
 
+"""Exam Model"""
 class Exam(models.Model):
     exam_id = models.AutoField(primary_key=True)
     examName = models.CharField(max_length=50)
@@ -193,6 +209,8 @@ class Exam(models.Model):
     def __str__(self):
         return self.examName
 
+
+"""Student Appeared Exam Model"""
 class StudentAppearedExam(models.Model):
     student_appeared_id = models.AutoField(primary_key=True)
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, default=None, null=True, blank=True)
@@ -201,7 +219,7 @@ class StudentAppearedExam(models.Model):
     class_id = models.ForeignKey(classRoom, on_delete=models.CASCADE, default=None, null=True, blank=True)
     
 
-
+"""Grade Model"""
 class grade(models.Model):
     grade_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=5, null=True, blank=True)
@@ -210,6 +228,9 @@ class grade(models.Model):
     mark_upto = models.BigIntegerField(null=True, blank=True)
     comment = models.TextField(null=True, blank=True)
 
+
+
+"""Mark Model"""
 class mark(models.Model):
     mark_id = models.AutoField(primary_key=True)
     student = models.ForeignKey(student, on_delete=models.CASCADE, default=None, null=True, blank=True)
@@ -223,7 +244,7 @@ class mark(models.Model):
     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE, default=None, null=True, blank=True)
 
 
-##### THIS IS OBSOLETE ####
+"""Student Model"""
 class StudentResult(models.Model):
     id = models.AutoField(primary_key=True)
     classRoom = models.ForeignKey(classRoom, on_delete=models.CASCADE, default = None)
@@ -236,11 +257,9 @@ class StudentResult(models.Model):
     updated_at = models.DateField(auto_now=True)
 
 
-
+"""Test Model"""
 class TestModel(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-
-
 
 DAY_OF_THE_WEEK = {
     '1': tr(u'Monday'),
@@ -258,6 +277,7 @@ class DayWeekField(models.CharField):
         super(DayWeekField, self).__init__(*args, **kwargs)
 
 
+"""Class Model Routine"""
 class ClassRoutine(models.Model):
     class_routine_id = models.AutoField(primary_key=True)
     class_id = models.ForeignKey(classRoom, on_delete = models.CASCADE)
@@ -268,6 +288,8 @@ class ClassRoutine(models.Model):
     end_time = models.TimeField(auto_now=False, auto_now_add=False)
     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
 
+
+"""Notice Model"""
 class Notice(models.Model):
     data = (
         (1, 'Yes'),
@@ -279,8 +301,9 @@ class Notice(models.Model):
     date = models.DateTimeField()
     status = models.CharField(choices=data,max_length=10, blank=True, null=True)
 
+
+"""Attendance Model"""
 class Attendance(models.Model):
-   
     attendence_id = models.AutoField(primary_key=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE, default=None, null=True, blank=True)
@@ -292,7 +315,7 @@ class Attendance(models.Model):
         abstract = True
 
 
-
+"""Student Attendance that inherrites Attendance Model"""
 class StudentAttendance(Attendance):
     student = models.ForeignKey(student, on_delete = models.CASCADE)
     class_routine = models.ForeignKey(ClassRoutine, on_delete = models.CASCADE, default=None, null=True, blank=True)
@@ -300,6 +323,8 @@ class StudentAttendance(Attendance):
     class Meta:
         abstract = False
 
+
+"""Teacher Attendance that inherrites Attendance Model"""
 class TeacherAttendance(Attendance):
     teacher_id = models.ForeignKey(teacher, on_delete = models.CASCADE)
 
@@ -307,17 +332,24 @@ class TeacherAttendance(Attendance):
         abstract = False
     
 
+
+"""Expense Category Model"""
 class expense_category(models.Model):
     expense_category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=200)
     def __str__(self):
         return self.category_name
 
+
+"""Invoice Category Model"""
 class invoice_category(models.Model):
     invoice_cat_id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=200, null=True)
     def __str__(self):
         return self.category_name
+
+
+"""Invoice Event Model shows status and payment method"""
 class invoice(models.Model):
     status_data = (
         ('paid', 'paid'), 
@@ -340,10 +372,10 @@ class invoice(models.Model):
     payment_method = models.CharField(max_length=100, choices=payment_method_data, null=True)
     session_year = models.ForeignKey(SessionYear, on_delete=models.CASCADE)
     status = models.CharField(max_length=100, choices = status_data)
-    
-#Create Payment as with invoice data
 
-####Payemnt###
+
+
+"""Payment Model"""
 class payment(models.Model):
     method_data = (
      ('cash', 'cash'),
@@ -365,13 +397,16 @@ class payment(models.Model):
 
 
 
-
+"""Book Model"""
 class Book(models.Model):
     title = models.CharField(max_length=30)
     author = models.CharField(max_length=40)
     ISBN = models.CharField(max_length=40)
     publication = models.CharField(max_length=40) 
 
+
+
+"""Library Model"""
 class Library(models.Model):
     issue_student = models.ForeignKey(student, on_delete=models.CASCADE)
     book_issued = models.ForeignKey(Book, on_delete=models.CASCADE)

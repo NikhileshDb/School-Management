@@ -1,3 +1,4 @@
+"""Required imports for serializers"""
 from copy import Error
 from rest_framework import serializers
 from .models import *
@@ -9,14 +10,15 @@ from rest_framework.validators import UniqueTogetherValidator
 import random
 from django.utils import timezone
 
-######SESSION SERIALIZER ##########
+
+"""SESSION SERIALIZER"""
 class SessionYearSerializer(serializers.ModelSerializer):
     class Meta:
         model = SessionYear
         fields = '__all__'
 
 
-#######SETTINGS SERIALIZER #########
+"""SETTINGS SERIALIZER """
 class SettingsSerializer(serializers.ModelSerializer):
    
     class Meta:
@@ -27,15 +29,18 @@ class SettingsSerializer(serializers.ModelSerializer):
         response['running_year'] = SessionYearSerializer(instance.running_year).data
         return response
 
-####   PROFILE IMAGE SERIALIZER   #####
+
+"""PROFILE IMAGE SERIALIZER"""
 class ProfileImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProfileImage
         fields = '__all__'
 
-#####   CUSTOM USER SERIALIZER     #####
+
+""""CUSTOM USER SERIALIZER"""
 class CustomUserSerializer(serializers.ModelSerializer):
-    #Overding the because of password hashing problem in Custom User
+
+    """Overding the password hashing problem in Custom User"""
     def create(self, validated_data):
         password = validated_data.pop('password', None)
         instance = self.Meta.model(**validated_data)
@@ -62,19 +67,18 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "password": {"write_only": True}
             }
 
-###############   PARENT SERIALIZER ####################
-# class forSectionSerializer(serializers.Serializer):
-#     classroom = serializers.CharField(max_length=50)
 
 
-
+"""PARENT SERIALIZER"""
 class parentSerializer(serializers.ModelSerializer):
     customuser = CustomUserSerializer(required=True)
     class Meta:
         model = parent
         fields = ['customuser', 'parent_id', 'phone', 'address','profession', ]
-##NESTED DATA SERIALIZER NEED OVERIDE CREATE AND UPDATE METHODE ######
-##Overide create method to let customuser be added directly
+
+
+    """NESTED DATA SERIALIZER NEED OVERIDE CREATE AND UPDATE METHODE"""
+    """Overide create method to let customuser be added directly"""
     def create(self, validated_data):
         customuser_data = validated_data.pop('customuser')
         customuser =  CustomUserSerializer.create(
@@ -89,7 +93,8 @@ class parentSerializer(serializers.ModelSerializer):
             profession = validated_data.get('profession'),
         )
         return Parent
-###   Override the update Methode #####
+
+    """Override the update Method"""
     def update(self, instance, validated_data):
         if 'customuser' in validated_data:
             nested_serializer = self.fields['customuser']
@@ -101,13 +106,14 @@ class parentSerializer(serializers.ModelSerializer):
 
 
 
-#############     Logged in user password reset    ######################
+
+"""Reset password for for logged in user"""
 class PasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
 
 
-
+"""Manager Serializer"""
 class ManagerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Manager
@@ -120,7 +126,8 @@ class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = teacher
         fields = '__all__'
-    '''Overide The create methode for customuser to add on the parent form'''
+
+    """Overide The create methode for customuser to add on the parent form"""
     def create(self,validated_data):
         customuser_data = validated_data.pop('customuser')
         customuser = CustomUserSerializer.create(CustomUserSerializer(), validated_data=customuser_data)
@@ -134,7 +141,8 @@ class TeacherSerializer(serializers.ModelSerializer):
             phone = validated_data.get('phone'),
         )
         return Teacher
-    '''Update Does not support writable nested fields by default '''
+
+    """Update Does not support writable nested fields by default"""
     def update(self, instance, validated_data):
         if 'customuser' in validated_data:
             nested_serializer = self.fields['customuser']
@@ -166,18 +174,20 @@ class classRoomSerializer(serializers.ModelSerializer):
         return response
     
 
+"""Section Serializer"""
 class SectionSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = section
         fields = ('section_id','name','nick_name', 'class_id','teacher')
 
+    """Unique Validators"""
     validators = [
         UniqueTogetherValidator(
             queryset= section.objects.all(),
             fields = ['name','class_id']
         )
     ]
+    """Inherits parent Section Serializer"""
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['teacher'] = TeacherSerializer(instance.teacher).data
@@ -185,10 +195,13 @@ class SectionSerializer(serializers.ModelSerializer):
         return response
     
 
+"""Subject Serializer"""
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
         fields = '__all__'
+
+    """Unique Validators"""
     validators = [
         UniqueTogetherValidator(
             queryset= Subject.objects.all(),
@@ -196,6 +209,7 @@ class SubjectSerializer(serializers.ModelSerializer):
         )
     ]
 
+    """Inherits parent Subject Serializer"""
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['class_id'] = classRoomSerializer(instance.class_id).data
@@ -204,7 +218,7 @@ class SubjectSerializer(serializers.ModelSerializer):
         return response
  
 
-
+"""Student Result Serializer"""
 class StudentResultSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         this_student = validated_data.pop('student')
@@ -222,6 +236,8 @@ class StudentResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentResult
         fields = ['id', 'classRoom', 'student','subject', 'exam', 'full_marks', 'obtained_marks']
+
+        """Unique validators"""
         validators = [
             UniqueTogetherValidator(
                 queryset = StudentResult.objects.all(),
@@ -229,6 +245,7 @@ class StudentResultSerializer(serializers.ModelSerializer):
             )
         ]
 
+    """Inherits parent Student Result Serializer"""
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['subject'] = SubjectSerializer(instance.subject).data
@@ -238,32 +255,33 @@ class StudentResultSerializer(serializers.ModelSerializer):
 
 
 
-'''DORMITORY SERIALIZER'''
-
+"""DORMITORY SERIALIZER"""
 class DormitorySerializer(serializers.ModelSerializer):
     class Meta:
         model = dormitory
         fields = '__all__'
 
-'''Testing Serilizer functions'''
+"""Testing Serilizer"""
 class TestModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestModel
         fields = '__all__'
 
-'''TRANSPORT SERIALIZER'''
+"""TRANSPORT SERIALIZER"""
 class TransPortSerializer(serializers.ModelSerializer):
     class Meta:
         model = transport
         fields = '__all__'
 
-#####ENROLL SERIALIZER###########
 
+
+"""ENROLL SERIALIZER"""
 class enrollSerializer(serializers.ModelSerializer):
     class Meta:
         model= enroll
         fields = '__all__'
-    
+
+    """Inherits parent enroll serializer"""
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['running_year'] = SessionYearSerializer(instance.running_year).data
@@ -274,7 +292,7 @@ class enrollSerializer(serializers.ModelSerializer):
 
 
 
-################ STUDENT SERIALIZER ##############
+"""STUDENT SERIALIZER"""
 class StudentSerializer(serializers.ModelSerializer):
     customuser = CustomUserSerializer(required=True)
     enroll = enrollSerializer(required=True)
@@ -282,7 +300,8 @@ class StudentSerializer(serializers.ModelSerializer):
         model = student
         fields = (
            'student_id','enroll','customuser','birthday', 'sex', 'religion', 'blood_group', 'address', 'phone','parent', 'dormitory', 'transport',)
-#Overding the create methode serializer
+
+    """Overding the create methode serializer"""
     def create(self, validated_data):
         # admission_no = random.randint(1000,1000000)
         enroll_data = validated_data.pop('enroll')
@@ -312,7 +331,9 @@ class StudentSerializer(serializers.ModelSerializer):
             # roll = validated_data.get('roll')
         )
         return Student
-#Update method does not support writable nested fields by default. So we are overriding update methode explicitly
+
+    """Update method does not support writable nested fields by default. 
+        So we are overriding update methode explicitly"""
     def update(self, instance, validated_data):
         #change 'customuser' here to match your one-to-one field name
         if 'customuser' in validated_data:
@@ -337,12 +358,13 @@ class StudentSerializer(serializers.ModelSerializer):
         return response
 
 
-#TimeTable Serializer added by M.J
+"""Rouyine Serializer"""
 class RoutineSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassRoutine
         fields = '__all__'
     
+    """Inherits parent Routine Serializer"""
     def to_representation(self, instance):
         response = super(RoutineSerializer, self).to_representation(instance)
         response['subject'] = SubjectSerializer(instance.subject).data
@@ -351,24 +373,30 @@ class RoutineSerializer(serializers.ModelSerializer):
         response['session_year'] = SessionYearSerializer(instance.session_year).data
         return response
 
-####NOTICE SERIALIZER ##########
+
+"""NOTICE SERIALIZER"""
 class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notice
         fields = '__all__'
 
-######SESSION SERIALIZER ##########
+
+"""SESSION SERIALIZER"""
 class SessionYearSerializer(serializers.ModelSerializer):
     class Meta:
         model = SessionYear
         fields = '__all__'
 
-### GRADE###
+
+"""Grade SERIALIZER"""
 class gradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = grade
         fields = '__all__'
-##### EXAM SERIALIZER #########
+
+
+
+"""SESSION SERIALIZER"""
 class ExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
@@ -378,15 +406,16 @@ class ExamSerializer(serializers.ModelSerializer):
         response['session_year'] = SessionYearSerializer(instance.session_year).data
         return response
 
-##### STUDENT APPEARED #####################
+
+"""Student Appeared Serializer"""
 class StudentAppearedExamSerialize(serializers.ModelSerializer):
+
+    """Function to create student appered with validated data and handle errors/exceptions"""
     def create(self, validated_data):
         this_student = validated_data.get('student')
         this_class = validated_data.get('class_id')
         this_subject = validated_data.get('subject')
         obj_subjects = Subject.objects.filter(class_id__name=this_class)
-        
-
         try:
             obj_subject = obj_subjects.get(subject_name=this_subject)
             
@@ -406,6 +435,8 @@ class StudentAppearedExamSerialize(serializers.ModelSerializer):
     class Meta:
         model = StudentAppearedExam
         fields = '__all__'
+
+    """Unique Validators"""
     validators = [
         UniqueTogetherValidator(
             queryset= StudentAppearedExam.objects.all(),
@@ -413,6 +444,7 @@ class StudentAppearedExamSerialize(serializers.ModelSerializer):
         )
     ]
 
+    """Inherits parent Student Appeared Serializer"""
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['exam'] = ExamSerializer(instance.exam).data
@@ -422,10 +454,10 @@ class StudentAppearedExamSerialize(serializers.ModelSerializer):
         return response
 
 
-
-####MARK SERIALIZER #########
-
+"""MARK SERIALIZER"""
 class markSerializer(serializers.ModelSerializer):
+
+    """function to create mark with validated data and handle errors"""
     def create(self, validated_data):
         this_student = validated_data.get('student')
         this_class = validated_data.get('class_id')
@@ -450,6 +482,8 @@ class markSerializer(serializers.ModelSerializer):
     class Meta:
         model = mark
         fields = '__all__'
+
+    """Unique Validators"""
     validators = [
         UniqueTogetherValidator(
             queryset=mark.objects.all(),
@@ -457,6 +491,8 @@ class markSerializer(serializers.ModelSerializer):
         )
     ]
 
+
+    """Inherits parent mark serialzer"""
     def to_representation(self, instance):
         response = super().to_representation(instance)
     #     response['session_year'] = SessionYearSerializer(instance.session_year).data
@@ -469,17 +505,20 @@ class markSerializer(serializers.ModelSerializer):
 
 
 
-
+"""Attendance Serializer"""
 class AttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attendance
         fields = '__all__'
 
+
+"""Student Attendance Serializer"""
 class StudentAttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentAttendance
         fields = '__all__'
 
+    """Inherits parent Student Attendance Serializer"""
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['session_year'] = SessionYearSerializer(instance.session_year).data
@@ -488,6 +527,8 @@ class StudentAttendanceSerializer(serializers.ModelSerializer):
         response['class_id'] = classRoomSerializer(instance.class_id).data
         response['student'] = StudentSerializer(instance.student).data
         return response
+
+    """Unique Validators"""
     validators = [
         UniqueTogetherValidator(
             queryset = StudentAttendance.objects.all(),
@@ -495,12 +536,15 @@ class StudentAttendanceSerializer(serializers.ModelSerializer):
         )
     ]
 
+
+"""Teacher Attendance Serializer"""
 class TeacherAttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeacherAttendance
         fields = '__all__'
 
 
+"""Invoice Serializer"""
 class InvoiceSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         #We can create our custom creation methode here but we'll use functional view for this
@@ -515,25 +559,25 @@ class InvoiceSerializer(serializers.ModelSerializer):
     #     response['student'] = StudentSerializer(instance.student).data
     #     response['session_year'] = SessionYearSerializer(instance.session_year).data
     #     return response
-
+"""Payment Serializer"""
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = payment
         fields = '__all__'
 
-
+"""Book Serializer"""
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = '__all__'
 
-
+"""Library Serializer"""
 class LibrarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Library
         fields = '__all__'
 
-
+    """Function to create Library using validated data and handle exception"""
     def create(self, validated_data):
         issue_student = validated_data.get('issue_student')
         book_issued = validated_data.get('book_issued')

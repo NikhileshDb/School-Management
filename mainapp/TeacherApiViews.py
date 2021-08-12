@@ -1,9 +1,12 @@
+"""Required imports for Teacher API View"""
 from . models import StudentResult
 from rest_framework.viewsets import ModelViewSet
 from . serializers import StudentResultSerializer, TestModelSerializer
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 
+
+"""Student Result Viewset"""
 class StudentResultViewset(ModelViewSet):
     serializer_class = StudentResultSerializer
     queryset = StudentResult.objects.all()
@@ -12,7 +15,9 @@ class StudentResultViewset(ModelViewSet):
     # search_fields = ['student__customuser__username', 'student__customuser__first_name']
     # filter_backends = [filters.OrderingFilter]
     # ordering_fields = ['student__customuser__username', 'subject__classRoom']
-    
+
+
+"""Test Serializer"""
 class TestView(ModelViewSet):
     serializer_class = TestModelSerializer
     queryset = StudentResult.objects.all()

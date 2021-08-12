@@ -1,6 +1,6 @@
+"""Required imports for App urls"""
 from django.urls import path, include
 from .views import *
-
 from .StudentViews import *
 from .TeacherViews import *
 from .ManagerApiViews import *
@@ -8,6 +8,8 @@ from .TeacherApiViews import StudentResultViewset, TestView
 from rest_framework import routers
 from .RoutineApiViews import RoutineViewSet
 
+
+"""Routers for all the API functions"""
 router = routers.DefaultRouter()
 router.register('api/parent', parentViewSet)
 router.register('api/student', StudentViewSet)
@@ -44,7 +46,6 @@ urlpatterns =[
     path('invoice/', invoicehistory, name="paymenthistory"),
     path('payment/<str:pk>', paymenthistory, name="payments"),
 
-    ##### EXTRA API ####
     path('', include(router.urls)),
     path('api/student/password', ChangePasswordInstanceView.as_view()),
     path('api/', include('rest_framework.urls', namespace='rest_framework')),
@@ -52,7 +53,6 @@ urlpatterns =[
     path('api/add-invoice/', add_invoice),
     path('api/payment-update',  update_invoice_create_payment),
 
- 
 ]
 
 
