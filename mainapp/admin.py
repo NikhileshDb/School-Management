@@ -2,7 +2,7 @@ from mainapp.models import CustomUser, ProfileImage, SessionYear, Manager
 from django.contrib import admin
 from mainapp.parents.parentsModel import parent
 from mainapp.students.studentModel import student, enroll
-from mainapp.hostel.hostelModel import dormitory
+
 from mainapp.transport.transportModel import transport
 from mainapp.teacher.teacherModel import teacher
 from mainapp.classRoom.classesSubjects import classRoom, Subject
@@ -23,9 +23,9 @@ class ParentAdmin(admin.ModelAdmin):
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('student_id', 'customuser','birthday', 'phone')
 
-@admin.register(dormitory)
-class DormitoryAdmin(admin.ModelAdmin):
-    list_display = ('dormitory_id', 'name', 'number_of_room', 'description')
+# @admin.register(dormitory)
+# class DormitoryAdmin(admin.ModelAdmin):
+#     list_display = ('dormitory_id', 'name', 'number_of_room', 'description')
 
 @admin.register(transport)
 class TransportAdmin(admin.ModelAdmin):

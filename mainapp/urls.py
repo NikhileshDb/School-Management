@@ -7,12 +7,13 @@ from mainapp.parents.api import parentViewSet
 from mainapp.students.api import StudentViewSet, EnrollmentViewSet
 from mainapp.classRoom.api import classRoomViewSet, SubjectViewSet, sectionViewSet
 from mainapp.examination.api import ExamViewSet, StudentResultViewset, GradeViewSet, MarkViewSet, StudentAppearedViewSet
-from mainapp.hostel.api import DormitoryViewSet
+
 from mainapp.transport.api import TransportViewSet
 from mainapp.teacher.api import teacherViewSet
 from mainapp.attendence.api import RoutineViewSet, StudentAttendanceViewSet
 from mainapp.payment.api import InvoiceViewSet, PaymentViewSet, add_invoice, update_invoice_create_payment
 from mainapp.library.api import LibraryViewSet, BookViewSet
+from mainapp.hostel.api import RoomViewSet, HostelViewSet, RoomAllotmentViewSet
 
 """Routers for all the API functions"""
 router = routers.DefaultRouter()
@@ -23,7 +24,10 @@ router.register('api/class',classRoomViewSet )
 router.register('api/subject',SubjectViewSet )
 router.register('api/exam', ExamViewSet)
 router.register('api/result', StudentResultViewset)
-router.register('api/dormitory', DormitoryViewSet)
+router.register('api/room', RoomViewSet)
+router.register('api/hostel', HostelViewSet)
+router.register('api/room-allotment', RoomAllotmentViewSet)
+
 router.register('api/transport',TransportViewSet )
 router.register('api/section', sectionViewSet)
 router.register('api/teacher',teacherViewSet )
