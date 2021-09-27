@@ -1,8 +1,7 @@
+from mainapp.payment.paymentModel import invoice, invoice_category, payment
+from mainapp.models import SessionYear
+from mainapp.students.studentModel import student
 from django.shortcuts import render, redirect
-# from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .models import payment, student, SessionYear, invoice, invoice_category
-import pdb;
 from django.http import HttpResponse
 # Create your views here.
 # @api_view(['GET'])

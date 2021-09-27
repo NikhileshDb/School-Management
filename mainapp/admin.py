@@ -1,6 +1,15 @@
+from mainapp.models import CustomUser, ProfileImage, SessionYear, Manager
 from django.contrib import admin
-from .models import *
-from django.contrib.auth.models import User
+from mainapp.parents.parentsModel import parent
+from mainapp.students.studentModel import student, enroll
+from mainapp.hostel.hostelModel import dormitory
+from mainapp.transport.transportModel import transport
+from mainapp.teacher.teacherModel import teacher
+from mainapp.classRoom.classesSubjects import classRoom, Subject
+from mainapp.attendence.attendenceModel import ClassRoutine, StudentAttendance
+from mainapp.payment.paymentModel import invoice, payment, invoice_category
+from mainapp.examination.examModel import Exam, StudentAppearedExam, mark, StudentResult
+
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
@@ -24,7 +33,7 @@ class TransportAdmin(admin.ModelAdmin):
 
 @admin.register(teacher)
 class TeacherAdmin(admin.ModelAdmin):
-    list_display = ('teacher_id','first_name', 'sex')
+    list_display = ('teacher_id', 'sex')
 
 @admin.register(classRoom)
 class ClassRoomAdmin(admin.ModelAdmin):
@@ -45,7 +54,6 @@ class StudentAttendanceAdmin(admin.ModelAdmin):
 
 admin.site.register(ProfileImage)
 admin.site.register(StudentResult)
-admin.site.register(TestModel)
 admin.site.register(SessionYear)
 admin.site.register(ClassRoutine)
 admin.site.register(enroll)

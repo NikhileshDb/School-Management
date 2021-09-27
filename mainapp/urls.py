@@ -1,13 +1,18 @@
 """Required imports for App urls"""
 from django.urls import path, include
 from .views import *
-from .StudentViews import *
-from .TeacherViews import *
-from .ManagerApiViews import *
-from .TeacherApiViews import StudentResultViewset, TestView
+from .ApiViews import *
 from rest_framework import routers
-from .RoutineApiViews import RoutineViewSet
-
+from mainapp.parents.api import parentViewSet
+from mainapp.students.api import StudentViewSet, EnrollmentViewSet
+from mainapp.classRoom.api import classRoomViewSet, SubjectViewSet, sectionViewSet
+from mainapp.examination.api import ExamViewSet, StudentResultViewset, GradeViewSet, MarkViewSet, StudentAppearedViewSet
+from mainapp.hostel.api import DormitoryViewSet
+from mainapp.transport.api import TransportViewSet
+from mainapp.teacher.api import teacherViewSet
+from mainapp.attendence.api import RoutineViewSet, StudentAttendanceViewSet
+from mainapp.payment.api import InvoiceViewSet, PaymentViewSet, add_invoice, update_invoice_create_payment
+from mainapp.library.api import LibraryViewSet, BookViewSet
 
 """Routers for all the API functions"""
 router = routers.DefaultRouter()
@@ -18,7 +23,6 @@ router.register('api/class',classRoomViewSet )
 router.register('api/subject',SubjectViewSet )
 router.register('api/exam', ExamViewSet)
 router.register('api/result', StudentResultViewset)
-router.register('api/testing', TestView)
 router.register('api/dormitory', DormitoryViewSet)
 router.register('api/transport',TransportViewSet )
 router.register('api/section', sectionViewSet)
