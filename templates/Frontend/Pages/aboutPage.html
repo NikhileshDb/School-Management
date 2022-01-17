@@ -1,0 +1,26 @@
+{% extends '../../base.html' %}
+{% block content %}
+{% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+
+
+<div class="bg-[url('../../../media/media/about.jpg')] h-screen relative">
+    <div class="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-[#fff0] to-[#fff] object-cover flex flex-col items-center justify-center ">
+
+        <h2 class="text-center text-[34px] font-bold mt-[300px]">St. John High School</h2>
+        <div class="w-[600px] py-[100px]">
+            <p>St. John's High School is an English Medium School with a Boarding Facility. It was founded by the
+                UBA(Udaipur Baptist Association) on the 20th August 1988, At Embru Panthor(Khakchang Hathi) near Killa. It was then shifted to Raio in 1991. This School was established with a view of educating the chidren of the interior villages of Tripura. It was upgraded to Senior Basic School in 1997 and to High School in 1999. It
+                    is recognized by the Department of Education-Govt. of Tripura and was affiliated to TBSE and later it was
+                    converted to CBSE 2015.<br>
+                    It also aims to give children a sound physical, intellectual, moral and spritual education based on
+                    Christian Principles.<br>
+                    This NGo School is run and managed by the UBA(Udaipur Baptist Association) whose prime aim and objectives
+                    are mentioned in the memorandum of UBA. And Thereforethe Principles aims and objectives of the UBA will be
+                    reflected and followed in the School.</p>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

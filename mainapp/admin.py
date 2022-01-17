@@ -1,4 +1,4 @@
-from mainapp.models import CustomUser, ProfileImage, SessionYear, Manager
+from mainapp.models import CustomUser, ProfileImage, SessionYear, Manager, Documents, AcademicCalender
 from django.contrib import admin
 from mainapp.parents.parentsModel import parent
 from mainapp.students.studentModel import student, enroll
@@ -63,3 +63,5 @@ admin.site.register(StudentAppearedExam)
 admin.site.register(invoice)
 admin.site.register(payment)
 admin.site.register(invoice_category)
+admin.site.register(Documents)
+admin.site.register(AcademicCalender)

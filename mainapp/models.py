@@ -67,3 +67,22 @@ class Notice(models.Model):
     notice = models.TextField(null=True, blank=True)
     date = models.DateTimeField()
     status = models.CharField(choices=data,max_length=10, blank=True, null=True)
+
+
+class Documents(models.Model):
+    name = models.CharField(max_length=500, null=True, blank=True)
+    pdf_file = models.FileField(null=True, blank=True, upload_to="files")
+
+    class Meta:
+        verbose_name = 'Document'
+        verbose_name_plural = 'Documents'
+    def __str__(self):
+        return self.name
+
+class AcademicCalender(models.Model):
+    name = models.CharField(max_length=500, null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
+    type = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return self.name

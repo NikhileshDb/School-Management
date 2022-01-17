@@ -1,0 +1,42 @@
+{% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+<div class="flex flex-row justify-between bg-white px-[40px] z-20 sticky top-0">
+    <div class="w-[50px] h-[50px]">
+        <img class="cursor-pointer" id="logo" height="" width="" src="{{MEDIA_PREFIX}}media/logo.png" alt="logo">
+    </div>
+    <ul class="flex flex-row gap-5 items-center font-semibold">
+        <li class="cursor-pointer underline_animation"><a href="{% url 'about' %}">About</a></li>
+        <li class="cursor-pointer underline_animation">Academics</li>
+        <li class="cursor-pointer underline_animation">Staff</li>
+        <li class="cursor-pointer underline_animation"><a href="{% url 'student_table' %}">Students</a></li>
+        <li class="cursor-pointer underline_animation">Admissions</li>
+        <li class="cursor-pointer  overflow-hidden">
+            <div id="menu-btn" class="underline_animation">More</div>
+            <div id="dropdown" class="bg-white hidden  flex-col absolute z-10 rounded top-[35px] right-[35px] mt-2 p-2 text-sm w-auto shadow-lg ">
+                <a class="mx-2 py-1 underline_animation  rounded" href="{% url 'important_docs' %}">Important Docs</a>
+                <a class="mx-2 py-1 underline_animation  rounded" href="{% url 'calender_holidays' %}">Calender & Holidays</a>
+                <a class="mx-2 py-1 underline_animation  rounded" href="#">Fee Structure</a>
+                
+            </div>
+        </li>
+        <a href="{% url 'login' %}"><div class='flex flex-row items-center justify-between cursor-pointer ease-in-out duration-300 gap-2 shadow-lg bg-[#002147] text-white hover:text-[#1c2327] hover:bg-white rounded-[50px]  p-2'><i class="far fa-user-circle text-2xl"></i> Login</div></a>
+    </ul>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const menuBtn = document.querySelector('#menu-btn');
+        const dropdown = document.querySelector('#dropdown');
+ 
+        menuBtn.addEventListener('click', () =>{
+            dropdown.classList.toggle('hidden');
+            dropdown.classList.toggle('flex');
+        });
+
+        const logo = document.querySelector('#logo');
+        logo.addEventListener('click', () =>{
+            window.location.href = '/'
+        })
+
+    })
+</script>
