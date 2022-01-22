@@ -1,0 +1,14 @@
+{% extends '../../base.html' %}
+
+
+{% block content %}
+<div class="bg-[#1764bd] h-[150px] flex items-center justify-center">
+    <h2 class="text-center text-[34px] text-white font-semibold">{{obj.notice_title}}</h2>
+</div>
+<div class="flex flex-col items-center justify-center">
+  
+ {{obj.notice|safe}}
+</div>
+  
+
+{% endblock %}

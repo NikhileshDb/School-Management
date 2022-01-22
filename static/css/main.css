@@ -1,44 +1,100 @@
 @tailwind base;
 @tailwind components;
+@import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
 @tailwind utilities;
 
 .underline_animation {
-    display: inline-block;
-    position: relative;
-    color: #0087ca;
-    
+  display: inline-block;
+
+  position: relative;
+
+  color: #0087ca;
 }
 
 .underline_animation:after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2.5px;
-    bottom: 0;
-    left: 0;
-    background-color: #1f5355;
-    transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
-
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2.5px;
+  bottom: 0;
+  left: 0;
+  background-color: #1f5355;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
 }
 
 .underline_animation:hover:after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-  
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
 
 table {
-    counter-reset: rowNumber - 1;
+  counter-reset: rowNumber - 1;
 }
 
 table tr {
-    counter-increment: rowNumber;
+  counter-increment: rowNumber;
 }
 
 table tr td:first-child::before {
-    content: counter(rowNumber);
-    /* min-width: 1em;
+  content: counter(rowNumber);
+  /* min-width: 1em;
     margin-right: 0.5em; */
 }
+
+.services {
+  background-color: #005d81a1;
+  background-position: top;
+  transition: background-color 0.5s ease-in-out;
+  -webkit-clip-path: inset(0% 0% 0% 0%);
+          clip-path: inset(0% 0% 0% 0%);
+  position: relative;
+}
+
+.services .inner_service {
+  height: 100%;
+  width:100%;
+  background-color: #003049;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -10;
+  -webkit-clip-path: inset(100% 0% 0% 0%);
+          clip-path: inset(100% 0% 0% 0%);
+  transition: all .5s ease-in-out;
+}
+
+.services:hover .inner_service {
+  -webkit-clip-path: inset(0% 0% 0% 0%);
+          clip-path: inset(0% 0% 0% 0%);
+}
+
+
+
+a:is(:link,:active, :visited).active {
+  color: red;
+}
+
+
+
+
+input[type="radio"] + label span {
+  transition: background .2s,
+    transform .2s;
+}
+
+input[type="radio"] + label span:hover,
+input[type="radio"] + label:hover span{
+transform: scale(1.2);
+} 
+
+input[type="radio"]:checked + label span {
+background-color: #3490DC;
+box-shadow: 0px 0px 0px 2px white inset;
+}
+
+input[type="radio"]:checked + label{
+ color: #3490DC;
+}
+

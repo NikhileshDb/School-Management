@@ -48,6 +48,7 @@ class student(models.Model):
     parent = models.ForeignKey(parent, on_delete=models.CASCADE, default=None, null=True, blank=True)      #FK
     transport = models.ForeignKey(transport, on_delete=models.SET_NULL, default=None,null=True, blank=True) #FK
     # running_year = models.ForeignKey(Settings, on_delete=models.CASCADE) #default=get_running_year)  #FK
+   
     class Meta:
         verbose_name_plural = "Students"
     # def __str__(self):

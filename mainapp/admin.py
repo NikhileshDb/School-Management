@@ -1,4 +1,4 @@
-from mainapp.models import CustomUser, ProfileImage, SessionYear, Manager, Documents, AcademicCalender
+from mainapp.models import CustomUser, ProfileImage, SessionYear, Manager, Documents, AcademicCalender, Notice
 from django.contrib import admin
 from mainapp.parents.parentsModel import parent
 from mainapp.students.studentModel import student, enroll
@@ -14,10 +14,12 @@ from mainapp.examination.examModel import Exam, StudentAppearedExam, mark, Stude
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
     display_fields = ('user.id')
+    search_fields = ['__all__']
 
-@admin.register(parent)
-class ParentAdmin(admin.ModelAdmin):
-    list_display = ('parent_id','customuser', 'phone', 'address', 'profession')
+# @admin.register(parent)
+# class ParentAdmin(admin.ModelAdmin):
+#     list_display = ('parent_id', 'phone', 'address', 'profession')
+admin.site.register(parent)
 
 @admin.register(student)
 class StudentAdmin(admin.ModelAdmin):
@@ -44,7 +46,7 @@ class SubjectAdmin(admin.ModelAdmin):
     list_display = ('subject_name','class_id', 'teacher')
 
 
-admin.register(Manager)
+@admin.register(Manager)
 class ManagerAdmin(admin.ModelAdmin):
     display_fields = '__all__'
 
@@ -65,3 +67,11 @@ admin.site.register(payment)
 admin.site.register(invoice_category)
 admin.site.register(Documents)
 admin.site.register(AcademicCalender)
+
+
+
+@admin.register(Notice)
+class NoticeAdmin(admin.ModelAdmin):
+    class Media:
+        js = ['/path/to/tinymce/jscripts/tiny_mce/tiny_mce.js',
+          '/path/to/your/tinymce_setup.js']

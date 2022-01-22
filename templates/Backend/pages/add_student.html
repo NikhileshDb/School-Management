@@ -1,0 +1,197 @@
+{% extends '../backend_base.html' %}
+
+
+{% block content %}
+
+<div class="">
+
+    <ul x-data="{active: false}" class='flex flex-row flex-wrap justify-between nowrap font-semibold  bg-[#494dbb] text-white'>
+        <!-- <li class="bg-white text-gray-500 px-10 py-2">
+            <p>Official Details</p>
+        </li> -->
+        <li class="px-10 py-2">
+            <p>Personal Details</p>
+        </li>
+        <li class="px-10 py-2 ">
+            <p>Contact Details</p>
+        </li>
+        <li class="px-10 py-2">
+            <p>Academic Details</p>
+        </li>
+        <li class="px-10 py-2">
+            <p>Other Facilities</p>
+        </li>
+        <li class="px-10 py-2">
+            <p>Login Credentials</p>
+        </li>
+    </ul>
+    <!-- Personal Details -->
+    <div class="">
+        <div class="bg-white pt-10">
+            <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly">
+                <div class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">First Name</label>
+                    <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
+                        placeholder="i.e: Nikhilesh">
+                </div>
+                <div class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Last Name</label>
+                    <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type="text"
+                        placeholder="i.e: Debbarma">
+                </div>
+            </div>
+
+            
+            <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly">
+                <div class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Middle Name</label>
+                    <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
+                        placeholder="Middle name">
+                </div>
+                <div class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%]">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Date of Birth</label>
+                    <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type="date"
+                        placeholder="mm/dd/yyyy">
+                </div>
+            </div>
+
+<!-- 
+            <div class="w-full  flex flex-wrap sm:justify-evenly">
+                <div class="flex flex-row items-center justify-between px-5 py-2  sm:w-[40%] w-[100%]">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Gender</label>
+                    <div class="flex flex-row justify-between sm:w-[300px] w-[250px]">
+                        <div class="flex items-center mr-4 mb-4">
+                            <input id="male" type="radio" name="radio" class="hidden" />
+                            <label for="male" class="flex items-center cursor-pointer">
+                                <span
+                                    class="w-4 h-4 inline-block mr-2 rounded-full border border-grey flex-no-shrink"></span>
+                                Male</label>
+                        </div>
+                        <div class="flex items-center mr-4 mb-4">
+                            <input id="female" type="radio" name="radio" class="hidden" />
+                            <label for="female" class="flex items-center cursor-pointer">
+                                <span
+                                    class="w-4 h-4 inline-block mr-2 rounded-full border border-grey flex-no-shrink"></span>
+                                Female</label>
+                        </div>
+                        <div class="flex items-center mr-4 mb-4">
+                            <input id="others" type="radio" name="radio" class="hidden" />
+                            <label for="others" class="flex items-center cursor-pointer">
+                                <span
+                                    class="w-4 h-4 inline-block mr-2 rounded-full border border-grey flex-no-shrink"></span>
+                                Others</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="flex flex-row items-center justify-between px-5 py-2  sm:w-[40%] w-[100%]">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Religion</label>
+                    <input class="px-2 py-1 sm:w-[300px] w-[250px] border focus:outline-gray-200" type="text"
+                        placeholder="i.e Christian">
+                </div>
+
+            </div>
+
+
+            <div class="w-full  flex flex-wrap sm:justify-evenly">
+                <div class="flex flex-row items-center justify-between px-5 py-2  sm:w-[40%] w-[100%]">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Blood Group</label>
+                    <input class="px-2 py-1 sm:w-[300px] w-[250px] border focus:outline-gray-200" type=" text"
+                        placeholder="i.e AB+">
+                </div>
+                <div class="flex flex-row items-center justify-between px-5 py-2  sm:w-[40%] w-[100%]">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Caste</label>
+                    <input class="px-2 py-1 sm:w-[300px] w-[250px] border focus:outline-gray-200" type="text"
+                        placeholder="i.e ST">
+                </div>
+            </div>
+
+            <div class="w-full  flex flex-wrap sm:justify-evenly">
+                <div class="flex flex-row items-center justify-between px-5 py-2  sm:w-[40%] w-[100%]">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Aadhar No.</label>
+                    <input class="px-2 py-1 sm:w-[300px] w-[250px] border focus:outline-gray-200" type=" text"
+                        placeholder="xxxx-xxxx-xxxx-xxxx">
+                </div>
+                <div class="flex flex-row items-center justify-between px-5 py-2  sm:w-[40%] w-[100%]">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Phone No.</label>
+                    <input class="px-2 py-1 sm:w-[300px] w-[250px] border focus:outline-gray-200" type="text"
+                        placeholder="+91-123-123-1234">
+                </div>
+            </div>
+        </div>
+        <div class="bg-white w-full flex justify-center py-10">
+            <button class="px-4 py-2 text-white font-semibold shadow-lg bg-blue-500">Save & Next</button>
+        </div>
+    </div> -->
+    <!-- End Of Personal Details -->
+
+
+
+
+
+
+    <!-- Start of Contact Details -->
+    <div class="hidden">
+        <div class="bg-white pt-10">
+           <div class="border">
+               <div class="text-center text-md font-semibold uppercase px-5 py-2 ">Father's Details</div>
+            <div class="w-full  flex flex-wrap sm:justify-evenly">
+                <div class="flex flex-row items-center justify-between px-5 py-2  sm:w-[40%] w-[100%]">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">First Name</label>
+                    <input class="px-2 py-1 sm:w-[300px] w-[250px]  border focus:outline-gray-200" type=" text"
+                        placeholder="First name">
+                </div>
+                <div class="flex flex-row items-center justify-between px-5 py-2  sm:w-[40%] w-[100%]">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Last Name</label>
+                    <input class="px-2 py-1 sm:w-[300px] w-[250px] border focus:outline-gray-200" type="text"
+                        placeholder="Last name">
+                </div>
+            </div>
+
+            <div class="w-full  flex flex-wrap sm:justify-evenly">
+                <div class="flex flex-row items-center justify-between px-5 py-2  sm:w-[40%] w-[100%]">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Phone No.</label>
+                    <input class="px-2 py-1 sm:w-[300px] w-[250px] border focus:outline-gray-200" type=" text"
+                        placeholder="">
+                </div>
+                <div class="flex flex-row items-center justify-between px-5 py-2  sm:w-[40%] w-[100%]">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Occupation</label>
+                    <input class="px-2 py-1 sm:w-[300px] w-[250px] border focus:outline-gray-200" type="text"
+                        placeholder="">
+                </div>
+            </div> 
+            <div class="w-full  flex flex-wrap sm:justify-evenly">
+                <div class="flex flex-row items-center justify-between px-5 py-2  sm:w-[40%] w-[100%]">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Annual Income</label>
+                    <input class="px-2 py-1 sm:w-[300px] w-[250px] border focus:outline-gray-200" type=" text"
+                        placeholder="">
+                </div>
+                <div class="flex flex-row items-center justify-between px-5 py-2  sm:w-[40%] w-[100%]">
+                    <label class="px-2 py-1 whitespace-nowrap" for="">Email</label>
+                    <input class="px-2 py-1 sm:w-[300px] w-[250px] border focus:outline-gray-200" type="text"
+                        placeholder="">
+                </div>
+            </div> 
+
+           </div>
+
+        
+        </div>
+        <div class="bg-white w-full flex justify-center py-10 gap-5">
+            <button class="px-4 py-2 text-white font-semibold shadow-lg bg-blue-500">Save & Prev</button>
+            <button class="px-4 py-2 text-white font-semibold shadow-lg bg-blue-500">Save & Next</button>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}

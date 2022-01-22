@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ['smsgaria.herokuapp.com', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'grappelli',
+    'tinymce',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +43,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
+    
+    
 
 
     #our app
@@ -49,6 +53,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
     'django_extensions',
+    'filer',
+    'easy_thumbnails',
+    'mptt',
 
 ]
 
@@ -211,3 +218,39 @@ SIMPLE_JWT = {
 
 
 USE_TZ = True
+
+LOGIN_REDIRECT_URL='/'
+
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_RESTRICT_BY_USER = "False"
+CKEDITOR_BROWSE_SHOW_DIRS = "True"
+CKEDITOR_RESTRICT_BY_DATE = "False"
+
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    #'easy_thumbnails.processors.scale_and_crop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
+
+FILER_CANONICAL_URL = 'sharing/'
+
+TINYMCE_DEFAULT_CONFIG = {
+    'file_browser_callback': 'filebrowser',
+    "height": "320px",
+    "width": "960px",
+    "menubar": "file edit view insert format tools table help",
+    "plugins": "advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code "
+    "fullscreen insertdatetime media table paste code help wordcount spellchecker",
+    "toolbar": "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft "
+    "aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor "
+    "backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | "
+    "fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | "
+    "a11ycheck ltr rtl | showcomments addcomment code",
+    "custom_undo_redo_levels": 10,
+    "language": "en_US",  # To force a specific language instead of the Django current language.
+}
+

@@ -1,8 +1,16 @@
 from django.shortcuts import render
-from mainapp.models import Documents, AcademicCalender
+from mainapp.models import Documents, AcademicCalender, Notice
 from django.contrib.auth import authenticate, login
+
+
+
+
+
+
 def HomePage(request):
-    return render(request, 'templates/Frontend/homePage.html')
+    notices = Notice.objects.all()
+    context={"notices": notices}
+    return render(request, 'templates/Frontend/homePage.html', context)
 
 
 
@@ -82,13 +90,17 @@ student_table_data = [
 ]
 
 def StudentTable(request):
-    
-    
     context = {
         "student_table": student_table_data
     }
     return render(request, 'templates/Frontend/Pages/studentTable.html', context)    
 
+
+
+def detailedNotice(request, pk):
+    obj = Notice.objects.get(notice_id=pk)
+    context = {'obj': obj}
+    return render(request, 'templates/Frontend/Pages/detailedNotice.html', context)
 
 
 # def loginPage(request):

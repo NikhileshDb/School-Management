@@ -3,6 +3,9 @@ from random import choices
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
+from filer.fields.image import FilerImageField
+from filer.fields.file import FilerFileField
+from tinymce.models import HTMLField
 
 """Session Year Model"""
 class SessionYear(models.Model):
@@ -58,20 +61,27 @@ class ProfileImage(models.Model):
 
 """Notice Model"""
 class Notice(models.Model):
-    data = (
-        (1, 'Yes'),
-        (0, 'No')
-    )
+    STATUS_CHOICES = (
+            ('draft', 'Draft'),
+            ('published', 'Published'),
+        )
     notice_id = models.AutoField(primary_key=True)
     notice_title = models.CharField(max_length=100, null=True, blank=True)
-    notice = models.TextField(null=True, blank=True)
-    date = models.DateTimeField()
-    status = models.CharField(choices=data,max_length=10, blank=True, null=True)
+    notice = HTMLField(null=True, blank=True)
+    published_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    status = models.CharField(choices=STATUS_CHOICES,max_length=15, blank=True, null=True)
+
+    class Meta:
+        ordering = [('-published_at')]
+        verbose_name = 'Notice'
+        verbose_name_plural = 'Notices'
+    def __str__(self):
+        return self.notice_title
 
 
 class Documents(models.Model):
     name = models.CharField(max_length=500, null=True, blank=True)
-    pdf_file = models.FileField(null=True, blank=True, upload_to="files")
+    pdf_file = FilerFileField(null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'Document'
@@ -86,3 +96,13 @@ class AcademicCalender(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class AddressBook(models.Model):
+    city = models.CharField(max_length=100, null=True, blank=True)
+    state = models.CharField(max_length=100, null=True, blank=True)
+    district = models.CharField(max_length=100, null=True)
+    country = models.CharField(max_length=100, null=True)
+    address_line1 = models.CharField(max_length=200, null=True, blank=True)
+    address_line2 = models.CharField(max_length=200, null=True, blank=True)
+    pin_code = models.BigIntegerField(null=True, blank=True)

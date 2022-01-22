@@ -8,7 +8,9 @@ urlpatterns = [
     path('important-docs/', frontendViews.ImportandDocs, name="important_docs"),
     path('calender-holidays/', frontendViews.Holidays, name="calender_holidays"),
     path('students-counter/', frontendViews.StudentTable, name="student_table"),
+    path('notice/<str:pk>/', frontendViews.detailedNotice, name="notice_detail"),
     # path('login/', frontendViews.loginPage, name='login'),
-    path('accounts/', include('django.contrib.auth.urls')),
-    # path('login/', auth_views.LoginView.as_view(template_name='Frontend/Pages/loginPage.html')),
+    # path('accounts/', include('django.contrib.auth.urls')),
+    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html', redirect_authenticated_user=True) ,name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='registration/login.html'), name='logout'),
 ]

@@ -29,7 +29,7 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = student
         fields = (
-           'student_id','enroll','customuser','birthday', 'sex', 'religion', 'blood_group', 'address', 'phone','parent', 'transport',)
+           'student_id','enroll','customuser','birthday', 'sex', 'religion', 'blood_group', 'address', 'phone', 'transport', 'father_name', 'mother_name')
 
     """Overding the create methode serializer"""
     def create(self, validated_data):
@@ -55,6 +55,8 @@ class StudentSerializer(serializers.ModelSerializer):
             updated_at = validated_data.get('updated_at'),
             parent = validated_data.get('parent'),
             transport = validated_data.get('transport'),
+            father_name = validated_data.get('father_name'),
+            mother_name = validated_data.get('mother_name'),
             # class_id = validated_data.get('class_id'),
             # section = validated_data.get('section'),
             # roll = validated_data.get('roll')
