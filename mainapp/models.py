@@ -103,6 +103,7 @@ class AddressBook(models.Model):
     state = models.CharField(max_length=100, null=True, blank=True)
     district = models.CharField(max_length=100, null=True)
     country = models.CharField(max_length=100, null=True)
+    house_no = models.CharField(max_length=100, null=True)
     address_line1 = models.CharField(max_length=200, null=True, blank=True)
     address_line2 = models.CharField(max_length=200, null=True, blank=True)
     pin_code = models.BigIntegerField(null=True, blank=True)
