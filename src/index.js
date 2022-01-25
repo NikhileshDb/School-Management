@@ -89,7 +89,7 @@ window.onload = function () {
         allowDropdown: true,
         initialCountry: "auto",
         separateDialCode: true,
-        customContainer: "w-[90%] float-right",
+        customContainer: "w-[70%]",
         preferredCountries:["IN"],
 
         // any initialisation options go here

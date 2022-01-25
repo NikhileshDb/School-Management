@@ -4,7 +4,12 @@ module.exports = {
     "./static/**/*.{html,js}",
   ],
   theme: {
-    extend: {},
+    fontFamily: {
+        'display': ['Ubuntu'], 
+        'body': ['Ubuntu'],
+    },
+    extend: {
+    },
   },
   plugins: [
     require('tw-elements/dist/plugin')

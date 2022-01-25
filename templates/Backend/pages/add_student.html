@@ -117,8 +117,16 @@
                 <div
                     class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap py-2 px-2  md:w-[50%] w-[100%]">
                     <label class="px-2 py-1 whitespace-nowrap required" for="">Caste</label>
-                    <input class="px-2 py-1 md:w-[60%] w=[100%] border focus:outline-gray-200" type="text"
+                    <select id="casteSelect" class="px-2 py-1 md:w-[60%] w-[100%] border focus:outline-gray-200" type="text"
                         placeholder="i.e ST">
+                        <option selected>Select caste</option>
+                        <option value="GENERAL">General</option>
+                        <option value="ST">ST</option>
+                        <option value="OBC">OBC</option>
+                        <option value="SC">SC</option>
+                        <option value="OTHERS">Others</option>
+                    </select>
+                    <input id="expandCaste" class="hidden my-4 px-2 py-1 md:w-[60%] w-[100%] border focus:outline-gray-200" type="text" placeholder="Specify"/>
                 </div>
             </div>
 
@@ -190,7 +198,7 @@
                 <div
                     class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                     <label class="px-2 py-1 whitespace-nowrap " for="">Phone No2.</label>
-                    <input id="phone2" class="px-2 py-1   w-[100%]  border focus:outline-gray-200" type="tel"
+                    <input id="phone2" class="px-2 py-1   w-[80%]  border focus:outline-gray-200" type="tel"
                         placeholder="i.e:  XXX-XXX-XXXX">
                 </div>
             </div>
@@ -372,6 +380,17 @@
 
 
 
+<script>
+    const elCastSelect = document.querySelector('#casteSelect');
+    const others = document.querySelector('#expandCaste');
 
+    elCastSelect.addEventListener('change', (e)=>{
+        let val = e.target.value;
+        console.log(val);
+        if (val == "OTHERS"){
+            others.classList.remove('hidden');
+        } else others.classList.add('hidden');
+    })
+</script>
 
 {% endblock %}

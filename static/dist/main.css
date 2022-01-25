@@ -2139,6 +2139,10 @@ textarea.form-control.is-invalid {
   float: right;
 }
 
+.float-left {
+  float: left;
+}
+
 .m-\[5px\] {
   margin: 5px;
 }
@@ -2211,6 +2215,16 @@ textarea.form-control.is-invalid {
 .mx-5 {
   margin-left: 1.25rem;
   margin-right: 1.25rem;
+}
+
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .mt-8 {
@@ -2459,6 +2473,14 @@ textarea.form-control.is-invalid {
 
 .w-\[55px\] {
   width: 55px;
+}
+
+.w-\[90\%\] {
+  width: 90%;
+}
+
+.w-\[70\%\] {
+  width: 70%;
 }
 
 .min-w-full {

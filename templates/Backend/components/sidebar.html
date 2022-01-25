@@ -22,7 +22,7 @@
     <nav class="mt-8">
 
         <div>
-            <a class=" flex items-center justify-between mt-4 py-2 px-6 transition-colors duration-300 text-gray-500 hover:text-teal-400 hover:bg-opacity-25"
+            <a class=" flex items-center justify-between mt-4 py-2 px-6 transition-colors duration-300 text-black hover:text-teal-400 hover:bg-opacity-25"
                 href="{% url 'dashboard' %}">
                 <div class="flex items-center">
                     <i class="fas fa-chart-pie"></i>
@@ -34,7 +34,7 @@
 
 
         <div x-data="{isOpen:false}">
-            <a class="flex items-center justify-between transition-colors duration-300  py-2 px-6 text-gray-500 hover:text-teal-400  hover:bg-opacity-25"
+            <a class="flex items-center justify-between transition-colors duration-300  py-2 px-6 text-black hover:text-teal-400  hover:bg-opacity-25"
                 href="#">
                 <div  @click="isOpen =! isOpen" class="flex items-center">
                     <i class="fas fa-user-graduate"></i>
@@ -44,7 +44,7 @@
             </a>
 
             <div x-show="isOpen" x-transition.duration.300ms class=" bg-gray-200 px-5 text-[14px]">
-                <a class="flex items-center justify-between transition-colors duration-300  py-[5px] px-6 text-gray-500 hover:text-teal-400 hover:bg-opacity-25"
+                <a class="flex items-center justify-between transition-colors duration-300  py-[5px] px-6 text-black hover:text-teal-400 hover:bg-opacity-25"
                     href="{% url 'add_student' %}">
                     <div class="flex items-center">
                         <i class="fas fa-chevron-right"></i>
@@ -53,7 +53,7 @@
 
                 </a>
 
-                <a class="flex items-center justify-between transition-colors duration-300 py-[5px] px-6 text-gray-500 hover:text-teal-400 hover:bg-opacity-25"
+                <a class="flex items-center justify-between transition-colors duration-300 py-[5px] px-6 text-black hover:text-teal-400 hover:bg-opacity-25"
                     href="{% url 'students_page' %}">
                     <div class="flex items-center">
                         <i class="fas fa-chevron-right"></i>
@@ -68,7 +68,7 @@
 
         <div>
 
-            <a class="flex items-center justify-between transition-colors duration-300  py-2 px-6 text-gray-500 hover:text-teal-400 hover:bg-opacity-25"
+            <a class="flex items-center justify-between transition-colors duration-300  py-2 px-6 text-black hover:text-teal-400 hover:bg-opacity-25"
                 href="#">
                 <div class="flex items-center">
                     <i class="fas fa-user-graduate"></i>
@@ -79,7 +79,7 @@
         </div>
 
         <div>
-            <a class="flex items-center justify-between transition-colors duration-300  py-2 px-6 text-gray-500 hover:text-teal-400 hover:bg-opacity-25"
+            <a class="flex items-center justify-between transition-colors duration-300  py-2 px-6 text-black hover:text-teal-400 hover:bg-opacity-25"
                 href="{% url 'school_settings' %}">
                 <div class="flex items-center">
                     <i class="fas fa-user-graduate"></i>
