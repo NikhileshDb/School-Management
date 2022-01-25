@@ -1095,6 +1095,13 @@ textarea.form-control.is-invalid {
   opacity: 1;
 }
 
+.sticky-top {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
 .animation.faster {
   -webkit-animation-duration: 500ms;
   animation-duration: 500ms;
@@ -2283,6 +2290,18 @@ textarea.form-control.is-invalid {
   margin-top: 1.5rem;
 }
 
+.mb-7 {
+  margin-bottom: 1.75rem;
+}
+
+.-ml-10 {
+  margin-left: -2.5rem;
+}
+
+.mt-\[2rem\] {
+  margin-top: 2rem;
+}
+
 .block {
   display: block;
 }
@@ -2825,6 +2844,11 @@ textarea.form-control.is-invalid {
   background-color: rgb(22 163 74 / var(--tw-bg-opacity));
 }
 
+.bg-gray-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-75 {
   --tw-bg-opacity: 0.75;
 }
@@ -3047,6 +3071,14 @@ textarea.form-control.is-invalid {
 
 .pb-5 {
   padding-bottom: 1.25rem;
+}
+
+.pt-\[10\%\] {
+  padding-top: 10%;
+}
+
+.pt-\[2rem\] {
+  padding-top: 2rem;
 }
 
 .text-left {
@@ -5085,6 +5117,10 @@ input[type="radio"]:checked + label{
 
   .md\:w-\[60\%\] {
     width: 60%;
+  }
+
+  .md\:w-\[40\%\] {
+    width: 40%;
   }
 
   .md\:justify-end {

@@ -117,8 +117,8 @@
                 <div
                     class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap py-2 px-2  md:w-[50%] w-[100%]">
                     <label class="px-2 py-1 whitespace-nowrap required" for="">Caste</label>
-                    <select id="casteSelect" class="px-2 py-1 md:w-[60%] w-[100%] border focus:outline-gray-200" type="text"
-                        placeholder="i.e ST">
+                    <select id="casteSelect" class="px-2 py-1 md:w-[60%] w-[100%] border focus:outline-gray-200"
+                        type="text" placeholder="i.e ST">
                         <option selected>Select caste</option>
                         <option value="GENERAL">General</option>
                         <option value="ST">ST</option>
@@ -126,7 +126,9 @@
                         <option value="SC">SC</option>
                         <option value="OTHERS">Others</option>
                     </select>
-                    <input id="expandCaste" class="hidden my-4 px-2 py-1 md:w-[60%] w-[100%] border focus:outline-gray-200" type="text" placeholder="Specify"/>
+                    <input id="expandCaste"
+                        class="hidden my-4 px-2 py-1 md:w-[60%] w-[100%] border focus:outline-gray-200" type="text"
+                        placeholder="Specify" />
                 </div>
             </div>
 
@@ -236,7 +238,7 @@
             </div>
 
 
-            <div class="border-2">
+            <div class="">
                 <h3 class="font-bold px-2 py-2 required">Present Address :</h3>
                 <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
 
@@ -252,8 +254,7 @@
                     <div
                         class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                         <label class="px-2 py-1 whitespace-nowrap required" for="">State</label>
-                        <select id="state" class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200"
-                            >
+                        <select id="state" class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200">
                             <option selected>Select state</option>
                         </select>
                     </div>
@@ -298,13 +299,14 @@
                     <h3 class="font-bold px-2 py-2 required">Permanent Address:</h3>
                     <div class="flex justify-start w-[100%] px-10 items-center">
                         <div class="form-check form-switch">
-                            <label class="form-check-label required inline-block text-gray-800 w-[80%] font-semibold"
+                            <label
+                                class="form-check-label required float-left inline-block text-gray-800 w-[80%] font-semibold"
                                 for="flexSwitchCheckChecked">Check if permanent address is same as present
                                 address.</label>
                             <input
-                                class="form-check-input appearance-none w-9  rounded-full float-right h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm"
+                                class="form-check-input appearance-none w-9  rounded-full float-right h-5 align-top  bg-no-repeat bg-contain  focus:outline-none cursor-pointer shadow-sm"
                                 type="checkbox" role="switch" id="flexSwitchCheckChecked" x-bind:checked="isDisabled"
-                                @click="isDisabled = ! isDisabled">
+                                :class="isDisabled ? 'bg-white': 'bg-gray-500' " @click="isDisabled = ! isDisabled">
                         </div>
                     </div>
                 </div>
@@ -373,10 +375,203 @@
 
     <!-- Start of Academic details -->
     <div x-show="openTab === 3" class="h-screen w-full bg-white">
-        <div>Academic</div>
+        <div class="bg-white pt-10 md:px-[100px] px-[20px]">
+
+            <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
+
+                <div
+                    class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                    <label class="px-2 py-1 whitespace-nowrap required" for="">Pre. School Name</label>
+                    <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
+                        placeholder="i.e: Father's full name">
+                </div>
+                <div
+                    class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                    <label class="px-2 py-1 whitespace-nowrap required" for="">Pre. Class</label>
+                    <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type="text"
+                        placeholder="i.e: Mother's full name">
+                </div>
+            </div>
+
+
+            <div class="">
+                <h3 class="font-bold px-2 py-2 required">Admission Details :</h3>
+                <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
+
+                    <div
+                        class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                        <label class="px-2 py-1 whitespace-nowrap required" for="">Class</label>
+                        <select id="" class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200 bg-white">
+                            <option selected>Select Class</option>
+                        </select>
+                    </div>
+
+                    <div
+                        class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                        <label class="px-2 py-1 whitespace-nowrap required" for="">Section</label>
+                        <select id="state" class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200">
+                            <option selected>Select Section</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div id="subjects" class="">
+                <h3 class="font-bold px-2 py-2 required">Subjects:</h3>
+                <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
+
+                    <div
+                        class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                        <label class="px-2 py-1 whitespace-nowrap required" for="">Subject 1</label>
+                        <select id="" class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200 bg-white">
+                            <option selected>Subject 1</option>
+                        </select>
+                    </div>
+
+                    <div
+                        class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                        <label class="px-2 py-1 whitespace-nowrap required" for="">Subject 2</label>
+                        <select id="state" class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200">
+                            <option selected>Subject 2</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+        <div class="bg-white w-full flex justify-center py-10 gap-5">
+            <button id="buttonPrev" class="px-4 py-2 text-white font-semibold shadow-lg bg-blue-500">Save &
+                Prev</button>
+            <button class="px-4 py-2 text-white font-semibold shadow-lg bg-blue-500">Save & Next</button>
+        </div>
     </div>
 
+    <!-- End of Academic details -->
+
+
+
+    <!-- Start of other details -->
+
+    <div x-show="openTab === 4" class="h-screen w-full bg-white">
+        <div x-data="{hostel: true , transport: false}" x-init="$watch('hostel', value => console.log(value))"
+            class="bg-white pt-10 md:px-[100px] px-[20px]">
+            <div class="">
+
+                <div class="flex justify-center items-center">
+                    <h3 class="px-2 py-2 required">If student required hostel facilities:</h3>
+                    <div class="form-check form-switch">
+                        <input @click="hostel = ! hostel"
+                            class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top  bg-no-repeat bg-contain  focus:outline-none cursor-pointer shadow-sm"
+                            type="checkbox" role="switch" id="flexSwitchCheckChecked76" x-bind:checked="hostel"
+                            :class="hostel ? 'bg-white' : 'bg-gray-300' ">
+                    </div>
+                    <p :class="hostel ? '' : 'hidden' " class="px-2 py-1">Yes</p>
+                    <p :class="hostel ? 'hidden' : '' " class="px-2 py-1">No</p>
+                </div>
+                <div :class="hostel ? '' : 'hidden' "
+                    class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
+                    <div
+                        class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                        <select id="" class="px-2 py-1  w-[100%]  border focus:outline-gray-200 bg-white">
+                            <option selected>Select Hostel</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="flex justify-center items-center">
+                    <h3 class="px-2 py-2 required">If student required transport facilities:</h3>
+                    <div class="form-check form-switch">
+                        <input @click="transport = ! transport"
+                            class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top  bg-no-repeat bg-contain  focus:outline-none cursor-pointer shadow-sm"
+                            type="checkbox" role="switch" id="flexSwitchCheckChecked76" x-bind:checked="transport"
+                            :class="transport ? 'bg-white' : 'bg-gray-300' ">
+                    </div>
+                    <p :class="transport ? '' : 'hidden' " class="px-2 py-1">Yes</p>
+                    <p :class="transport ? 'hidden' : '' " class="px-2 py-1">No</p>
+                </div>
+                <div :class="transport ? '' : 'hidden' "
+                    class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
+                    <div
+                        class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                        <select id="" class="px-2 py-1  w-[100%]  border focus:outline-gray-200 bg-white">
+                            <option selected>Select Bus</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="bg-white w-full flex justify-center py-10 gap-5">
+            <button id="buttonPrev" class="px-4 py-2 text-white font-semibold shadow-lg bg-blue-500">Save &
+                Prev</button>
+            <button class="px-4 py-2 text-white font-semibold shadow-lg bg-blue-500">Save & Next</button>
+        </div>
+    </div>
+
+    <!--End of other details  -->
+
+
+    <!--Start of Login Credentials  -->
+    <div x-show="openTab === 5" class="h-screen w-full bg-white">
+        <div class="w-full flex flex-col items-center pt-[2rem] flex-wrap md:justify-between lg:justify-evenly ">
+            <div
+                class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                <label class="px-2 py-1 whitespace-nowrap required" for="">Username:</label>
+                <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
+                    placeholder="i.e: Father's full name">
+            </div>
+            <div
+                class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                <label class="px-2 py-1 whitespace-nowrap required" for="">Email:</label>
+                <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
+                    placeholder="example@gmail.com">
+            </div>
+            <div
+                class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                <label class="px-2 py-1 whitespace-nowrap required" for="">Password:</label>
+                <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
+                    placeholder="************">
+            </div>
+            <div
+                class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                <label class="px-2 py-1 whitespace-nowrap required" for="">Confirm Password:</label>
+                <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
+                    placeholder="*************">
+            </div>
+        </div>
+
+
+        <div class="bg-white w-full flex justify-center py-10 gap-5">
+            <button class="px-4 py-2 text-white font-semibold shadow-lg bg-blue-500">Final Submit</button>
+        </div>
+    </div>
+
+
+
+
+
 </div>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -384,10 +579,10 @@
     const elCastSelect = document.querySelector('#casteSelect');
     const others = document.querySelector('#expandCaste');
 
-    elCastSelect.addEventListener('change', (e)=>{
+    elCastSelect.addEventListener('change', (e) => {
         let val = e.target.value;
         console.log(val);
-        if (val == "OTHERS"){
+        if (val == "OTHERS") {
             others.classList.remove('hidden');
         } else others.classList.add('hidden');
     })
