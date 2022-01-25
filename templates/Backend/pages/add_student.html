@@ -1,5 +1,5 @@
 {% extends '../backend_base.html' %}
-
+{% load static %}
 
 {% block content %}
 
@@ -131,9 +131,9 @@
                 </div>
                 <div
                     class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap py-2 px-2  md:w-[50%] w-[100%]">
-                    <label class="px-2 py-1 whitespace-nowrap" for="">Phone No.</label>
-                    <input class="px-2 py-1 md:w-[60%] w=[100%] border focus:outline-gray-200" type="text"
-                        placeholder="+91-123-123-1234">
+                    <label class="px-2 py-1 whitespace-nowrap float-right" for="">Phone No.</label>
+                    <input id="phone" class="px-2 py-1 w-[100%] border focus:outline-gray-200" type="tel"
+                        placeholder="8787 XXX XXX">
                 </div>
             </div>
 
@@ -159,12 +159,12 @@
 
 
     <!-- Start of Contact Details -->
-    <div x-show="openTab === 2" x-transition.duration.200ms class="">
+    <div x-data="{isDisabled: false}" x-show="openTab === 2" x-transition.duration.200ms class="">
 
         <div class="bg-white pt-10 md:px-[100px] px-[20px]">
-            
+
             <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
-                
+
                 <div
                     class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                     <label class="px-2 py-1 whitespace-nowrap required" for="">Father's Name</label>
@@ -180,23 +180,23 @@
             </div>
 
             <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
-                
+
                 <div
                     class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
-                    <label class="px-2 py-1 whitespace-nowrap required" for="">Phone No1.</label>
-                    <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
+                    <label class="px-2 py-1 whitespace-nowrap required " for="">Phone No1.</label>
+                    <input id="phone1" class="px-2 py-1  w-[100%]  border focus:outline-gray-200" type="tel"
                         placeholder="i.e: XXX-XXX-XXXX">
                 </div>
                 <div
                     class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
-                    <label class="px-2 py-1 whitespace-nowrap" for="">Phone No2.</label>
-                    <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type="text"
+                    <label class="px-2 py-1 whitespace-nowrap " for="">Phone No2.</label>
+                    <input id="phone2" class="px-2 py-1   w-[100%]  border focus:outline-gray-200" type="tel"
                         placeholder="i.e:  XXX-XXX-XXXX">
                 </div>
             </div>
-            
+
             <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
-                
+
                 <div
                     class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                     <label class="px-2 py-1 whitespace-nowrap required" for="">Father's Occupation</label>
@@ -212,7 +212,7 @@
             </div>
 
             <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
-                
+
                 <div
                     class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                     <label class="px-2 py-1 whitespace-nowrap required" for="">Email</label>
@@ -229,44 +229,52 @@
 
 
             <div class="border-2">
-                <h3 class="font-semibold px-2 py-2 required">Present Address :</h3>
+                <h3 class="font-bold px-2 py-2 required">Present Address :</h3>
                 <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
-                
+
                     <div
                         class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                         <label class="px-2 py-1 whitespace-nowrap required" for="">Country</label>
-                        <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
-                            placeholder="i.e: example@gmail.com">
+                        <select id="country"
+                            class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200 bg-white">
+                            <option selected>Choose Country</option>
+                        </select>
                     </div>
-                    <div
-                        class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
-                        <label class="px-2 py-1 whitespace-nowrap" for="">City</label>
-                        <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type="text"
-                            placeholder="i.e:  XXXXX">
-                    </div>
-                </div>
-                <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
-                
+
                     <div
                         class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                         <label class="px-2 py-1 whitespace-nowrap required" for="">State</label>
-                        <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
-                            placeholder="i.e: example@gmail.com">
+                        <select id="state" class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200"
+                            >
+                            <option selected>Select state</option>
+                        </select>
                     </div>
+
+                </div>
+                <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
+                    <div
+                        class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
+                        <label class="px-2 py-1 whitespace-nowrap" for="">City</label>
+                        <select id="city" class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200">
+                            <option>Select City</option>
+                        </select>
+                    </div>
+
+
                     <div
                         class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                         <label class="px-2 py-1 whitespace-nowrap" for="">District</label>
                         <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type="text"
-                            placeholder="i.e:  XXXXX">
+                            placeholder="">
                     </div>
                 </div>
                 <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
-                
+
                     <div
                         class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                         <label class="px-2 py-1 whitespace-nowrap required" for="">Pin</label>
                         <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
-                            placeholder="i.e: example@gmail.com">
+                            placeholder="i.e: 799XXX">
                     </div>
                     <div
                         class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
@@ -278,87 +286,91 @@
 
 
 
-                <div class="flex items-center">
-                    <h3 class="font-semibold px-2 py-2 required">Permanent Address:</h3>
-                   
+                <div class="flex flex-col justify-start">
+                    <h3 class="font-bold px-2 py-2 required">Permanent Address:</h3>
+                    <div class="flex justify-start w-[100%] px-10 items-center">
+                        <div class="form-check form-switch">
+                            <label class="form-check-label required inline-block text-gray-800 w-[80%] font-semibold"
+                                for="flexSwitchCheckChecked">Check if permanent address is same as present
+                                address.</label>
+                            <input
+                                class="form-check-input appearance-none w-9  rounded-full float-right h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm"
+                                type="checkbox" role="switch" id="flexSwitchCheckChecked" x-bind:checked="isDisabled"
+                                @click="isDisabled = ! isDisabled">
+                        </div>
+                    </div>
                 </div>
                 <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
-                
+
                     <div
                         class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                         <label class="px-2 py-1 whitespace-nowrap required" for="">Country</label>
-                        <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
+                        <input x-bind:disabled="isDisabled"
+                            class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
                             placeholder="i.e: example@gmail.com">
                     </div>
                     <div
                         class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                         <label class="px-2 py-1 whitespace-nowrap" for="">City</label>
-                        <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type="text"
+                        <input x-bind:disabled="isDisabled"
+                            class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type="text"
                             placeholder="i.e:  XXXXX">
                     </div>
                 </div>
                 <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
-                
+
                     <div
                         class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                         <label class="px-2 py-1 whitespace-nowrap required" for="">State</label>
-                        <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
+                        <input x-bind:disabled="isDisabled"
+                            class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
                             placeholder="i.e: example@gmail.com">
                     </div>
                     <div
                         class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                         <label class="px-2 py-1 whitespace-nowrap" for="">District</label>
-                        <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type="text"
+                        <input x-bind:disabled="isDisabled"
+                            class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type="text"
                             placeholder="i.e:  XXXXX">
                     </div>
                 </div>
                 <div class="w-full flex flex-wrap md:justify-between lg:justify-evenly ">
-                
+
                     <div
                         class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                         <label class="px-2 py-1 whitespace-nowrap required" for="">Pin</label>
-                        <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
+                        <input x-bind:disabled="isDisabled"
+                            class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type=" text"
                             placeholder="i.e: example@gmail.com">
                     </div>
                     <div
                         class="flex flex-row items-center md:justify-end lg:justify-end flex-wrap  py-2 px-2 md:w-[50%] w-[100%] ">
                         <label class="px-2 py-1 whitespace-nowrap" for="">House No.</label>
-                        <input class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type="text"
+                        <input x-bind:disabled="isDisabled"
+                            class="px-2 py-1  md:w-[60%] w-[100%]  border focus:outline-gray-200" type="text"
                             placeholder="i.e:  XXXXX">
                     </div>
                 </div>
-
-
             </div>
-
-            
-            <div class="flex justify-center">
-                <div class="form-check form-switch">
-                  <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                  <label class="form-check-label inline-block text-gray-800" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
-                </div>
-              </div>
-
-
         </div>
-
-
-
-
         <div class="bg-white w-full flex justify-center py-10 gap-5">
-            <button class="px-4 py-2 text-white font-semibold shadow-lg bg-blue-500">Save & Prev</button>
+            <button id="buttonPrev" class="px-4 py-2 text-white font-semibold shadow-lg bg-blue-500">Save &
+                Prev</button>
             <button class="px-4 py-2 text-white font-semibold shadow-lg bg-blue-500">Save & Next</button>
         </div>
     </div>
 
+    <!-- End of contact details -->
 
 
-
-
-
-
+    <!-- Start of Academic details -->
+    <div x-show="openTab === 3" class="h-screen w-full bg-white">
+        <div>Academic</div>
+    </div>
 
 </div>
+
+
 
 
 

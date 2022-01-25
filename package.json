@@ -22,6 +22,7 @@
     "color-convert": "^2.0.1",
     "color-name": "^1.1.4",
     "cosmiconfig": "^7.0.1",
+    "country-state-city": "^3.0.1",
     "cssesc": "^3.0.0",
     "defined": "^1.0.0",
     "detective": "^5.2.0",
@@ -41,6 +42,7 @@
     "has": "^1.0.3",
     "has-flag": "^4.0.0",
     "import-fresh": "^3.3.0",
+    "intl-tel-input": "^17.0.15",
     "is-arrayish": "^0.2.1",
     "is-binary-path": "^2.1.0",
     "is-core-module": "^2.8.1",
@@ -74,6 +76,7 @@
     "queue-microtask": "^1.2.3",
     "quick-lru": "^5.1.1",
     "readdirp": "^3.6.0",
+    "requirejs": "^2.3.6",
     "resolve": "^1.21.0",
     "resolve-from": "^4.0.0",
     "reusify": "^1.0.4",
@@ -96,11 +99,14 @@
     "postcss": "^8.4.5",
     "postcss-import": "^14.0.2",
     "sass": "^1.49.0",
-    "tailwindcss": "^3.0.15"
+    "tailwindcss": "^3.0.15",
+    "webpack": "^5.67.0",
+    "webpack-cli": "^4.9.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-css": "tailwindcss -i ./static/css/main.css -o ./static/dist/main.css --watch"
+    "build-css": "tailwindcss -i ./static/css/main.css -o ./static/dist/main.css --watch",
+    "dev": "webpack --mode development --watch"
   },
   "repository": {
     "type": "git",
