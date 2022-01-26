@@ -8,7 +8,7 @@ class parentSerializer(serializers.ModelSerializer):
     customuser = CustomUserSerializer(required=True)
     class Meta:
         model = parent
-        fields = ['customuser', 'parent_id', 'phone', 'address','profession', ]
+        fields = ['customuser', 'parent_id', 'phone', 'address', ]
 
 
     """NESTED DATA SERIALIZER NEED OVERIDE CREATE AND UPDATE METHODE"""
@@ -24,7 +24,6 @@ class parentSerializer(serializers.ModelSerializer):
             parent_id = validated_data.get('parent_id'),
             phone = validated_data.get('phone'),
             address = validated_data.get('address'),
-            profession = validated_data.get('profession'),
         )
         return Parent
 

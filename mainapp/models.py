@@ -33,10 +33,10 @@ class Settings(models.Model):
 """Custom user that overrides Default User"""
 class CustomUser(AbstractUser):
     data = (
-        (1,"Manager"), 
-        (2, "Teachers"), 
-        (3, "Students"),
-        (4, "Parent")
+        ('manager',"Manager"), 
+        ('teacher', "Teacher"), 
+        ('student', "Student"),
+        ('parent', "Parent")
     )
     middleName = models.CharField(max_length=15, null=True, blank=True)
     profile_pic = models.ImageField(_("Image"),upload_to='profile_pic/', default="media/default.png" , null=True, blank=True)

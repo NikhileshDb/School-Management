@@ -1,0 +1,137 @@
+{% extends '../backend_base.html' %}
+
+{% block content %}
+<div class='flex flex-row justify-between flex-wrap-reverse sm:flex-nowrap'>
+    <div class="bg-white h-screen w-full">
+        <div class="flex flex-col">
+            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="overflow-hidden">
+                        <table class="min-w-full">
+                            <thead class="bg-white border-b">
+                                <tr>
+                                    <th scope="col" class=" font-medium text-gray-900 px-6 py-4 text-left">
+                                        Sl.
+                                    </th>
+                                    <th scope="col" class=" font-medium text-gray-900 px-6 py-4 text-left">
+                                        Avatar
+                                    </th>
+                                    <th scope="col" class=" font-medium text-gray-900 px-6 py-4 text-left">
+                                        Name
+                                    </th>
+                                    <th scope="col" class=" font-medium text-gray-900 px-6 py-4 text-left">
+                                        Subject
+                                    </th>
+                                    <th scope="col" class=" font-medium text-gray-900 py-2 px-4 text-right">
+                                        <i class="fas fa-search text-gray-500 text-[24px]"></i>
+                                        <input id="search" type="text" placeholder="Search teacher..."
+                                            class="rounded py-1 px-4 border border-gray-300 focus:outline-gray-300 w-[80%]">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="ServicesTable">
+                                {% for person in teacher %}
+                                <tr class="bg-gray-100 border-b hover:bg-white">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"></td>
+                                    <td class="p-0 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        <img onclick="viewDetails(this,{{person.teacher_id}})"
+                                            src="{{person.customuser.profile_pic.url}}"
+                                            class="rounded-full shadow-lg h-[70px] w-[70px]" alt="Avatar" />
+                                    </td>
+                                    <td id="name" onclick="viewDetails(this,{{person.teacher_id}})"
+                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        <span>{{person.customuser.first_name}} {{person.customuser.last_name}}</span>
+                                    </td>
+                                    <td onclick="viewDetails(this,{{person.teacher_id}})"
+                                        class="text-sm text-gray-900 font-light px-4 py-4 whitespace-nowrap">
+                                        {% for item in person.subjects.all %}
+                                        <span>{{item.name}}</span>
+                                        {% endfor %}
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-4 py-4 whitespace-nowrap">
+
+                                        <div class="flex items-center justify-center">
+                                            <div id="btnView"
+                                                class="inline-flex shadow-md hover:shadow-lg focus:shadow-lg"
+                                                role="group">
+                                                <button type="button"
+                                                    class="rounded-l inline-block px-6 py-2.5 bg-[#4951bf]  text-white font-medium text-xs leading-tight uppercase hover:bg-blue-700 focus:bg-blue-700 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">Edit</button>
+
+                                                <button type="button"
+                                                    class=" rounded-r inline-block px-6 py-2.5 bg-[#4951bf]  text-white font-medium text-xs leading-tight uppercase hover:bg-red-700 focus:bg-red-700 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">Delete</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sm:w-[30%] w-[100%] sm:h-screen h-auto bg-white px-4 py-[24px]">
+        <h3 class="text-center text-[1.2rem] px-2 py-1 uppercase">Teacher</h3>
+        <div class="">
+            <img id="image" class="border-4 border-[#ffffff]" src="https://via.placeholder.com/300x400" alt="">
+            <div class="px-2 py-2 bg-[#f3f4f6]">
+                <h4 id="fullname" class="text-left text-[1.2rem] px-2 py-1 font-semibold"></h4>
+                <p id="birthday" class="text-left text-[1rem] px-2 py-1"><span class="font-semibold"></p>
+                <p id="phone" class="text-left text-[1rem] px-2 py-1"><span class="font-semibold"></p>
+                <p id="email" class="text-left text-[1rem] px-2 py-1"><span class="font-semibold"></p>
+                <p id="address" class="text-left text-[1rem] px-2 py-1"><span class="font-semibold"></p>
+                <p id="classes" class="text-left text-[1rem] px-2 py-1"><span class="font-semibold"></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const base_url = window.location.origin;
+
+    const image = document.querySelector('#image');
+    const fullname = document.querySelector('#fullname');
+    const birthday = document.querySelector('#birthday');
+    const phone = document.querySelector('#phone');
+    const email = document.querySelector('#email');
+    const address = document.querySelector('#address');
+    const classes = document.querySelector('#classes');
+    const viewDetails = (e, personId) => {
+        fetch(`${base_url}/api_root/api/teacher/${personId}/`)
+            .then((response) => response.json())
+            .then((data) => {
+                image.src = data.customuser.profile_pic;
+                fullname.innerText = data.customuser.first_name + ' ' + data.customuser.last_name;
+                birthday.innerHTML = `<span class="font-semibold">Birthday:</span> ${data.birthday}`;
+                phone.innerHTML = `<span class="font-semibold">Phone:</span> ${data.phone}`;
+                email.innerHTML = `<span class="font-semibold">Email:</span> ${data.customuser.email}`;
+                address.innerHTML = `<span class="font-semibold">Address:</span> ${data.address}`;
+            });
+    }
+
+    search.addEventListener('keyup', (e) => {
+        var search_item = e.target.value.toLowerCase();
+        var tableBody = document.getElementById('ServicesTable');
+        var tr = tableBody.getElementsByTagName('tr');
+        for (x = 0; x < tr.length; x++) {
+            var td = tr[x].getElementsByTagName("td")[2];
+            var datas = td.getElementsByTagName("span");
+            if (td) {
+                if (td.innerHTML.toLowerCase().indexOf(search_item) > -1) {
+                    tr[x].style.display = "";
+                } else {
+                    tr[x].style.display = "none";
+                    
+                }
+            }
+        }
+
+    })
+</script>
+
+{% endblock %}

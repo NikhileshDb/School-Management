@@ -3,6 +3,9 @@ from mainapp.models import CustomUser
 
 
 
+class subjactList(models.Model):
+    name = models.CharField(max_length=100)
+
 """Teacher Model"""
 class teacher(models.Model):
     customuser = models.OneToOneField(CustomUser, on_delete = models.CASCADE) 
@@ -15,6 +18,7 @@ class teacher(models.Model):
     phone = models.BigIntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateField(auto_now=True, null=True, blank=True)
+    subjects = models.ManyToManyField(subjactList)
     objects = models.Manager()
 
     class Meta:

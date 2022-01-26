@@ -4,7 +4,7 @@ from mainapp.parents.parentsModel import parent
 from mainapp.students.studentModel import student, enroll
 
 from mainapp.transport.transportModel import transport
-from mainapp.teacher.teacherModel import teacher
+from mainapp.teacher.teacherModel import teacher, subjactList
 from mainapp.classRoom.classesSubjects import classRoom, Subject
 from mainapp.attendence.attendenceModel import ClassRoutine, StudentAttendance
 from mainapp.payment.paymentModel import invoice, payment, invoice_category
@@ -67,7 +67,7 @@ admin.site.register(payment)
 admin.site.register(invoice_category)
 admin.site.register(Documents)
 admin.site.register(AcademicCalender)
-
+admin.site.register(subjactList)
 
 
 @admin.register(Notice)

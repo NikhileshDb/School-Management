@@ -23,6 +23,7 @@ class TeacherSerializer(serializers.ModelSerializer):
             blood_group = validated_data.get('blood_group'),
             address = validated_data.get('address'),
             phone = validated_data.get('phone'),
+            subject = validated_data.get('subjects'),
         )
         return Teacher
 
