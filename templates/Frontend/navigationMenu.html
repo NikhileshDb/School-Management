@@ -1,6 +1,6 @@
 {% load static %}
 {% get_media_prefix as MEDIA_PREFIX %}
-<div class="flex flex-row justify-between bg-white px-[40px] z-20 sticky top-0">
+<div class="hidden sm:flex flex-row justify-between bg-white  px-[40px] z-20 sticky top-0">
     <div x-data="{}" class="w-[50px] h-[50px]">
         <img class="cursor-pointer" id="logo" height="" width="" src="{{MEDIA_PREFIX}}media/logo.png" alt="logo">
     </div>
@@ -45,6 +45,14 @@
 
 </div>
 
+<!-- Mobile Menu -->
+<div class="z-[100] sm:hidden block fixed text-[#3c48b1] text-[30px] top-[10px] right-[20px]">
+    <i class="fas fa-bars"></i>
+</div>
+
+<div class="z-[100] sm:hidden  block absolute text-white text-[25px] top-[10px] left-[20px]">
+    <img width="70" height="70" src="http://127.0.0.1:8000/media/media/logo.png" alt="">
+</div>
 <script>
     window.addEventListener('DOMContentLoaded', () => {
       

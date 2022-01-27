@@ -1,8 +1,8 @@
 {% load static %}
 
 {% get_media_prefix as MEDIA_PREFIX %}
-<div class="flex flex-row justify-evenly px-10 py-[20px] bg-[#002147] text-white">
-    <div>
+<div class="flex flex-row sm:flex-nowrap flex-wrap sm:justify-evenly justify-start w-full px-10 py-[20px] bg-[#002147] text-white">
+    <div class="w-[50%] sm:w-[25%]">
         <ul class='leading-[30px]'>
             <li><i class="fas fa-arrow-circle-right"></i> Administration</li>
             <li><i class="fas fa-arrow-circle-right"></i> Our Campus</li>
@@ -13,7 +13,7 @@
             <li><i class="fas fa-arrow-circle-right"></i> History</li>
         </ul>
     </div>
-    <div>
+    <div class="w-[50%] sm:w-[25%]">
         <ul class='leading-[30px]'>
             <li><i class="fas fa-arrow-circle-right"></i> Admissions</li>
             <li><i class="fas fa-arrow-circle-right"></i> Schools</li>
@@ -24,7 +24,7 @@
             <li><i class="fas fa-arrow-circle-right"></i> Alumni</li>
         </ul>
     </div>
-    <div>
+    <div class="sm:w-[25%]">
         <ul class='leading-[30px]'>
             <li><i class="fas fa-arrow-circle-right"></i> Academic Calender</li>
             <li><i class="fas fa-arrow-circle-right"></i> Research</li>
@@ -34,7 +34,7 @@
             
         </ul>
     </div>
-    <div class='flex flex-col items-center'>
+    <div class='flex flex-col items-center  class="sm:w-[25%]"'>
         <img height="100" width="100" src="{{MEDIA_PREFIX}}media/logo.png" alt="logo">
         <div class="m-[5px]">
         <p><i class="fas fa-phone-square-alt"></i> +91 98-7654-321 , +91 87-649-7202</p>

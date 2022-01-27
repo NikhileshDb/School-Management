@@ -1,7 +1,7 @@
 {% extends '../backend_base.html' %}
 
 {% block content %}
-<div class='flex flex-row justify-between flex-wrap-reverse sm:flex-nowrap'>
+<div class='flex flex-row justify-between flex-wrap-reverse sm:flex-nowrap sm:w-[70%] left-0'>
     <div class="bg-white h-screen w-full">
         <div class="flex flex-col">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -73,10 +73,11 @@
         </div>
     </div>
 
-    <div class="sm:w-[30%] w-[100%] sm:h-screen h-auto bg-white px-4 py-[24px]">
-        <h3 class="text-center text-[1.2rem] px-2 py-1 uppercase">Teacher</h3>
-        <div class="">
-            <img id="image" class="border-4 border-[#ffffff]" src="https://via.placeholder.com/300x400" alt="">
+    <div class="sm:w-[27%] w-[100%] sm:h-screen h-auto bg-white px-4 py-[24px] fixed right-0">
+        <div class="flex flex-col justify-between">
+            <div class="h-[400px] overflow-hidden">
+                <img id="image" class="" src="https://via.placeholder.com/400x400" alt="">
+            </div>
             <div class="px-2 py-2 bg-[#f3f4f6]">
                 <h4 id="fullname" class="text-left text-[1.2rem] px-2 py-1 font-semibold"></h4>
                 <p id="birthday" class="text-left text-[1rem] px-2 py-1"><span class="font-semibold"></p>
@@ -85,6 +86,13 @@
                 <p id="address" class="text-left text-[1rem] px-2 py-1"><span class="font-semibold"></p>
                 <p id="classes" class="text-left text-[1rem] px-2 py-1"><span class="font-semibold"></p>
 
+            </div>
+            <div class="flex space-x-2 space-y-6 justify-start">
+                <a href="{% url 'add_teacher' %}">
+                    <button type="button" data-mdb-ripple="true" data-mdb-ripple-color="light"
+                        class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Add
+                        New Teacher</button>
+                </a>
             </div>
         </div>
     </div>
@@ -126,7 +134,7 @@
                     tr[x].style.display = "";
                 } else {
                     tr[x].style.display = "none";
-                    
+
                 }
             }
         }

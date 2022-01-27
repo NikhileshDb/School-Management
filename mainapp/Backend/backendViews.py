@@ -35,6 +35,8 @@ def AddStudent(request):
 
 
 
+
+# Teacher Start
 def teacherPage(request):
     teacherAll = teacher.objects.all()
  
@@ -52,4 +54,5 @@ def teacherDetail(request, pk):
     return render(request, 'templates/Backend/pages/teachers.html', context)
 
 def addTeacher(request):
+    
     return render(request, 'templates/Backend/pages/add_teacher.html')

@@ -1,31 +1,36 @@
-<div class="flex flex-row justify-evenly w-full bg-[#E5E7EB] p-10">
-    <div class="p-[10px] bg-[#eeff8f] w-[50%]">
+<div class="flex flex-row sm:flex-nowrap flex-wrap justify-evenly w-full bg-[#E5E7EB] sm:p-10 p-0">
+    <div class="p-[10px] bg-[#eeff8f] sm:w-[50%] w-[100%]">
         <h3 class="text-center text-[24px] py-[10px]">Principal's Message</h3>
-        <p>Dear parents, students and well-wishers,</p>
-        <p>Welcome to Saint John’s High School website. As principal, I am impressed by your courtesy to go through our
+        <p class="whitespace-normal leading-6">Dear parents, students and well-wishers,<br>
+
+            Welcome to Saint John’s High School website. As principal, I am impressed by your courtesy to go through our
             school website. Please remember, we, the management and the staff, are all set for an excellent all-round
-            education of our beloved students at any cost.</p>
-        <p>Under my leadership, with my dedicated management, staffs, together with parents, strongly promote academic
+            education of our beloved students at any cost.
+
+            Under my leadership, with my dedicated management, staffs, together with parents, strongly promote academic
             achievement among our students. We make special effort and emphasis on co-curricular/extra-curricular
-            activities to identify students’ capabilities according to their talents.</p>
-        <p>In-fact, school is the second home of our students and teachers are the second parents (Gurus). With this
+            activities to identify students’ capabilities according to their talents.
+
+            In-fact, school is the second home of our students and teachers are the second parents (Gurus). With this
             strong bond of love for the students and responsibility towards them, we leave “No Stone Unturned” to
-            provide excellent inclusive education and impart proper moral discipline.</p>
-        <p>We have NO any distinction among the students based on gender, caste, creed, ethnicity and religion etc but
+            provide excellent inclusive education and impart proper moral discipline.
+
+            We have NO any distinction among the students based on gender, caste, creed, ethnicity and religion etc but
             to treat them as the treasure and hope of future India. With a long and rewarding history of achievement in
             education, sports and culture behind us, our school continues to move forward with confidence, pride and
-            enthusiasm.</p>
-        <p>I hope you enjoy your visit to our school website</p>
+            enthusiasm.
+
+            I hope you enjoy your visit to our school website</p>
         <p class="text-right">Yours in educational service<br />
             (Kulandai Swami)</br>
             Principal</br>
             Saint John’s High School</br>
             Udaipur, Gomati Tripura.</p>
     </div>
-    <div class="p-[10px] bg-[#71d7df] w-[50%]">
+    <div class="p-[10px] bg-[#71d7df] sm:w-[50%] w-[100%]">
         <h3 class="text-[24px] text-center py-[10px]">
             Notice Board
-           
+
         </h3>
         <h3 class='text-[18px] text-semibold'>Office Hours</h3>
         <p>Principal's Office: 08:00am to 10:00am</br>
@@ -36,19 +41,20 @@
 
         <div class="my-10 px-10 py-5 bg-gray-200">
             <h3 class="text-[18px] font-semibold text-black pb-5  flex flex-row justify-between">
-                <p class="uppercase">Latest Notice</p> 
+                <p class="uppercase">Latest Notice</p>
                 <p class="text-right text-[14px]">View all</p>
             </h3>
-            
+
             <ul class="leading-[30px]">
                 {% for notice in notices %}
-                    <li class="cursor-pointer hover:text-[#2563EB] flex flex-row items-center justify-between">
-                        <span class="whitespace-nowrap">
-                            <i class="fas fa-chevron-right text-[#2563EB]"></i>  
-                            <a class=" overflow-hidden max-w-[500px]" href="{% url 'notice_detail' notice.notice_id %}">{{notice.notice_title | truncatechars:50}}</a>
-                        </span> 
-                        <span>{{notice.date}}</span>
-                    </li>
+                <li class="cursor-pointer hover:text-[#2563EB] flex flex-row items-center justify-between">
+                    <span class="whitespace-nowrap">
+                        <i class="fas fa-chevron-right text-[#2563EB]"></i>
+                        <a class=" overflow-hidden max-w-[500px]"
+                            href="{% url 'notice_detail' notice.notice_id %}">{{notice.notice_title | truncatechars:50}}</a>
+                    </span>
+                    <span>{{notice.date}}</span>
+                </li>
                 {% endfor %}
             </ul>
         </div>
