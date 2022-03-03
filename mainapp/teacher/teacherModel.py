@@ -24,3 +24,5 @@ class teacher(models.Model):
     class Meta:
         verbose_name_plural = "Teachers"
 
+   
+

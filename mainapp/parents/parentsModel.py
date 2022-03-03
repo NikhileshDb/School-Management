@@ -13,7 +13,5 @@ class parent(models.Model):
     family_anuual_income = models.BigIntegerField(null=True, blank=True)
     objects = models.Manager()
 
-    def __str__(self):
-        return self.customuser.username
-    
+   
 

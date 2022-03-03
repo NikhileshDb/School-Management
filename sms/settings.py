@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-z(&fyt+5i*%u1sj=&o3(+i4-k4*=a(jgekpdwi28pxlh6-a6^t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['saint-john-school.herokuapp.com', '127.0.0.1', ]
+ALLOWED_HOSTS = ['saint-john-school.herokuapp.com', '127.0.0.1','194.163.43.110']
 
 
 # Application definition
@@ -109,10 +109,21 @@ WSGI_APPLICATION = 'sms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME':'saintjohn_school_db',
+        'USER': 'saintjohn',
+        'PASSWORD': 'Nikhilesh@143', 
+        'HOST': '194.163.43.110',
+        'PORT': '5432',
     }
 }
 

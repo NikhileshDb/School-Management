@@ -39,8 +39,10 @@ class CustomUser(AbstractUser):
         ('parent', "Parent")
     )
     middleName = models.CharField(max_length=15, null=True, blank=True)
-    profile_pic = models.ImageField(_("Image"),upload_to='profile_pic/', default="media/default.png" , null=True, blank=True)
+    profile_pic = FilerImageField(null=True, blank=True, on_delete=models.SET_NULL)
+    # profile_pic = models.ImageField(_("Image"),upload_to='profile_pic/', default="media/default.png" , null=True, blank=True)
     user_type = models.CharField(default=1, choices=data, max_length=20)
+
 
 
 """Manager Model"""
@@ -55,7 +57,8 @@ class Manager(models.Model):
 
 """Profile Image Model"""
 class ProfileImage(models.Model):
-    image = models.ImageField(_("Image"),upload_to="student_profile/", default="media/default.png" , blank=True, null=True )
+    image = FilerImageField(null=True, blank=True, on_delete=models.SET_NULL)
+    # image = models.ImageField(_("Image"),upload_to="student_profile/", default="media/default.png" , blank=True, null=True )
     desc =  models.CharField(max_length=20, blank=True, null=True)
 
 
@@ -93,6 +96,7 @@ class AcademicCalender(models.Model):
     name = models.CharField(max_length=500, null=True, blank=True)
     date = models.DateField(null=True, blank=True)
     type = models.CharField(max_length=200, null=True, blank=True)
+  
 
     def __str__(self):
         return self.name
