@@ -1,3 +1,4 @@
 notebooks/
 node_modules/
+env/
 # *.sqlite3
