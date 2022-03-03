@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-z(&fyt+5i*%u1sj=&o3(+i4-k4*=a(jgekpdwi28pxlh6-a6^t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['saint-john-school.herokuapp.com', '127.0.0.1','194.163.43.110']
+ALLOWED_HOSTS = ['saintjohnschool.in', '127.0.0.1','194.163.43.110']
 
 
 # Application definition
