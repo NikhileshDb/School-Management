@@ -11,6 +11,6 @@ urlpatterns = [
     path('notice/<str:pk>/', frontendViews.detailedNotice, name="notice_detail"),
     # path('login/', frontendViews.loginPage, name='login'),
     # path('accounts/', include('django.contrib.auth.urls')),
-    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html', redirect_authenticated_user=True) ,name='login'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='registration/login.html'), name='logout'),
+    path('login/', auth_views.LoginView.as_view(template_name='templates/registration/login.html', redirect_authenticated_user=True) , name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='templates/registration/login.html'), name='logout'),
 ]

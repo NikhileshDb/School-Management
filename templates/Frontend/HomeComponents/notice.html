@@ -48,7 +48,7 @@
             <ul class="leading-[30px]">
                 {% for notice in notices %}
                 <li class="cursor-pointer hover:text-[#2563EB] flex flex-row items-center justify-between">
-                    <span class="whitespace-nowrap">
+                    <span class="">
                         <i class="fas fa-chevron-right text-[#2563EB]"></i>
                         <a class=" overflow-hidden max-w-[500px]"
                             href="{% url 'notice_detail' notice.notice_id %}">{{notice.notice_title | truncatechars:50}}</a>
